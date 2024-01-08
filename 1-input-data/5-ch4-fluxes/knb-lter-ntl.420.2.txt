@@ -1,0 +1,6582 @@
+
+  
+    
+      NTL
+      all
+    
+    
+      public
+      read
+    
+  
+  
+    doi:10.6073/pasta/f48cdb77282598052349e969920356efGRiMeDB: a comprehensive global database of methane concentrations and fluxes in fluvial ecosystems with supporting physical and chemical information
+    
+      Emily Stanley
+      University of Wisconsin-Madison
+      ehstanley@wisc.edu
+      https://orcid.org/0000-0003-4922-8121
+    
+    
+      Luke Loken
+      U.S. Geological Survey
+      lloken@usgs.gov
+      https://orcid.org/0000-0003-3194-1498
+    
+    
+      Nora Casson
+      University of Winnipeg
+      n.casson@uwinnipeg.ca
+      https://orcid.org/0000-0002-0701-1816
+    
+    
+      Samantha Oliver
+      U.S. Geological Survey
+      soliver@usgs.gov
+      https://orcid.org/0000-0001-5668-1165
+    
+    
+      Ryan Sponseller
+      Umea University
+      ryan.sponseller@umu.se
+      https://orcid.org/0000-0002-5758-2705
+    
+    
+      Marcus Wallin
+      Swedish University of Agricultural Sciences
+      Marcus.Wallin@slu.se
+      https://orcid.org/0000-0002-3082-8728
+    
+    
+      Liwei Zhang
+      Peking University
+      zhangliwei@pku.edu.cn
+      https://orcid.org/0000-0002-1610-2816
+    
+    
+      Gerard Rocher-Ros
+      Swedish University of Agricultural Sciences
+      gerard.rocher.ros@slu.se
+    
+    2023-04-11
+    
+      The Global River Methane Database (GriMeDB) is a compilation of measurements of CH4 concentrations and fluxes for flowing water environments derived from publications, reports, data repositories, and other outlets between 1973 and 2021. Assembly of GRiMeDB was motivated by the goal of having a centralized, standardized resource to facilitate further studies of CH4 pattern and process in flowing water systems, upscaling efforts, and identification of tendencies in when, where, and how CH4 has been sampled in streams and rivers across the world. Thus, CH4 data are supported by concurrent observations (as available) of aquatic CO2, N2O, temperature, conductivity, pH, dissolved oxygen, nitrogen, phosphorus, organic carbon, and discharge, along with site data (latitude, longitude, elevation, and [as available]: stream order, elevation, channel slope, catchment size, and codes for distinct or disturbed channel types). GRiMeDB includes over 24,000 records of CH4 concentration and  greater than 8,000 flux measurements from over 5,000 unique sites, most of which are resolved to the daily time scale.
+    
+    
+      Limnology
+      greenhouse gases
+    
+    
+      biogeochemistry
+      rivers
+      streams
+      stream ecology
+      methane
+      carbon
+      gas flux
+      LTER Controlled Vocabulary
+    
+    
+      This information is released under the Creative Commons license - Attribution - CC BY (https://creativecommons.org/licenses/by/4.0/). The consumer of these data ("Data User" herein) is required to cite it appropriately in any publication that results from its use. The Data User should realize that these data may be actively used by others for ongoing research and that coordination may be necessary to prevent duplicate publication. The Data User is urged to contact the authors of these data if any questions about methodology or results occur. Where appropriate, the Data User is encouraged to consider collaboration or co-authorship with the authors. The Data User should realize that misinterpretation of data may occur if used out of context of the original study. While substantial efforts are made to ensure the accuracy of data and associated documentation, complete accuracy of data sets cannot be guaranteed. All data are made available "as is." The Data User should be aware, however, that data are updated periodically and it is the responsibility of the Data User to check for new versions of the data. The data authors and the repository where these data were obtained shall not be liable for damages resulting from any use or misinterpretation of the data. Thank you.
+
+    
+    
+      Creative Commons Attribution 4.0 International
+      https://spdx.org/licenses/CC-BY-4.0.html
+      CC-BY-4.0
+    
+    https://doi.org/10.6073/pasta/f48cdb77282598052349e969920356ef
+      
+        Global Rivers, the scope of these data was not limited; any inland water system was eligible for inclusion
+        
+          -164.4796
+          175.563
+          81.835
+          -43.0531
+        
+      
+      
+        
+          
+            1973-01-01
+          
+          
+            2021-11-30
+          
+        
+      
+    
+    
+      completed
+    
+    
+      Emily Stanley
+      University of Wisconsin-Madison
+      ehstanley@wisc.edu
+      https://orcid.org/0000-0003-4922-8121
+    
+    Environmental Data Initiativeinfo@edirepository.orghttps://edirepository.org0330j0z60Environmental Data Initiative
+      
+        
+          Data included in GRiMeDB were gathered from scientific journals, government reports, public data repositories, theses, dissertations, and unpublished data sets provided by individual investigators. Sources were discovered via searches of bibliographic databases and data repositories (Web of Science, Google Scholar, ProQuest Dissertations & Theses Global, China National Knowledge Infrastructure, Environmental Data Initiative, USGS ScienceBase, NERC Environmental Information Data Centre, Arctic Data Center, and PANGAEA) using the keywords: methane and stream* or river* or ditch* or canal*, and searches were repeated numerous times between 2018 and December 2021 for completeness. Detailed methods used to construct the database are presented in Stanley et al. (XXXX)
+          Stanley, E.H., L.C. Loken, N.J. Casson, S.K. Oliver, R.A. Sponseller, M.B. Wallin, L. Zhang, and G. Rocher-Ros. XXXX. GRiMeDB: The global river database of methane concentrations and fluxes.
+
+        
+      
+      
+        
+          This method step describes provenance-based metadata as specified in the LTER EML Best Practices.
+          This provenance metadata does not contain entity specific information.
+        
+        
+          Dissolved greenhouse gas concentrations derived from the NEON dissolved gases in
+            surface water data product (DP1.20097.001)
+          
+            Kelly Aho
+            Battelle, National Ecological Observatory Network
+            			Boulder, Colorado   
+            aho@battelleecology.org
+            0000-0002-1992-6378
+          
+          
+            Kaelin Cawley
+            Battelle, National Ecological Observatory Network
+            			Boulder, Colorado   
+            kcawley@battelleecology.org
+            0000-0002-0443-0070
+          
+          
+            Amanda DelVecchia
+            Duke
+            0000-0003-4252-5991
+          
+          
+            Emily Stanley
+            University of Wisconsin
+            0000-0003-4922-8121
+          
+          
+            Peter Raymond
+            Yale University
+            Peter.raymond@yale.edu
+            0000-0002-8564-7860
+          
+          
+            
+              This online link references an EML document that describes data used in the creation of this derivative data package.
+              https://pasta.lternet.edu/package/metadata/eml/edi/613/1
+            
+          
+          
+            Kelly Aho
+            Battelle, National Ecological Observatory Network
+            			Boulder, Colorado   
+            aho@battelleecology.org
+          
+          
+            Kaelin Cawley
+            Battelle, National Ecological Observatory Network
+            			Boulder, Colorado   
+            kcawley@battelleecology.org
+          
+        
+      
+      
+        
+          This method step describes provenance-based metadata as specified in the LTER EML Best Practices.
+          This provenance metadata does not contain entity specific information.
+        
+        
+          Dissolved CO2 and CH4 concentrations in the Connecticut River Watershed
+          
+            Kelly Aho
+            kelly.aho@yale.edu
+            https://orcid.org/0000-0002-1992-6378
+          
+          
+            Jennifer Hoyle
+          
+          
+            Jacob  Hosen
+            https://orcid.org/0000-0003-2559-0687
+          
+          
+            Ethan Kyzivat
+            https://orcid.org/0000-0002-4748-2938
+          
+          
+            Laura Logozzo
+            https://orcid.org/0000-0001-9363-2143
+          
+          
+            Gerard Rocher-Ros
+            https://orcid.org/0000-0001-7853-2531
+          
+          
+            Lisa Weber
+          
+          
+            Yoon Bryan 
+            https://orcid.org/0000-0002-8959-3855
+          
+          
+            Peter Raymond
+            peter.raymond@yale.edu
+            https://orcid.org/0000-0002-8564-7860
+          
+          
+            
+              This online link references an EML document that describes data used in the creation of this derivative data package.
+              https://pasta.lternet.edu/package/metadata/eml/edi/882/1
+            
+          
+          
+            Kelly Aho
+            kelly.aho@yale.edu
+            https://orcid.org/0000-0002-1992-6378
+          
+          
+            Peter Raymond
+            peter.raymond@yale.edu
+            https://orcid.org/0000-0002-8564-7860
+          
+        
+      
+      
+        
+          This method step describes provenance-based metadata as specified in the LTER EML Best Practices.
+          This provenance metadata does not contain entity specific information.
+        
+        
+          Greenhouse gas fluxes and concentrations and associated habitat data in western Dane County, Wisconsin, USA, streams during the 2018 growing season
+          
+            Sam Blackburn
+            UW-Madison CFL
+            srblackburn@wisc.edu
+          
+          
+            Emily Stanley
+            UW-Madison CFL
+            ehstanley@wisc.edu
+            https://orcid.org/0000-0003-4922-8121
+          
+          
+            
+              This online link references an EML document that describes data used in the creation of this derivative data package.
+              https://pasta.lternet.edu/package/metadata/eml/edi/393/2
+            
+          
+          
+            Sam Blackburn
+            UW-Madison CFL
+            srblackburn@wisc.edu
+          
+          
+            Emily Stanley
+            UW-Madison CFL
+            ehstanley@wisc.edu
+            https://orcid.org/0000-0003-4922-8121
+          
+        
+      
+      
+        
+          This method step describes provenance-based metadata as specified in the LTER EML Best Practices.
+          This provenance metadata does not contain entity specific information.
+        
+        
+          Arctic LTER Streams Chemistry Toolik Field Station, Alaska 1978 to 2019.
+          
+            William "Breck" Bowden
+            			University of Vermont,303D Aiken Center,Rubenstein School of Environment and Natural Resources
+			Burlington, VT 05405  US
+            Breck.Bowden@uvm.edu
+          
+          
+            
+              This online link references an EML document that describes data used in the creation of this derivative data package.
+              https://pasta.lternet.edu/package/metadata/eml/knb-lter-arc/10303/7
+            
+          
+          
+            William "Breck" Bowden
+            			University of Vermont,303D Aiken Center,Rubenstein School of Environment and Natural Resources
+			Burlington, VT 05405  US
+            Breck.Bowden@uvm.edu
+          
+          
+            Arctic_LTER Information Manager
+            Arctic Long Term Ecological Research
+            			7 M B L St
+			Woods Hole, MA 02536  US
+            (508) 548-3705
+            arc_im@mbl.edu
+          
+        
+      
+      
+        
+          This method step describes provenance-based metadata as specified in the LTER EML Best Practices.
+          This provenance metadata does not contain entity specific information.
+        
+        
+          Time series of dissolved methane and carbon dioxide concentrations for Falling Creek Reservoir and Beaverdam Reservoir in southwestern Virginia, USA during 2015-2021
+          
+            Cayelan Carey
+            Virginia Tech
+            Cayelan@vt.edu
+            https://orcid.org/0000-0001-8835-4476
+          
+          
+            Alexandria Hounshell
+            Virginia Tech
+            alexgh@vt.edu
+            https://orcid.org/0000-0003-1616-9399
+          
+          
+            Ryan McClure
+            Virginia Tech
+            ryan333@vt.edu
+            https://orcid.org/0000-0001-6370-3852
+          
+          
+            Alexandra Gerling
+            Virginia Tech
+            alexg13@vt.edu
+          
+          
+            Abigail Lewis
+            Virginia Tech
+            aslewis@vt.edu
+            https://orcid.org/0000-0001-9933-4542
+          
+          
+            Barbara Niederlehner
+            Virginia Tech
+            bniederl@vt.edu
+          
+          
+            
+              This online link references an EML document that describes data used in the creation of this derivative data package.
+              https://pasta.lternet.edu/package/metadata/eml/edi/551/6
+            
+          
+          
+            Cayelan Carey
+            Virginia Tech
+            Cayelan@vt.edu
+            https://orcid.org/0000-0001-8835-4476
+          
+        
+      
+      
+        
+          This method step describes provenance-based metadata as specified in the LTER EML Best Practices.
+          This provenance metadata does not contain entity specific information.
+        
+        
+          Ebullitive methane emissions from oxygenated wetland streams at North Temperate Lakes LTER 2013
+          
+            John Crawford
+            			USGS
+			Boulder, CO 80309  US
+            303-541-3052
+            jtcrawford@usgs.gov
+            https://www.usgs.gov/staff-profiles/john-crawford
+          
+          
+            Emily Stanley
+            University of Wisconsin
+            			680 North Park Street
+			Madison, WI 53706  US
+            (608) 263-2567
+            (608) 265-2340
+            ehstanley@wisc.edu
+            http://limnology.wisc.edu/personnel/emstan/
+            http://orcid.org/0000-0003-4922-8121
+          
+          
+            Luke Loken
+            University of Wisconsin
+            			250 N Mills St
+			Madison, WI 53706  US
+            lloken@wisc.edu
+            http://lukeloken.weebly.com/
+            http://orcid.org/0000-0003-3194-1498
+          
+          
+            
+              This online link references an EML document that describes data used in the creation of this derivative data package.
+              https://pasta.lternet.edu/package/metadata/eml/knb-lter-ntl/308/22
+            
+          
+          
+            Emily Stanley
+            University of Wisconsin
+            			680 North Park Street
+			Madison, WI 53706  US
+            (608) 263-2567
+            (608) 265-2340
+            ehstanley@wisc.edu
+            http://limnology.wisc.edu/personnel/emstan/
+            http://orcid.org/0000-0003-4922-8121
+          
+          
+            NTL Information Manager
+            University of Wisconsin
+            			680 North Park Street
+			Madison, WI 53706  US
+            ntl.infomgr@gmail.com
+          
+        
+      
+      
+        
+          This method step describes provenance-based metadata as specified in the LTER EML Best Practices.
+          This provenance metadata does not contain entity specific information.
+        
+        
+          Greenhouse gas emissions from streams at North Temperate Lakes LTER 2012
+          
+            John Crawford
+            			USGS
+			Boulder, CO 80309  US
+            303-541-3052
+            jtcrawford@usgs.gov
+            https://www.usgs.gov/staff-profiles/john-crawford
+          
+          
+            Emily Stanley
+            University of Wisconsin
+            			680 North Park Street
+			Madison, WI 53706  US
+            (608) 263-2567
+            (608) 265-2340
+            ehstanley@wisc.edu
+            http://limnology.wisc.edu/personnel/emstan/
+            http://orcid.org/0000-0003-4922-8121
+          
+          
+            
+              This online link references an EML document that describes data used in the creation of this derivative data package.
+              https://pasta.lternet.edu/package/metadata/eml/knb-lter-ntl/307/22
+            
+          
+          
+            Emily Stanley
+            University of Wisconsin
+            			680 North Park Street
+			Madison, WI 53706  US
+            (608) 263-2567
+            (608) 265-2340
+            ehstanley@wisc.edu
+            http://limnology.wisc.edu/personnel/emstan/
+            http://orcid.org/0000-0003-4922-8121
+          
+          
+            NTL Information Manager
+            University of Wisconsin
+            			680 North Park Street
+			Madison, WI 53706  US
+            ntl.infomgr@gmail.com
+          
+        
+      
+      
+        
+          This method step describes provenance-based metadata as specified in the LTER EML Best Practices.
+          This provenance metadata does not contain entity specific information.
+        
+        
+          Mississippi River spatial water chemistry Environmental Research Letters datasets
+          
+            Luke Loken
+            University of Wisconsin Madison
+            lloken@wisc.edu
+            https://orcid.org/0000-0003-3194-1498
+          
+          
+            John Crawford
+            United States Geological Survey
+            jtcrawford@usgs.gov
+            https://orcid.org/0000-0003-4440-6945
+          
+          
+            Emily Stanley
+            University of Wisconsin Madison
+            ehstanley@wisc.edu
+            https://orcid.org/0000-0003-4922-8121
+          
+          
+            
+              This online link references an EML document that describes data used in the creation of this derivative data package.
+              https://pasta.lternet.edu/package/metadata/eml/knb-lter-ntl/358/4
+            
+          
+          
+            Luke Loken
+            University of Wisconsin Madison
+            lloken@wisc.edu
+            https://orcid.org/0000-0003-3194-1498
+          
+          
+            John Crawford
+            United States Geological Survey
+            jtcrawford@usgs.gov
+            https://orcid.org/0000-0003-4440-6945
+          
+          
+            Emily Stanley
+            University of Wisconsin Madison
+            ehstanley@wisc.edu
+            https://orcid.org/0000-0003-4922-8121
+          
+        
+      
+      
+        
+          This method step describes provenance-based metadata as specified in the LTER EML Best Practices.
+          This provenance metadata does not contain entity specific information.
+        
+        
+          Stream Restoration and Flood Impacts in the Kickapoo River Watershed, Wisconsin, 2019
+          
+            Caroline Druschke
+            University of Wisconsin-Madison
+            cdruschke@wisc.edu
+            https://orcid.org/0000-0001-8610-5177
+          
+          
+            Eric Booth
+            University of Wisconsin-Madison
+            egbooth@wisc.edu
+            https://orcid.org/0000-0003-2191-6627
+          
+          
+            Emily Stanley
+            University of Wisconsin-Madison
+            ehstanley@wisc.edu
+            https://orcid.org/0000-0003-4922-8121
+          
+          
+            
+              This online link references an EML document that describes data used in the creation of this derivative data package.
+              https://pasta.lternet.edu/package/metadata/eml/edi/1062/1
+            
+          
+          
+            Caroline Druschke
+            University of Wisconsin-Madison
+            cdruschke@wisc.edu
+            https://orcid.org/0000-0001-8610-5177
+          
+        
+      
+      
+        
+          This method step describes provenance-based metadata as specified in the LTER EML Best Practices.
+          This provenance metadata does not contain entity specific information.
+        
+        
+          Dissolved gas concentrations in Cuenca river systems (Ecuador) in 2018
+          
+            Long Ho
+            UGent
+            Long.tuanho@UGent.be
+            https://orcid.org/0000-0002-2999-1691
+          
+          
+            Ruben Jerves-Cobo
+            UGent
+            rubenf.jervesc@ucuenca.edu.ec
+          
+          
+            Matti Barthel
+            ETH Zurich
+            matti.barthel@usys.ethz.ch
+          
+          
+            Johan Six
+            ETH Zurich
+            johan.six@usys.ethz.ch
+          
+          
+            Samuel Bode
+            UGent
+            Samuel.Bode@UGent.be
+          
+          
+            Pascal Boeckx
+            UGent
+            Pascal.Boeckx@UGent.be
+          
+          
+            Peter Goethals
+            UGent
+            Peter.Goethals@UGent.be
+          
+          
+            
+              This online link references an EML document that describes data used in the creation of this derivative data package.
+              https://pasta.lternet.edu/package/metadata/eml/edi/701/1
+            
+          
+          
+            Long Ho
+            UGent
+            Long.tuanho@UGent.be
+            https://orcid.org/0000-0002-2999-1691
+          
+        
+      
+      
+        
+          This method step describes provenance-based metadata as specified in the LTER EML Best Practices.
+          This provenance metadata does not contain entity specific information.
+        
+        
+          Biogeochemistry data set for Imnavait Creek Weir on the North Slope of Alaska 2002-2018
+          
+            George Kling
+            			University of Michigan,Department of Ecology and Evolutionary Biology,830 North University
+			Ann Arbor, MI 48109-1048  US
+            gwk@umich.edu
+            https://orcid.org/0000-0002-6349-8227
+          
+          
+            
+              This online link references an EML document that describes data used in the creation of this derivative data package.
+              https://pasta.lternet.edu/package/metadata/eml/knb-lter-arc/10531/9
+            
+          
+          
+            George Kling
+            			University of Michigan,Department of Ecology and Evolutionary Biology,830 North University
+			Ann Arbor, MI 48109-1048  US
+            gwk@umich.edu
+            https://orcid.org/0000-0002-6349-8227
+          
+          
+            Arctic_LTER Information Manager
+            Arctic Long Term Ecological Research
+            			7 M B L St
+			Woods Hole, MA 02536  US
+            (508) 548-3705
+            arc_im@mbl.edu
+          
+        
+      
+      
+        
+          This method step describes provenance-based metadata as specified in the LTER EML Best Practices.
+          This provenance metadata does not contain entity specific information.
+        
+        
+          Biogeochemistry data set for soil waters, streams, and lakes near Toolik on the North Slope of Alaska.
+          
+            George Kling
+            			University of Michigan,Department of Ecology and Evolutionary Biology,830 North University
+			Ann Arbor, MI 48109-1048  US
+            gwk@umich.edu
+            https://orcid.org/0000-0002-6349-8227
+          
+          
+            
+              This online link references an EML document that describes data used in the creation of this derivative data package.
+              https://pasta.lternet.edu/package/metadata/eml/knb-lter-arc/10279/9
+            
+          
+          
+            Arctic_LTER Information Manager
+            Arctic Long Term Ecological Research
+            			7 M B L St
+			Woods Hole, MA 02536  US
+            (508) 548-3705
+            arc_im@mbl.edu
+          
+        
+      
+      
+        
+          This method step describes provenance-based metadata as specified in the LTER EML Best Practices.
+          This provenance metadata does not contain entity specific information.
+        
+        
+          Biogeochemistry data set for soil waters, streams, and lakes near Toolik Lake on the North Slope of Alaska, 2012 through 2020
+          
+            George Kling
+            University of Michigan
+            			University of Michigan,Department of Ecology and Evolutionary Biology, 830 North University
+			Ann Arbor, MI 48109-1048  US
+            734 647 0894
+            gwk@umich.edu
+            https://lsa.umich.edu/eeb/people/faculty/gwk.html
+            https://orcid.org/0000-0002-6349-8227
+          
+          
+            
+              This online link references an EML document that describes data used in the creation of this derivative data package.
+              https://pasta.lternet.edu/package/metadata/eml/knb-lter-arc/20080/2
+            
+          
+          
+            George Kling
+            University of Michigan
+            			University of Michigan,Department of Ecology and Evolutionary Biology, 830 North University
+			Ann Arbor, MI 48109-1048  US
+            734 647 0894
+            gwk@umich.edu
+            https://lsa.umich.edu/eeb/people/faculty/gwk.html
+            https://orcid.org/0000-0002-6349-8227
+          
+          
+            Arctic_LTER Information Manager
+            Arctic Long Term Ecological Research
+            			7 M B L St
+			Woods Hole, MA 02536  US
+            (508) 548-3705
+            arc_im@mbl.edu
+          
+        
+      
+      
+        
+          This method step describes provenance-based metadata as specified in the LTER EML Best Practices.
+          This provenance metadata does not contain entity specific information.
+        
+        
+          Chemistry from thermokarst impacted soils, lakes, and streams near Toolik Lake Alaska, 2008-2011.
+          
+            George Kling
+            Arctic LTER Program
+            			University of Michigan
+			Department of Ecology and Evolutionary Biology
+			830 North University
+			Ann Arbor, MI 48109-1048  United States of America
+          
+          
+            
+              This online link references an EML document that describes data used in the creation of this derivative data package.
+              https://pasta.lternet.edu/package/metadata/eml/knb-lter-arc/10134/3
+            
+          
+          
+            Data Manager
+            			The Ecosystems Center
+			Marine Biological Lab
+			7 MBL St
+			Woods Hole, MA 02543  USA
+            (508) 289 7496
+            arc_im@mbl.edu
+            http://ecosystems.mbl.edu/ARC/
+          
+        
+      
+      
+        
+          This method step describes provenance-based metadata as specified in the LTER EML Best Practices.
+          This provenance metadata does not contain entity specific information.
+        
+        
+          Columbia River spatial water chemistry
+          
+            Luke Loken
+            University of Wisconsin-Madison
+            lloken@wisc.edu
+            https://orcid.org/0000-0003-3194-1498
+          
+          
+            John Crawford
+            United States Geological Survey
+            jtcrawford@usgs.gov
+            https://orcid.org/0000-0003-4440-6945
+          
+          
+            Emily Stanley
+            University of Wisconsin-Madison
+            ehstanley@wisc.edu
+            https://orcid.org/0000-0003-4922-8121
+          
+          
+            David Butman
+            University of Washington
+            dbutman@uw.edu
+            https://orcid.org/0000-0003-3520-7426
+          
+          
+            Robert Striegl
+            United States Geological Survey
+            rstriegl@usgs.gov
+            https://orcid.org/0000-0002-8251-4659
+          
+          
+            
+              This online link references an EML document that describes data used in the creation of this derivative data package.
+              https://pasta.lternet.edu/package/metadata/eml/knb-lter-ntl/359/1
+            
+          
+          
+            Luke Loken
+            University of Wisconsin-Madison
+            lloken@wisc.edu
+            https://orcid.org/0000-0003-3194-1498
+          
+          
+            John Crawford
+            United States Geological Survey
+            jtcrawford@usgs.gov
+            https://orcid.org/0000-0003-4440-6945
+          
+          
+            Emily Stanley
+            University of Wisconsin-Madison
+            ehstanley@wisc.edu
+            https://orcid.org/0000-0003-4922-8121
+          
+        
+      
+      
+        
+          This method step describes provenance-based metadata as specified in the LTER EML Best Practices.
+          This provenance metadata does not contain entity specific information.
+        
+        
+          North Temperate Lakes LTER: Northern Highlands Stream Chemistry Survey 2006
+          
+            Noah Lottig
+            			19810 County Rd. N
+			Boulder Junction, WI 54512  US
+            (715) 356-9494 x225
+            nrlottig@wisc.edu
+            http://limnology.wisc.edu/personnel/lottig/index.htm
+            http://orcid.org/0000-0003-1599-8144
+          
+          
+            Emily Stanley
+            University of Wisconsin
+            			680 North Park Street
+			Madison, WI 53706  US
+            (608) 263-2567
+            (608) 265-2340
+            ehstanley@wisc.edu
+            http://limnology.wisc.edu/personnel/emstan/
+            http://orcid.org/0000-0003-4922-8121
+          
+          
+            
+              This online link references an EML document that describes data used in the creation of this derivative data package.
+              https://pasta.lternet.edu/package/metadata/eml/knb-lter-ntl/254/18
+            
+          
+          
+            NTL Lead PI
+            University of Wisconsin
+            			680 North Park Str.
+			Madison, WI 53706  US
+            ntl.leadpi@gmail.com
+          
+          
+            NTL Information Manager
+            University of Wisconsin
+            			680 North Park Street
+			Madison, WI 53706  US
+            ntl.infomgr@gmail.com
+          
+        
+      
+      
+        
+          This method step describes provenance-based metadata as specified in the LTER EML Best Practices.
+          This provenance metadata does not contain entity specific information.
+        
+        
+          PIE LTER time series of methane, CO2 and N2O ebullition measurements at four headwater streams in Massachusetts and New Hampshire.
+          
+            Andrew Robison
+            			University of New Hampshire
+			Durham, NH 03824  US
+            andrew.robison@unh.edu
+          
+          
+            Wilfred Wollheim
+            			WSAG Institute for the Study of Earth, Oceans, and Space,Morse Hall, Room 452, 8 College Road
+			Durham, NH 03824  US
+            (603) 862-0812
+            Wil.Wollheim@unh.edu
+            http://orcid.org/0000-0002-5009-3212
+          
+          
+            
+              This online link references an EML document that describes data used in the creation of this derivative data package.
+              https://pasta.lternet.edu/package/metadata/eml/knb-lter-pie/566/2
+            
+          
+          
+            Andrew Robison
+            			University of New Hampshire
+			Durham, NH 03824  US
+            andrew.robison@unh.edu
+          
+        
+      
+      
+        
+          This method step describes provenance-based metadata as specified in the LTER EML Best Practices.
+          This provenance metadata does not contain entity specific information.
+        
+        
+          PIE LTER dissolved methane and water temperature from four headwater streams in Massachusetts and New Hampshire.
+          
+            Andrew Robison
+            			University of New Hampshire
+			Durham, NH 03824  US
+            andrew.robison@unh.edu
+          
+          
+            Wilfred Wollheim
+            			WSAG Institute for the Study of Earth, Oceans, and Space,Morse Hall, Room 452, 8 College Road
+			Durham, NH 03824  US
+            (603) 862-0812
+            Wil.Wollheim@unh.edu
+            http://orcid.org/0000-0002-5009-3212
+          
+          
+            
+              This online link references an EML document that describes data used in the creation of this derivative data package.
+              https://pasta.lternet.edu/package/metadata/eml/knb-lter-pie/572/1
+            
+          
+          
+            Andrew Robison
+            			University of New Hampshire
+			Durham, NH 03824  US
+            andrew.robison@unh.edu
+          
+        
+      
+      
+        
+          This method step describes provenance-based metadata as specified in the LTER EML Best Practices.
+          This provenance metadata does not contain entity specific information.
+        
+        
+          Methane concentrations and fluxes in agricultural and preserved tropical headwater streams 
+          
+            Ricardo Taniwaki
+            Universidade Federal do ABC
+            Professor
+            			Av. dos Estados, 5001, B. Bangú
+			CECS, Sala 620, Bloco A, Torre 1
+			Santo Andre, Sao Paulo 09210580  Brazil
+            ricardo.t@ufabc.edu.br
+            https://sites.google.com/ufabc.edu.br/ricardo-t/
+            0000-0002-2186-8998
+          
+          
+            
+              This online link references an EML document that describes data used in the creation of this derivative data package.
+              https://pasta.lternet.edu/package/metadata/eml/edi/1121/1
+            
+          
+          
+            Ricardo Taniwaki
+            Universidade Federal do ABC
+            Professor
+            			Av. dos Estados, 5001, B. Bangú
+			CECS, sala 620, Bloco A, Torre 1
+			Santo Andre, Sao Paulo 09210-580  Brazil
+            ricardo.t@ufabc.edu.br
+            https://sites.google.com/ufabc.edu.br/ricardo-t/
+            0000-0002-2186-8998
+          
+        
+      
+      
+        
+          This method step describes provenance-based metadata as specified in the LTER EML Best Practices.
+          This provenance metadata does not contain entity specific information.
+        
+        
+          A dataset for methane concentrations and fluxes for alpine permafrost streams and rivers on the East Qinghai-Tibet Plateau
+          
+            Liwei Zhang
+            Beijing Normal University
+            zhangliwei@mail.bnu.edu.cn
+          
+          
+            Xinghui Xia
+            Beijing Normal University
+            xiaxh@bnu.edu.cn
+          
+          
+            Shaoda Liu
+            Yale University
+            shaoda.liu@yale.edu
+          
+          
+            Zhifeng Yang
+            Beijing Normal University
+            zfyang@bnu.edu.cn
+          
+          
+            Emily Stanley
+            University of Wisconsin-Madison
+            ehstanley@wisc.edu
+          
+          
+            Peter Raymond
+            Yale University
+            peter.raymond@yale.edu
+          
+          
+            
+              This online link references an EML document that describes data used in the creation of this derivative data package.
+              https://pasta.lternet.edu/package/metadata/eml/edi/468/2
+            
+          
+          
+            Liwei Zhang
+            Beijing Normal University
+            zhangliwei@mail.bnu.edu.cn
+          
+        
+      
+      
+        
+          This method step describes provenance-based metadata as specified in the LTER EML Best Practices.
+          This provenance metadata does not contain entity specific information.
+        
+        
+          Dissolved N2O measurements from the Connecticut River Watershed
+          
+            Kelly  Aho
+            Yale School of the Environment
+            kellyaho@gmail.com
+            0000-0002-1992-6378
+          
+          
+            Jennifer Fair
+          
+          
+            Jacob Hosen
+          
+          
+            Ethan Kyzivat
+          
+          
+            Laura Logozzo
+          
+          
+            Lisa Weber
+          
+          
+            Bryan Yoon
+          
+          
+            Jay Zarnetske
+          
+          
+            Peter Raymond
+            Yale School of the Environment
+            peter.raymond@yale.edu
+            0000-0002-8564-7860
+          
+          
+            
+              This online link references an EML document that describes data used in the creation of this derivative data package.
+              https://pasta.lternet.edu/package/metadata/eml/edi/1058/2
+            
+          
+          
+            Kelly Aho
+            Yale School of the Environment
+            kellyaho@gmail.com
+            0000-0002-1992-6378
+          
+        
+      
+      
+        
+          This method step describes provenance-based metadata as specified in the LTER EML Best Practices.
+          This provenance metadata does not contain entity specific information.
+        
+        
+          Water chemistry time series for Beaverdam Reservoir, Carvins Cove Reservoir, Falling Creek Reservoir, Gatewood Reservoir, and Spring Hollow Reservoir in southwestern Virginia, USA 2013-2020
+          
+            Cayelan Carey
+            Virginia Tech
+            Cayelan@vt.edu
+            https://orcid.org/0000-0001-8835-4476
+          
+          
+            Heather Wander
+            Virginia Tech
+            hwander@vt.edu
+            https://orcid.org/0000-0002-3762-6045
+          
+          
+            Whitney Woelmer
+            Virginia Tech
+            wwoelmer@vt.edu
+            https://orcid.org/0000-0001-5147-3877
+          
+          
+            Mary Lofton
+            Virginia Tech
+            melofton@vt.edu
+            https://orcid.org/0000-0003-3270-1330
+          
+          
+            Adrienne Breef-Pilz
+            Virginia Tech
+            abreefpilz@vt.edu
+            https://orcid.org/0000-0002-6759-0063
+          
+          
+            Jonathan Doubek
+            Virginia Tech
+            jpdoubek@vt.edu
+            https://orcid.org/0000-0003-2651-4715
+          
+          
+            Alexandra Gerling
+            Virginia Tech
+            alexg13@vt.edu
+            https://orcid.org/0000-0001-5280-6709
+          
+          
+            Alexandria Hounshell
+            Virginia Tech
+            alexgh@vt.edu
+            https://orcid.org/0000-0003-1616-9399
+          
+          
+            Ryan McClure
+            Virginia Tech
+            ryan333@vt.edu
+            https://orcid.org/0000-0001-6370-3852
+          
+          
+            Barbara Niederlehner
+            Virginia Tech
+            bniederl@vt.edu
+            https://orcid.org/0000-0002-6933-336X
+          
+          
+            
+              This online link references an EML document that describes data used in the creation of this derivative data package.
+              https://pasta.lternet.edu/package/metadata/eml/edi/199/9
+            
+          
+          
+            Cayelan Carey
+            Virginia Tech
+            Cayelan@vt.edu
+            https://orcid.org/0000-0001-8835-4476
+          
+        
+      
+      
+        
+          This method step describes provenance-based metadata as specified in the LTER EML Best Practices.
+          This provenance metadata does not contain entity specific information.
+        
+        
+          Manually-collected discharge data for multiple inflow tributaries entering Falling Creek Reservoir and Beaverdam Reservoir, Vinton, Virginia, USA in 2019
+          
+            Cayelan Carey
+            Virginia Tech
+            cayelan@vt.edu
+            https://orcid.org/0000-0001-8835-4476
+          
+          
+            Whitney Woelmer
+            Virginia Tech
+            wwoelmer@vt.edu
+            https://orcid.org/0000-0001-5147-3877
+          
+          
+            James Maze
+            Virginia Tech
+            jtmaze@vt.edu
+          
+          
+            Alexandria Hounshell
+            Virginia Tech
+            alexgh@vt.edu
+            https://orcid.org/0000-0003-1616-9399
+          
+          
+            
+              This online link references an EML document that describes data used in the creation of this derivative data package.
+              https://pasta.lternet.edu/package/metadata/eml/edi/454/4
+            
+          
+          
+            Cayelan Carey
+            Virginia Tech
+            cayelan@vt.edu
+            https://orcid.org/0000-0001-8835-4476
+          
+        
+      
+      
+        
+          This method step describes provenance-based metadata as specified in the LTER EML Best Practices.
+          This provenance metadata does not contain entity specific information.
+        
+        
+          Secchi depth data and discrete depth profiles of photosynthetically active radiation, temperature, dissolved oxygen, and pH for Beaverdam Reservoir, Carvins Cove Reservoir, Falling Creek Reservoir, Gatewood Reservoir, and Spring Hollow Reservoir in southwestern Virginia, USA 2013-2021
+          
+            Cayelan Carey
+            Virginia Tech
+            cayelan@vt.edu
+            https://orcid.org/0000-0001-8835-4476
+          
+          
+            Heather Wander
+            Virginia Tech
+            hwander@vt.edu
+            https://orcid.org/0000-0002-3762-6045
+          
+          
+            Ryan McClure
+            Virginia Tech
+            ryan333@vt.edu
+            https://orcid.org/0000-0001-6370-3852
+          
+          
+            Mary Lofton
+            Virginia Tech
+            melofton@vt.edu
+            https://orcid.org/0000-0003-3270-1330
+          
+          
+            Kathleen Hamre
+            Virginia Tech
+            kdhamre@vt.edu
+          
+          
+            Jonathan Doubek
+            Virginia Tech
+            jpdoubek@vt.edu
+            https://orcid.org/0000-0003-2651-4715
+          
+          
+            Alexandra Gerling
+            Virginia Tech
+            alexg13@vt.edu
+            https://orcid.org/0000-0001-5280-6709
+          
+          
+            Abigail Lewis
+            Virginia Tech
+            aslewis@vt.edu
+            https://orcid.org/0000-0001-9933-4542
+          
+          
+            Adrienne Breef-Pilz
+            Virginia Tech
+            abreefpilz@vt.edu
+            https://orcid.org/0000-0002-6759-0063
+          
+          
+            
+              This online link references an EML document that describes data used in the creation of this derivative data package.
+              https://pasta.lternet.edu/package/metadata/eml/edi/198/10
+            
+          
+          
+            Cayelan Carey
+            Virginia Tech
+            cayelan@vt.edu
+            https://orcid.org/0000-0001-8835-4476
+          
+        
+      
+      
+        
+          This method step describes provenance-based metadata as specified in the LTER EML Best Practices.
+          This provenance metadata does not contain entity specific information.
+        
+        
+          Toolik Inlet Discharge Data collected in summer 1993, Arctic LTER, Toolik Research Station, Alaska.
+          
+            George Kling
+            			University of Michigan,Department of Ecology and Evolutionary Biology,830 North University
+			Ann Arbor, MI 48109-1048  US
+            gwk@umich.edu
+          
+          
+            
+              This online link references an EML document that describes data used in the creation of this derivative data package.
+              https://pasta.lternet.edu/package/metadata/eml/knb-lter-arc/1595/13
+            
+          
+          
+            Arctic_LTER Information Manager
+            			7 M B L St.
+			Woods Hole, MA 02536  US
+            (508) 548-3705
+            arc_im@mbl.edu
+          
+        
+      
+      
+        
+          This method step describes provenance-based metadata as specified in the LTER EML Best Practices.
+          This provenance metadata does not contain entity specific information.
+        
+        
+          Toolik Inlet Discharge Data collected in summer 1994, Arctic LTER, Toolik Research Station, Alaska.
+          
+            George Kling
+            			University of Michigan,Department of Ecology and Evolutionary Biology,830 North University
+			Ann Arbor, MI 48109-1048  US
+            gwk@umich.edu
+          
+          
+            
+              This online link references an EML document that describes data used in the creation of this derivative data package.
+              https://pasta.lternet.edu/package/metadata/eml/knb-lter-arc/1596/13
+            
+          
+          
+            Arctic_LTER Information Manager
+            			7 M B L St.
+			Woods Hole, MA 02536  US
+            (508) 548-3705
+            arc_im@mbl.edu
+          
+        
+      
+      
+        
+          This method step describes provenance-based metadata as specified in the LTER EML Best Practices.
+          This provenance metadata does not contain entity specific information.
+        
+        
+          Toolik Inlet Discharge Data collected in summer 1995, Arctic LTER, Toolik Research Station, Alaska.
+          
+            George Kling
+            			University of Michigan,Department of Ecology and Evolutionary Biology,830 North University
+			Ann Arbor, MI 48109-1048  US
+            gwk@umich.edu
+          
+          
+            
+              This online link references an EML document that describes data used in the creation of this derivative data package.
+              https://pasta.lternet.edu/package/metadata/eml/knb-lter-arc/1597/13
+            
+          
+          
+            Arctic_LTER Information Manager
+            			7 M B L St.
+			Woods Hole, MA 02536  US
+            (508) 548-3705
+            arc_im@mbl.edu
+          
+        
+      
+      
+        
+          This method step describes provenance-based metadata as specified in the LTER EML Best Practices.
+          This provenance metadata does not contain entity specific information.
+        
+        
+          Toolik Inlet Discharge Data collected in summer 1996, Arctic LTER, Toolik Research Station, Alaska.
+          
+            George Kling
+            			University of Michigan,Department of Ecology and Evolutionary Biology,830 North University
+			Ann Arbor, MI 48109-1048  US
+            gwk@umich.edu
+          
+          
+            
+              This online link references an EML document that describes data used in the creation of this derivative data package.
+              https://pasta.lternet.edu/package/metadata/eml/knb-lter-arc/1598/13
+            
+          
+          
+            Arctic_LTER Information Manager
+            			7 M B L St.
+			Woods Hole, MA 02536  US
+            (508) 548-3705
+            arc_im@mbl.edu
+          
+        
+      
+      
+        
+          This method step describes provenance-based metadata as specified in the LTER EML Best Practices.
+          This provenance metadata does not contain entity specific information.
+        
+        
+          Toolik Inlet Discharge Data collected in summer 1997, Arctic LTER, Toolik Research Station, Alaska.
+          
+            George Kling
+            			University of Michigan,Department of Ecology and Evolutionary Biology,830 North University
+			Ann Arbor, MI 48109-1048  US
+            gwk@umich.edu
+          
+          
+            
+              This online link references an EML document that describes data used in the creation of this derivative data package.
+              https://pasta.lternet.edu/package/metadata/eml/knb-lter-arc/1599/13
+            
+          
+          
+            Arctic_LTER Information Manager
+            			7 M B L St.
+			Woods Hole, MA 02536  US
+            (508) 548-3705
+            arc_im@mbl.edu
+          
+        
+      
+      
+        
+          This method step describes provenance-based metadata as specified in the LTER EML Best Practices.
+          This provenance metadata does not contain entity specific information.
+        
+        
+          Toolik Inlet Discharge Data collected in summer 1998, Arctic LTER, Toolik Research Station, Alaska.
+          
+            George Kling
+            			University of Michigan,Department of Ecology and Evolutionary Biology,830 North University
+			Ann Arbor, MI 48109-1048  US
+            gwk@umich.edu
+          
+          
+            
+              This online link references an EML document that describes data used in the creation of this derivative data package.
+              https://pasta.lternet.edu/package/metadata/eml/knb-lter-arc/1600/13
+            
+          
+          
+            Arctic_LTER Information Manager
+            			7 M B L St.
+			Woods Hole, MA 02536  US
+            (508) 548-3705
+            arc_im@mbl.edu
+          
+        
+      
+      
+        
+          This method step describes provenance-based metadata as specified in the LTER EML Best Practices.
+          This provenance metadata does not contain entity specific information.
+        
+        
+          Toolik Inlet Discharge Data collected in summer 1999, Arctic LTER, Toolik Research Station, Alaska.
+          
+            George Kling
+            			University of Michigan,Department of Ecology and Evolutionary Biology,830 North University
+			Ann Arbor, MI 48109-1048  US
+            gwk@umich.edu
+          
+          
+            
+              This online link references an EML document that describes data used in the creation of this derivative data package.
+              https://pasta.lternet.edu/package/metadata/eml/knb-lter-arc/1601/13
+            
+          
+          
+            Arctic_LTER Information Manager
+            			7 M B L St.
+			Woods Hole, MA 02536  US
+            (508) 548-3705
+            arc_im@mbl.edu
+          
+        
+      
+      
+        
+          This method step describes provenance-based metadata as specified in the LTER EML Best Practices.
+          This provenance metadata does not contain entity specific information.
+        
+        
+          Toolik Inlet Discharge Data collected in summer 2000, Arctic LTER, Toolik Research Station, Alaska.
+          
+            George Kling
+            			University of Michigan,Department of Ecology and Evolutionary Biology,830 North University
+			Ann Arbor, MI 48109-1048  US
+            gwk@umich.edu
+          
+          
+            
+              This online link references an EML document that describes data used in the creation of this derivative data package.
+              https://pasta.lternet.edu/package/metadata/eml/knb-lter-arc/1589/13
+            
+          
+          
+            Arctic_LTER Information Manager
+            			7 M B L St.
+			Woods Hole, MA 02536  US
+            (508) 548-3705
+            arc_im@mbl.edu
+          
+        
+      
+      
+        
+          This method step describes provenance-based metadata as specified in the LTER EML Best Practices.
+          This provenance metadata does not contain entity specific information.
+        
+        
+          Toolik Inlet Discharge Data collected in summer 2001, Arctic LTER, Toolik Research Station, Alaska.
+          
+            George Kling
+            			University of Michigan,Department of Ecology and Evolutionary Biology,830 North University
+			Ann Arbor, MI 48109-1048  US
+            gwk@umich.edu
+          
+          
+            
+              This online link references an EML document that describes data used in the creation of this derivative data package.
+              https://pasta.lternet.edu/package/metadata/eml/knb-lter-arc/1590/13
+            
+          
+          
+            Arctic_LTER Information Manager
+            			7 M B L St.
+			Woods Hole, MA 02536  US
+            (508) 548-3705
+            arc_im@mbl.edu
+          
+        
+      
+      
+        
+          This method step describes provenance-based metadata as specified in the LTER EML Best Practices.
+          This provenance metadata does not contain entity specific information.
+        
+        
+          Toolik Inlet Discharge Data collected in summer 2002, Arctic LTER, Toolik Research Station, Alaska.
+          
+            George Kling
+            			University of Michigan,Department of Ecology and Evolutionary Biology,830 North University
+			Ann Arbor, MI 48109-1048  US
+            gwk@umich.edu
+          
+          
+            
+              This online link references an EML document that describes data used in the creation of this derivative data package.
+              https://pasta.lternet.edu/package/metadata/eml/knb-lter-arc/1591/14
+            
+          
+          
+            Arctic_LTER Information Manager
+            			7 M B L St.
+			Woods Hole, MA 02536  US
+            (508) 548-3705
+            arc_im@mbl.edu
+          
+        
+      
+      
+        
+          This method step describes provenance-based metadata as specified in the LTER EML Best Practices.
+          This provenance metadata does not contain entity specific information.
+        
+        
+          Toolik Inlet Discharge Data collected in summer 2003, Arctic LTER, Toolik Research Station, Alaska.
+          
+            George Kling
+            			University of Michigan,Department of Ecology and Evolutionary Biology,830 North University
+			Ann Arbor, MI 48109-1048  US
+            gwk@umich.edu
+          
+          
+            
+              This online link references an EML document that describes data used in the creation of this derivative data package.
+              https://pasta.lternet.edu/package/metadata/eml/knb-lter-arc/1592/14
+            
+          
+          
+            Arctic_LTER Information Manager
+            			7 M B L St.
+			Woods Hole, MA 02536  US
+            (508) 548-3705
+            arc_im@mbl.edu
+          
+        
+      
+      
+        
+          This method step describes provenance-based metadata as specified in the LTER EML Best Practices.
+          This provenance metadata does not contain entity specific information.
+        
+        
+          Toolik Inlet Discharge Data collected in summer 2004, Arctic LTER, Toolik Research Station, Alaska.
+          
+            George Kling
+            			University of Michigan,Department of Ecology and Evolutionary Biology,830 North University
+			Ann Arbor, MI 48109-1048  US
+            gwk@umich.edu
+          
+          
+            
+              This online link references an EML document that describes data used in the creation of this derivative data package.
+              https://pasta.lternet.edu/package/metadata/eml/knb-lter-arc/1645/12
+            
+          
+          
+            Arctic_LTER Information Manager
+            			7 M B L St.
+			Woods Hole, MA 02536  US
+            (508) 548-3705
+            arc_im@mbl.edu
+          
+        
+      
+      
+        
+          This method step describes provenance-based metadata as specified in the LTER EML Best Practices.
+          This provenance metadata does not contain entity specific information.
+        
+        
+          Toolik Inlet Discharge Data collected in summer 2005, Arctic LTER, Toolik Research Station, Alaska.
+          
+            George Kling
+            			University of Michigan,Department of Ecology and Evolutionary Biology,830 North University
+			Ann Arbor, MI 48109-1048  US
+            gwk@umich.edu
+          
+          
+            
+              This online link references an EML document that describes data used in the creation of this derivative data package.
+              https://pasta.lternet.edu/package/metadata/eml/knb-lter-arc/1644/9
+            
+          
+          
+            Arctic_LTER Information Manager
+            			7 M B L St.
+			Woods Hole, MA 02536  US
+            (508) 548-3705
+            arc_im@mbl.edu
+          
+        
+      
+      
+        
+          This method step describes provenance-based metadata as specified in the LTER EML Best Practices.
+          This provenance metadata does not contain entity specific information.
+        
+        
+          Toolik Inlet Discharge Data collected in summer 2006, Arctic LTER, Toolik Research Station, Alaska.
+          
+            George Kling
+            			University of Michigan,Department of Ecology and Evolutionary Biology,830 North University
+			Ann Arbor, MI 48109-1048  US
+            gwk@umich.edu
+          
+          
+            
+              This online link references an EML document that describes data used in the creation of this derivative data package.
+              https://pasta.lternet.edu/package/metadata/eml/knb-lter-arc/1646/9
+            
+          
+          
+            Arctic_LTER Information Manager
+            			7 M B L St.
+			Woods Hole, MA 02536  US
+            (508) 548-3705
+            arc_im@mbl.edu
+          
+        
+      
+      
+        
+          This method step describes provenance-based metadata as specified in the LTER EML Best Practices.
+          This provenance metadata does not contain entity specific information.
+        
+        
+          Toolik Inlet Discharge Data collected in summer 2007, Arctic LTER, Toolik Research Station, Alaska.
+          
+            George Kling
+            			University of Michigan,Department of Ecology and Evolutionary Biology,830 North University
+			Ann Arbor, MI 48109-1048  US
+            gwk@umich.edu
+          
+          
+            
+              This online link references an EML document that describes data used in the creation of this derivative data package.
+              https://pasta.lternet.edu/package/metadata/eml/knb-lter-arc/10069/5
+            
+          
+          
+            Arctic_LTER Information Manager
+            			7 M B L St.
+			Woods Hole, MA 02536  US
+            (508) 548-3705
+            arc_im@mbl.edu
+          
+        
+      
+      
+        
+          This method step describes provenance-based metadata as specified in the LTER EML Best Practices.
+          This provenance metadata does not contain entity specific information.
+        
+        
+          Toolik Inlet Discharge Data collected in summer 2008, Arctic LTER, Toolik Research Station, Alaska.
+          
+            George Kling
+            			University of Michigan,Department of Ecology and Evolutionary Biology,830 North University
+			Ann Arbor, MI 48109-1048  US
+            gwk@umich.edu
+          
+          
+            
+              This online link references an EML document that describes data used in the creation of this derivative data package.
+              https://pasta.lternet.edu/package/metadata/eml/knb-lter-arc/10068/5
+            
+          
+          
+            Arctic_LTER Information Manager
+            			7 M B L St.
+			Woods Hole, MA 02536  US
+            (508) 548-3705
+            arc_im@mbl.edu
+          
+        
+      
+      
+        
+          This method step describes provenance-based metadata as specified in the LTER EML Best Practices.
+          This provenance metadata does not contain entity specific information.
+        
+        
+          Toolik Inlet Discharge Data collected in summer 2009, Arctic LTER, Toolik Research Station, Alaska.
+          
+            George Kling
+            			University of Michigan,Department of Ecology and Evolutionary Biology,830 North University
+			Ann Arbor, MI 48109-1048  US
+            gwk@umich.edu
+          
+          
+            
+              This online link references an EML document that describes data used in the creation of this derivative data package.
+              https://pasta.lternet.edu/package/metadata/eml/knb-lter-arc/10070/5
+            
+          
+          
+            Arctic_LTER Information Manager
+            			7 M B L St.
+			Woods Hole, MA 02536  US
+            (508) 548-3705
+            arc_im@mbl.edu
+          
+        
+      
+      
+        
+          This method step describes provenance-based metadata as specified in the LTER EML Best Practices.
+          This provenance metadata does not contain entity specific information.
+        
+        
+          Toolik Lake Inlet discharge data collected during summers of 2010 to 2018, Arctic LTER, Toolik Research Station, Alaska.
+          
+            George Kling
+            			University of Michigan,Department of Ecology and Evolutionary Biology,830 North University
+			Ann Arbor, MI 48109-1048  US
+            gwk@umich.edu
+            http://orcid.org/0000-0002-6349-8227
+          
+          
+            
+              This online link references an EML document that describes data used in the creation of this derivative data package.
+              https://pasta.lternet.edu/package/metadata/eml/knb-lter-arc/10591/2
+            
+          
+          
+            George Kling
+            			University of Michigan,Department of Ecology and Evolutionary Biology,830 North University
+			Ann Arbor, MI 48109-1048  US
+            gwk@umich.edu
+            http://orcid.org/0000-0002-6349-8227
+          
+          
+            Arctic_LTER Information Manager
+            Arctic Long Term Ecolocial Research
+            			7 M B L St
+			Woods Hole, MA 02536  US
+            (508) 548-3705
+            arc_im@mbl.edu
+          
+        
+      
+      
+        
+          This method step describes provenance-based metadata as specified in the LTER EML Best Practices.
+          This provenance metadata does not contain entity specific information.
+        
+        
+          Tussock Watershed stream discharge, electrical conductivity, and temperature measurements from 1992
+          
+            George Kling
+            			University of Michigan,Department of Ecology and Evolutionary Biology,830 North University
+			Ann Arbor, MI 48109-1048  US
+            gwk@umich.edu
+          
+          
+            
+              This online link references an EML document that describes data used in the creation of this derivative data package.
+              https://pasta.lternet.edu/package/metadata/eml/knb-lter-arc/10187/5
+            
+          
+          
+            Arctic_LTER Information Manager
+            			7 M B L St.
+			Woods Hole, MA 02536  US
+            (508) 548-3705
+            arc_im@mbl.edu
+          
+        
+      
+      
+        
+          This method step describes provenance-based metadata as specified in the LTER EML Best Practices.
+          This provenance metadata does not contain entity specific information.
+        
+        
+          Tussock Watershed stream discharge, electrical conductivity, and temperature measurements from 1993
+          
+            George Kling
+            			University of Michigan,Department of Ecology and Evolutionary Biology,830 North University
+			Ann Arbor, MI 48109-1048  US
+            gwk@umich.edu
+          
+          
+            
+              This online link references an EML document that describes data used in the creation of this derivative data package.
+              https://pasta.lternet.edu/package/metadata/eml/knb-lter-arc/10188/4
+            
+          
+          
+            Arctic_LTER Information Manager
+            			7 M B L St.
+			Woods Hole, MA 02536  US
+            (508) 548-3705
+            arc_im@mbl.edu
+          
+        
+      
+      
+        
+          This method step describes provenance-based metadata as specified in the LTER EML Best Practices.
+          This provenance metadata does not contain entity specific information.
+        
+        
+          Tussock Watershed stream discharge, electrical conductivity, and temperature measurements from 1994
+          
+            George Kling
+            			University of Michigan,Department of Ecology and Evolutionary Biology,830 North University
+			Ann Arbor, MI 48109-1048  US
+            gwk@umich.edu
+          
+          
+            
+              This online link references an EML document that describes data used in the creation of this derivative data package.
+              https://pasta.lternet.edu/package/metadata/eml/knb-lter-arc/10189/3
+            
+          
+          
+            Arctic_LTER Information Manager
+            			7 M B L St.
+			Woods Hole, MA 02536  US
+            (508) 548-3705
+            arc_im@mbl.edu
+          
+        
+      
+      
+        
+          This method step describes provenance-based metadata as specified in the LTER EML Best Practices.
+          This provenance metadata does not contain entity specific information.
+        
+        
+          Tussock Watershed stream discharge, electrical conductivity, and temperature measurements from 1995
+          
+            George Kling
+            			University of Michigan,Department of Ecology and Evolutionary Biology,830 North University
+			Ann Arbor, MI 48109-1048  US
+            gwk@umich.edu
+          
+          
+            
+              This online link references an EML document that describes data used in the creation of this derivative data package.
+              https://pasta.lternet.edu/package/metadata/eml/knb-lter-arc/10190/4
+            
+          
+          
+            Arctic_LTER Information Manager
+            			7 M B L St.
+			Woods Hole, MA 02536  US
+            (508) 548-3705
+            arc_im@mbl.edu
+          
+        
+      
+      
+        
+          This method step describes provenance-based metadata as specified in the LTER EML Best Practices.
+          This provenance metadata does not contain entity specific information.
+        
+        
+          Tussock Watershed stream discharge, electrical conductivity, and temperature measurements from 1996
+          
+            George Kling
+            			University of Michigan,Department of Ecology and Evolutionary Biology,830 North University
+			Ann Arbor, MI 48109-1048  US
+            gwk@umich.edu
+          
+          
+            
+              This online link references an EML document that describes data used in the creation of this derivative data package.
+              https://pasta.lternet.edu/package/metadata/eml/knb-lter-arc/10191/4
+            
+          
+          
+            Arctic_LTER Information Manager
+            			7 M B L St.
+			Woods Hole, MA 02536  US
+            (508) 548-3705
+            arc_im@mbl.edu
+          
+        
+      
+      
+        
+          This method step describes provenance-based metadata as specified in the LTER EML Best Practices.
+          This provenance metadata does not contain entity specific information.
+        
+        
+          Tussock Watershed stream discharge, electrical conductivity, and temperature measurements from 1997
+          
+            George Kling
+            			University of Michigan,Department of Ecology and Evolutionary Biology,830 North University
+			Ann Arbor, MI 48109-1048  US
+            gwk@umich.edu
+          
+          
+            
+              This online link references an EML document that describes data used in the creation of this derivative data package.
+              https://pasta.lternet.edu/package/metadata/eml/knb-lter-arc/10192/4
+            
+          
+          
+            Arctic_LTER Information Manager
+            			7 M B L St.
+			Woods Hole, MA 02536  US
+            (508) 548-3705
+            arc_im@mbl.edu
+          
+        
+      
+      
+        
+          This method step describes provenance-based metadata as specified in the LTER EML Best Practices.
+          This provenance metadata does not contain entity specific information.
+        
+        
+          Tussock Watershed stream discharge, electrical conductivity, and temperature measurements from 1999
+          
+            George Kling
+            			University of Michigan,Department of Ecology and Evolutionary Biology,830 North University
+			Ann Arbor, MI 48109-1048  US
+            gwk@umich.edu
+          
+          
+            
+              This online link references an EML document that describes data used in the creation of this derivative data package.
+              https://pasta.lternet.edu/package/metadata/eml/knb-lter-arc/10194/4
+            
+          
+          
+            Arctic_LTER Information Manager
+            			7 M B L St.
+			Woods Hole, MA 02536  US
+            (508) 548-3705
+            arc_im@mbl.edu
+          
+        
+      
+      
+        
+          This method step describes provenance-based metadata as specified in the LTER EML Best Practices.
+          This provenance metadata does not contain entity specific information.
+        
+        
+          Tussock Watershed stream discharge, electrical conductivity, and temperature measurements from 2000
+          
+            George Kling
+            			University of Michigan,Department of Ecology and Evolutionary Biology,830 North University
+			Ann Arbor, MI 48109-1048  US
+            gwk@umich.edu
+          
+          
+            
+              This online link references an EML document that describes data used in the creation of this derivative data package.
+              https://pasta.lternet.edu/package/metadata/eml/knb-lter-arc/10195/4
+            
+          
+          
+            Arctic_LTER Information Manager
+            			7 M B L St.
+			Woods Hole, MA 02536  US
+            (508) 548-3705
+            arc_im@mbl.edu
+          
+        
+      
+      
+        
+          This method step describes provenance-based metadata as specified in the LTER EML Best Practices.
+          This provenance metadata does not contain entity specific information.
+        
+        
+          Tussock Watershed stream discharge, electrical conductivity, and temperature measurements from 2002
+          
+            George Kling
+            			University of Michigan,Department of Ecology and Evolutionary Biology,830 North University
+			Ann Arbor, MI 48109-1048  US
+            gwk@umich.edu
+          
+          
+            
+              This online link references an EML document that describes data used in the creation of this derivative data package.
+              https://pasta.lternet.edu/package/metadata/eml/knb-lter-arc/10197/4
+            
+          
+          
+            Arctic_LTER Information Manager
+            			7 M B L St.
+			Woods Hole, MA 02536  US
+            (508) 548-3705
+            arc_im@mbl.edu
+          
+        
+      
+      
+        
+          This method step describes provenance-based metadata as specified in the LTER EML Best Practices.
+          This provenance metadata does not contain entity specific information.
+        
+        
+          Tussock Watershed stream discharge, electrical conductivity, and temperature measurements from 2003
+          
+            George Kling
+            			University of Michigan,Department of Ecology and Evolutionary Biology,830 North University
+			Ann Arbor, MI 48109-1048  US
+            gwk@umich.edu
+          
+          
+            
+              This online link references an EML document that describes data used in the creation of this derivative data package.
+              https://pasta.lternet.edu/package/metadata/eml/knb-lter-arc/1648/9
+            
+          
+          
+            Arctic_LTER Information Manager
+            			7 M B L St.
+			Woods Hole, MA 02536  US
+            (508) 548-3705
+            arc_im@mbl.edu
+          
+        
+      
+      
+        
+          This method step describes provenance-based metadata as specified in the LTER EML Best Practices.
+          This provenance metadata does not contain entity specific information.
+        
+        
+          Tussock Watershed stream discharge, electrical conductivity, and temperature measurements from 2004
+          
+            George Kling
+            			University of Michigan,Department of Ecology and Evolutionary Biology,830 North University
+			Ann Arbor, MI 48109-1048  US
+            gwk@umich.edu
+          
+          
+            
+              This online link references an EML document that describes data used in the creation of this derivative data package.
+              https://pasta.lternet.edu/package/metadata/eml/knb-lter-arc/1647/9
+            
+          
+          
+            Arctic_LTER Information Manager
+            			7 M B L St.
+			Woods Hole, MA 02536  US
+            (508) 548-3705
+            arc_im@mbl.edu
+          
+        
+      
+      
+        
+          This method step describes provenance-based metadata as specified in the LTER EML Best Practices.
+          This provenance metadata does not contain entity specific information.
+        
+        
+          Nitrous oxide dataset for East Qinghai-Tibet Plateau waterways
+          
+            Liwei Zhang
+            Beijing Normal University
+            zhangliwei@mail.bnu.edu.cn
+          
+          
+            Xinghui Xia
+            Beijing Normal University
+            xiaxh@bnu.edu.cn
+          
+          
+            Tom Battin
+            Ecole Polytechnique Fédérale Lausanne
+            tom.battin@epfl.ch
+          
+          
+            Emily Stanley
+            University of Wisconsin-Madison
+            ehstanley@wisc.edu
+          
+          
+            
+              This online link references an EML document that describes data used in the creation of this derivative data package.
+              https://pasta.lternet.edu/package/metadata/eml/edi/695/1
+            
+          
+          
+            Liwei Zhang
+            Beijing Normal University
+            zhangliwei@mail.bnu.edu.cn
+          
+        
+      
+      
+        This provenance metadata does not contain entity specific information.
+        
+          Patterns and persistence of hydrologic carbon and nutrient export from collapsing upland permafrost
+          
+             Abbott
+            unknown@unknown.un
+          
+          
+            
+              As published in, Biogeosciences, 2015, 10.5194/bg-12-3725-2015
+              https://doi.org/10.18739/a23t9d71c
+            
+          
+          
+            E Stanley
+            ehstanley@wisc.edu
+          
+        
+      
+      
+        This provenance metadata does not contain entity specific information.
+        
+          Localized pollution impacts on greenhouse gas dynamics in three anthropogenically modified Asian river systems
+          
+             Begum
+            unknown@unknown.un
+          
+          
+            
+              As published in, Journal of Geophysical Research: Biogeosciences, 2021, 10.1029/2020JG006124
+              https://doi.org/10.1594/pangaea.926582
+            
+          
+          
+            E Stanley
+            ehstanley@wisc.edu
+          
+        
+      
+      
+        This provenance metadata does not contain entity specific information.
+        
+          Integrating ecosystem patch contributions to stream corridor carbon dioxide and methane fluxes
+          
+             Bretz
+            unknown@unknown.un
+          
+          
+            
+              As published in, Journal of Geophysical Research: Biogeosciences, 2021, 10.1029/2021JG006313
+              https://doi.org/10.4211/hs.ab2b33f27b3b4a0ca9a8ce4b8936753f
+            
+          
+          
+            E Stanley
+            ehstanley@wisc.edu
+          
+        
+      
+      
+        This provenance metadata does not contain entity specific information.
+        
+          Direct isotopic evidence of biogenic methane production and efflux from beneath a temperate glacier
+          
+             Burns
+            unknown@unknown.un
+          
+          
+            
+              As published in, Scientific Reports, 2018, 10.1038/s41598-018-35253-2
+              https://doi.org/10.17635/lancaster/researchdata/246
+            
+          
+          
+            E Stanley
+            ehstanley@wisc.edu
+          
+        
+      
+      
+        This provenance metadata does not contain entity specific information.
+        
+          Distribution of methane in the Lena Delta and Buor-Khaya Bay, Russia
+          
+             Bussmann
+            unknown@unknown.un
+          
+          
+            
+              As published in, Biogeosciences, 2013, 10.5194/bg-10-4641-2013
+              https://doi.org/10.1594/pangaea.817302
+            
+          
+          
+            E Stanley
+            ehstanley@wisc.edu
+          
+        
+      
+      
+        This provenance metadata does not contain entity specific information.
+        
+          Methane dynamics in three different Siberian water bodies under winter and summer conditions
+          
+             Bussmann
+            unknown@unknown.un
+          
+          
+             Bussmann
+            unknown@unknown.un
+          
+          
+            
+              As published in, Biogeosciences, 2021, 10.5194/bg-18-2047-2021
+              https://doi.org/10.1594/pangaea.905776
+            
+          
+          
+            E Stanley
+            ehstanley@wisc.edu
+          
+          
+            E Stanley
+            ehstanley@wisc.edu
+          
+        
+      
+      
+        This provenance metadata does not contain entity specific information.
+        
+          Radon-traced pore-water as a potential source of CO2 and CH4 to receding black and clear water environments in the Amazon Basin
+          
+             Call
+            unknown@unknown.un
+          
+          
+            
+              As published in, Limnology and Oceanography Letters, 2018, 10.1002/lol2.10089
+              https://figshare.com/s/95945208c33e8800f02c
+            
+          
+          
+            E Stanley
+            ehstanley@wisc.edu
+          
+        
+      
+      
+        This provenance metadata does not contain entity specific information.
+        
+          Stable carbon isotopes reveal soil-stream DIC linkages in contrasting headwater catchments
+          
+             Campeau
+            unknown@unknown.un
+          
+          
+            
+              As published in, Journal of Geophysical Research: Biogeosciences, 2018, 10.1002/2017JG004083
+              http://urn.kb.se/resolve?urn=urn:nbn:se:uu:diva-335488
+            
+          
+          
+            E Stanley
+            ehstanley@wisc.edu
+          
+        
+      
+      
+        This provenance metadata does not contain entity specific information.
+        
+          Effects of reversal of water flow in Arctic stream on fluvial emissions of CO2 and CH4
+          
+             Castro-Morales
+            unknown@unknown.un
+          
+          
+            
+              As published in, Journal of Geophysical Research: Biogeosciences, 2021, 10.1029/2021JG006485
+              https://doi.org/10.5281/zenodo.5758728
+            
+          
+          
+            E Stanley
+            ehstanley@wisc.edu
+          
+        
+      
+      
+        This provenance metadata does not contain entity specific information.
+        
+          Boreal headwater catchment as hot spot of carbon processing from headwater to fjord
+          
+             Clayer
+            unknown@unknown.un
+          
+          
+            
+              As published in, Journal of Geophysical Research: Biogeosciences, 2021, 10.1029/2021JG006359
+              https://doi.org/10.4211/hs.b143432cfe72462fac90376631c9a2b3
+            
+          
+          
+            E Stanley
+            ehstanley@wisc.edu
+          
+        
+      
+      
+        This provenance metadata does not contain entity specific information.
+        
+          Seasonal variability of sediment controls of carbon cycling in an agricultural stream
+          
+             Comer-Warner
+            unknown@unknown.un
+          
+          
+            
+              As published in, Science of the Total Environment, 2019, 10.1016/j.scitotenv.2019.06.317
+              https://doi.org/10.5285/00601260-285e-4ffa-b381-340b51a7ec50
+            
+          
+          
+            E Stanley
+            ehstanley@wisc.edu
+          
+        
+      
+      
+        This provenance metadata does not contain entity specific information.
+        
+          Temperature and precipitation drive temporal variability in carbon and GHG concentrations and fluxes in a peatland catchment
+          
+             Dinsmore
+            unknown@unknown.un
+          
+          
+            
+              As published in, Global Change Biology, 2013, 10.1111/gcb.12209
+              https://doi.org/10.5285/3f0820a7-a8c8-4dd7-a058-8db79ba9c7fe
+            
+          
+          
+            E Stanley
+            ehstanley@wisc.edu
+          
+        
+      
+      
+        This provenance metadata does not contain entity specific information.
+        
+          Aquatic carbon and greenhouse gas concentrations in the Auchencorth Moss catchment following drain blocking
+          
+             Dinsmore
+            unknown@unknown.un
+          
+          
+            
+              As published in, NERC Environmental Information Data Centre, 2016, NA
+              https://doi.org/10.5285/88ffbf44-0ec0-41d6-9814-04bc3535cd84
+            
+          
+          
+            E Stanley
+            ehstanley@wisc.edu
+          
+        
+      
+      
+        This provenance metadata does not contain entity specific information.
+        
+          Water and sediment quality in the Yukon River and its tributaries, from Eagle to St. Marys, Alaska, 2002-2003
+          
+             Dornblaser
+            unknown@unknown.un
+          
+          
+            
+              As published in, USGS Open-File Report, 2006, NA
+              https://doi.org/10.3133/ofr20061228
+            
+          
+          
+            E Stanley
+            ehstanley@wisc.edu
+          
+        
+      
+      
+        This provenance metadata does not contain entity specific information.
+        
+          Water quality, quantity, and gas fluxes of the Upper Mississippi River basin (WY 2012-2016)
+          
+             Foks
+            unknown@unknown.un
+          
+          
+            
+              As published in, USGS Data Release, 2018, NA
+              https://doi.org/10.5066/f7p849s4
+            
+          
+          
+            E Stanley
+            ehstanley@wisc.edu
+          
+        
+      
+      
+        This provenance metadata does not contain entity specific information.
+        
+          Water quality and gas fluxes of Interior Alaska (2014-2018)
+          
+             Foks
+            unknown@unknown.un
+          
+          
+            
+              As published in, USGS Data Release, 2020, NA
+              https://doi.org/10.5066/p9c6bdbq
+            
+          
+          
+            E Stanley
+            ehstanley@wisc.edu
+          
+        
+      
+      
+        This provenance metadata does not contain entity specific information.
+        
+          How are greenhouse gases coupled across seasons in a large temperate river with differential land use?
+          
+             Galantini
+            unknown@unknown.un
+          
+          
+             Galantini
+            unknown@unknown.un
+          
+          
+            
+              As published in, Ecosystems, 2021, 10.1007/s10021-021-00629-5
+              https://doi.org/10.5281/zenodo.4566377
+            
+          
+          
+            E Stanley
+            ehstanley@wisc.edu
+          
+          
+            E Stanley
+            ehstanley@wisc.edu
+          
+        
+      
+      
+        This provenance metadata does not contain entity specific information.
+        
+          Methane in the water and bottom sediments of the mouth area of the Severnaya Dvina River (White Sea)
+          
+             Gar'kusha
+            unknown@unknown.un
+          
+          
+            
+              As published in, Oceanology, 2010, 10.1134/S0001437010040065
+              https://doi.org/10.1594/pangaea.763838
+            
+          
+          
+            E Stanley
+            ehstanley@wisc.edu
+          
+        
+      
+      
+        This provenance metadata does not contain entity specific information.
+        
+          Water and sediment quality in the Yukon River and its tributaries between Atlin, British Columbia, Canada, and Eagle, Alaska, USA, 2004
+          
+             Halm
+            unknown@unknown.un
+          
+          
+            
+              As published in, USGS Open-File Report, 2007, NA
+              https://doi.org/10.3133/ofr20071197
+            
+          
+          
+            E Stanley
+            ehstanley@wisc.edu
+          
+        
+      
+      
+        This provenance metadata does not contain entity specific information.
+        
+          Emission of greenhouse gases from water tracks draining Arctic hillslopes
+          
+             Harms
+            unknown@unknown.un
+          
+          
+            
+              As published in, Journal of Geophysical Research: Biogeosciences, 2020, 10.1029/2020JG005889
+              https://doi.org/10.18739/a23r0ps5p
+            
+          
+          
+            E Stanley
+            ehstanley@wisc.edu
+          
+        
+      
+      
+        This provenance metadata does not contain entity specific information.
+        
+          Water-quality data from the Yukon River Basin in Alaska and Canada
+          
+             Herman-Mercer
+            unknown@unknown.un
+          
+          
+            
+              As published in, USGS Data Release, 2016, NA
+              https://doi.org/10.5066/f77d2s7b
+            
+          
+          
+            E Stanley
+            ehstanley@wisc.edu
+          
+        
+      
+      
+        This provenance metadata does not contain entity specific information.
+        
+          Divergent controls on stream greenhouse gas concentrations across a land-use gradient
+          
+             Herreid
+            unknown@unknown.un
+          
+          
+            
+              As published in, Ecosystems, 2020, 10.1007/s10021-020-00584-7
+              https://doi.org/10.4211/hs.2679ce1a6d514b30a54459893557dfe7
+            
+          
+          
+            E Stanley
+            ehstanley@wisc.edu
+          
+        
+      
+      
+        This provenance metadata does not contain entity specific information.
+        
+          Methane release below a tropical hydroelectric dam
+          
+             Kemenes
+            unknown@unknown.un
+          
+          
+            
+              As published in, Geophysical Research Letters, 2007, 10.1029/2007GL029479
+              https://doi.org/10.3334/ornldaac/1143
+            
+          
+          
+            E Stanley
+            ehstanley@wisc.edu
+          
+        
+      
+      
+        This provenance metadata does not contain entity specific information.
+        
+          Sizeable carbon emission from the floodplain of the Ob River
+          
+             Krikov
+            unknown@unknown.un
+          
+          
+            
+              As published in, Ecological Indicators, 2021, 10.1016/j.ecolind.2021.108164
+              https://doi.org/10.5281/zenodo.4563905
+            
+          
+          
+            E Stanley
+            ehstanley@wisc.edu
+          
+        
+      
+      
+        This provenance metadata does not contain entity specific information.
+        
+          Temporal patterns of methane emissions from two streams with different riparian connectivity
+          
+             Leng
+            unknown@unknown.un
+          
+          
+            
+              As published in, Journal of Geophysical Research: Biogeosciences, 2021, 10.1029/2020JG006104.
+              https://doi.org/10.6084/m9.figshare.12866945.v1
+            
+          
+          
+            E Stanley
+            ehstanley@wisc.edu
+          
+        
+      
+      
+        This provenance metadata does not contain entity specific information.
+        
+          Using machine learning to predict inland aquatic CO2 and CH4 concentrations and the effects of wildfires in the Yukon-Kuskokwim Delta, Alaska
+          
+             Ludwig
+            unknown@unknown.un
+          
+          
+             Ludwig
+            unknown@unknown.un
+          
+          
+            
+              As published in, Global Biogeochemical Cycles, 2022, 10.1029/2021GB007146
+              https://doi.org/10.18739/a22804z8m
+            
+          
+          
+            E Stanley
+            ehstanley@wisc.edu
+          
+          
+            E Stanley
+            ehstanley@wisc.edu
+          
+        
+      
+      
+        This provenance metadata does not contain entity specific information.
+        
+          Spatio-temporal variations of lateral and atmospheric carbon fluxes from the Danube Delta
+          
+             Maier
+            unknown@unknown.un
+          
+          
+            
+              As published in, Biogeosciences, 2020, 10.5194/bg-18-1417-2021
+              https://doi.org/10.3929/ethz-b-000416925
+            
+          
+          
+            E Stanley
+            ehstanley@wisc.edu
+          
+        
+      
+      
+        This provenance metadata does not contain entity specific information.
+        
+          River inflow dominates methane emissions in an Arctic coastal system
+          
+             Manning
+            unknown@unknown.un
+          
+          
+            
+              As published in, Geophysical Research Letters, 2020, 10.1029/2020GL087669
+              https://doi.org/10.1594/pangaea.907150
+            
+          
+          
+            E Stanley
+            ehstanley@wisc.edu
+          
+        
+      
+      
+        This provenance metadata does not contain entity specific information.
+        
+          Dissolved methane, carbon dioxide and limnological data from subarctic rivers, northern Quebec, Canada
+          
+             Matveev
+            unknown@unknown.un
+          
+          
+            
+              As published in, Nordicana, 2020, NA
+              https://doi.org/10.5885/45660ce-8b92339884c146d0
+            
+          
+          
+            E Stanley
+            ehstanley@wisc.edu
+          
+        
+      
+      
+        This provenance metadata does not contain entity specific information.
+        
+          Hydrogeochemistry of Greenlandic proglacial and nonglacial streams, 2017-2018
+          
+             Pain
+            unknown@unknown.un
+          
+          
+            
+              As published in, Arctic Data Center, 2019, NA
+              https://doi.org/10.18739/a2pc2t94t
+            
+          
+          
+            E Stanley
+            ehstanley@wisc.edu
+          
+        
+      
+      
+        This provenance metadata does not contain entity specific information.
+        
+          Small artificial waterbodies are widespread and persistent emitters of methane and carbon dioxide
+          
+             Peacock
+            unknown@unknown.un
+          
+          
+            
+              As published in, Global Change Biology, 2021, 10.1111/gcb.15762
+              https://doi.org/10.6084/m9.figshare.14784852.v2
+            
+          
+          
+            E Stanley
+            ehstanley@wisc.edu
+          
+        
+      
+      
+        This provenance metadata does not contain entity specific information.
+        
+          Significant emissions from forest drainage ditches- An unaccounted term in anthropogenic greenhouse gas inventories?
+          
+             Peacock
+            unknown@unknown.un
+          
+          
+            
+              As published in, Journal of Geophysical Research: Biogeosciences, 2021, 10.1029/2021JG006478
+              https://doi.org/10.6084/m9.figshare.15152253.v3?
+            
+          
+          
+            E Stanley
+            ehstanley@wisc.edu
+          
+        
+      
+      
+        This provenance metadata does not contain entity specific information.
+        
+          River Tay, Scotland, water chemistry and greenhouse gas measurements 2009-2010
+          
+             Pickard
+            unknown@unknown.un
+          
+          
+            
+              As published in, NERC Environmental Information Data Centre, 2019, NA
+              https://doi.org/10.5285/a61da7da-b7ef-40b7-a324-c3711ef81207
+            
+          
+          
+            E Stanley
+            ehstanley@wisc.edu
+          
+        
+      
+      
+        This provenance metadata does not contain entity specific information.
+        
+          Effects of peatland management on aquatic carbon concentrations and fluxes
+          
+             Pickard
+            unknown@unknown.un
+          
+          
+            
+              As published in, Biogeosciences, 2022, 10.5194/bg-19-1321-2022
+              https://doi.org/10.5285/7525088d-e504-456a-bc55-e48d8ca85303
+            
+          
+          
+            E Stanley
+            ehstanley@wisc.edu
+          
+        
+      
+      
+        This provenance metadata does not contain entity specific information.
+        
+          Magnitude and drivers of CO2 and CH4 emissions from an arid/semiarid river catchment on the Chinese Loess Plateau
+          
+             Ran
+            unknown@unknown.un
+          
+          
+            
+              As published in, Journal of Hydrology, 2021, 10.1016/j.jhydrol.2021.126260
+              https://doi.org/10.25442/hku.19127594.v1
+            
+          
+          
+            E Stanley
+            ehstanley@wisc.edu
+          
+        
+      
+      
+        This provenance metadata does not contain entity specific information.
+        
+          Contrasting biophysical controls on carbon dioxide and methane outgassing from streams
+          
+             Rovelli
+            unknown@unknown.un
+          
+          
+             Rovelli
+            unknown@unknown.un
+          
+          
+             Rovelli
+            unknown@unknown.un
+          
+          
+             Rovelli
+            unknown@unknown.un
+          
+          
+             Rovelli
+            unknown@unknown.un
+          
+          
+            
+              As published in, Journal of Geophysical Research: Biogeosciences, 2021, 10.1029/2021JG006328
+              https://doi.org/10.6084/m9.figshare.16545954.v1
+            
+          
+          
+            E Stanley
+            ehstanley@wisc.edu
+          
+          
+            E Stanley
+            ehstanley@wisc.edu
+          
+          
+            E Stanley
+            ehstanley@wisc.edu
+          
+          
+            E Stanley
+            ehstanley@wisc.edu
+          
+          
+            E Stanley
+            ehstanley@wisc.edu
+          
+        
+      
+      
+        This provenance metadata does not contain entity specific information.
+        
+          Low diffusive methane emissions from the main channel of a large Amazonian run-of-the-river reservoir attributed to high methane oxidation
+          
+             Sawakuchi
+            unknown@unknown.un
+          
+          
+            
+              As published in, Frontiers in Environmental Science, 2021, 10.3389/fenvs.2021.655455
+              https://doi.org/10.3389/fenvs.2021.655455.s001
+            
+          
+          
+            E Stanley
+            ehstanley@wisc.edu
+          
+        
+      
+      
+        This provenance metadata does not contain entity specific information.
+        
+          Water and sediment quality in the Yukon River Basin, Alaska, during Water Year 2001
+          
+             Schuster
+            unknown@unknown.un
+          
+          
+            
+              As published in, USGS Open-File Report, 2003, NA
+              https://doi.org/10.3133/ofr03427
+            
+          
+          
+            E Stanley
+            ehstanley@wisc.edu
+          
+        
+      
+      
+        This provenance metadata does not contain entity specific information.
+        
+          Water and sediment quality in the Yukon River Basin, Alaska, during Water Year 2005
+          
+             Schuster
+            unknown@unknown.un
+          
+          
+            
+              As published in, USGS Open-File Report, 2007, NA
+              https://doi.org/10.3133/ofr20071037
+            
+          
+          
+            E Stanley
+            ehstanley@wisc.edu
+          
+        
+      
+      
+        This provenance metadata does not contain entity specific information.
+        
+          Water quality in the Yukon River Basin, Alaska, Water Years 2006-2008
+          
+             Schuster
+            unknown@unknown.un
+          
+          
+            
+              As published in, USGS Open-File Report, 2010, NA
+              https://doi.org/10.3133/ofr20101241
+            
+          
+          
+            E Stanley
+            ehstanley@wisc.edu
+          
+        
+      
+      
+        This provenance metadata does not contain entity specific information.
+        
+          Water and sediment quality in the Yukon River Basin, Alaska, during Water Year 2002
+          
+             Schuster
+            unknown@unknown.un
+          
+          
+            
+              As published in, USGS Open-File Report, 2005, NA
+              https://doi.org/10.3133/ofr20051199
+            
+          
+          
+            E Stanley
+            ehstanley@wisc.edu
+          
+        
+      
+      
+        This provenance metadata does not contain entity specific information.
+        
+          Water and sediment quality in the Yukon River Basin, Alaska, during Water Year 2004
+          
+             Schuster
+            unknown@unknown.un
+          
+          
+            
+              As published in, USGS Open-File Report, 2005, NA
+              https://doi.org/10.3133/ofr20061258
+            
+          
+          
+            E Stanley
+            ehstanley@wisc.edu
+          
+        
+      
+      
+        This provenance metadata does not contain entity specific information.
+        
+          Water and sediment quality in the Yukon River Basin, Alaska, during Water Year 2003
+          
+             Schuster
+            unknown@unknown.un
+          
+          
+            
+              As published in, USGS Open-File Report, 2005, NA
+              https://doi.org/10.3133/ofr20051397
+            
+          
+          
+            E Stanley
+            ehstanley@wisc.edu
+          
+        
+      
+      
+        This provenance metadata does not contain entity specific information.
+        
+          High riverine CO2 emissions at the permafrost boundary of Western Siberia
+          
+             Serikova
+            unknown@unknown.un
+          
+          
+            
+              As published in, Nature Geoscience, 2018, 10.1038/s41561-018-0218-1
+              https://doi.org/10.5281/zenodo.4153050
+            
+          
+          
+            E Stanley
+            ehstanley@wisc.edu
+          
+        
+      
+      
+        This provenance metadata does not contain entity specific information.
+        
+          Methane and nitrous oxide temporal and spatial variability in two midwestern USA streams containing high nitrate concentrations (ver. 2.0, Nov 2020)
+          
+             Smith
+            unknown@unknown.un
+          
+          
+             Smith
+            unknown@unknown.un
+          
+          
+            
+              As published in, Science of the Total Environment, 2019, 10.1016/j.scitotenv.2019.05.374
+              https://doi.org/10.5066/f7th8kwz
+            
+          
+          
+            E Stanley
+            ehstanley@wisc.edu
+          
+          
+            E Stanley
+            ehstanley@wisc.edu
+          
+        
+      
+      
+        This provenance metadata does not contain entity specific information.
+        
+          Synoptic carbon gas fluxes from streams, rivers, and lakes in the conterminous US
+          
+             Stets
+            unknown@unknown.un
+          
+          
+            
+              As published in, U.S. Geological Survey Data Release, 2015, NA
+              https://doi.org/10.5066/f72b8w2c
+            
+          
+          
+            E Stanley
+            ehstanley@wisc.edu
+          
+        
+      
+      
+        This provenance metadata does not contain entity specific information.
+        
+          Spatial and temporal variation of aquatic CO2 and CH4 dynamics in a peatland headwater stream: origins, processes and implications
+          
+             Taillardat
+            unknown@unknown.un
+          
+          
+            
+              As published in, Journal of Geophysical Research Biogeosciences, 2022, 10.1029/2022JG006855
+              https://doi.org/10.5281/zenodo.6073957
+            
+          
+          
+            E Stanley
+            ehstanley@wisc.edu
+          
+        
+      
+      
+        This provenance metadata does not contain entity specific information.
+        
+          Methane and nitrous oxide porewater concentrations and surface fluxes of a regulated river
+          
+             Villa
+            unknown@unknown.un
+          
+          
+            
+              As published in, Science of the Total Environment, 2020, 10.1016/j.scitotenv.2020.136920
+              https://doi.org/10.15485/1595105
+            
+          
+          
+            E Stanley
+            ehstanley@wisc.edu
+          
+        
+      
+      
+        This provenance metadata does not contain entity specific information.
+        
+          Carbon dioxide and methane emissions of Swedish low-order streams_ national estimate and lessons learnt from more than a decade of observations
+          
+             Wallin
+            unknown@unknown.un
+          
+          
+            
+              As published in, Limology and Oceanography Letters, 2018, 10.1002/lol2.10061
+              http://urn.kb.se/resolve?urn=urn:nbn:se:uu:diva-332472
+            
+          
+          
+            E Stanley
+            ehstanley@wisc.edu
+          
+        
+      
+      
+        This provenance metadata does not contain entity specific information.
+        
+          Dissolved greenhouse gas concentrations derived from the NEON dissolved gases in surface water data product (DP1.20097.001) ver 1
+          
+             Aho
+            unknown@unknown.un
+          
+          
+             Aho
+            unknown@unknown.un
+          
+          
+            
+              As published in, Environmental Data Initiative, 2021, NA
+              https://doi.org/10.48443/8td9-4z94
+            
+          
+          
+            E Stanley
+            ehstanley@wisc.edu
+          
+          
+            E Stanley
+            ehstanley@wisc.edu
+          
+        
+      
+      
+        This provenance metadata does not contain entity specific information.
+        
+          Controls on greenhouse gas emissions from headwater streams
+          
+             Beaulieu
+            unknown@unknown.un
+          
+          
+            
+              As published in, Ph.D. dissertation University of Notre Dame, 2007, https://onesearch.library.nd.edu/permalink/f/1phik6l/ndu_aleph002323859
+              https://doi.org/10.1038/nature06686
+            
+          
+          
+            E Stanley
+            ehstanley@wisc.edu
+          
+        
+      
+      
+        This provenance metadata does not contain entity specific information.
+        
+          Globally significant greenhouse-gas emissions from African inland waters
+          
+             Borges
+            unknown@unknown.un
+          
+          
+             Borges
+            unknown@unknown.un
+          
+          
+            
+              As published in, Nature Geoscience, 2015, 10.1038/ngeo2486
+              https://doi.org/10.5194/bg-2019-68
+            
+          
+          
+            E Stanley
+            ehstanley@wisc.edu
+          
+          
+            E Stanley
+            ehstanley@wisc.edu
+          
+        
+      
+      
+        This provenance metadata does not contain entity specific information.
+        
+          Emissions of carbon dioxide and methane from a headwater stream network of interior Alaska
+          
+             Crawford
+            unknown@unknown.un
+          
+          
+            
+              As published in, Journal of Geophysical Research: Biogeosciences, 2013, 10.1002/jgrg.20034
+              https://doi.org/10.5066/p9wys23u
+            
+          
+          
+            E Stanley
+            ehstanley@wisc.edu
+          
+        
+      
+      
+        This provenance metadata does not contain entity specific information.
+        
+          Biogeochemistry data set for Imnavait Creek Weir on the North Slope of Alaska 2002-2018 ver 9
+          
+             Kling
+            unknown@unknown.un
+          
+          
+            
+              As published in, Environmental Data Initiative, 2019, NA
+              https://doi.org/10.18739/a2k649s9d
+            
+          
+          
+            E Stanley
+            ehstanley@wisc.edu
+          
+        
+      
+      
+        This provenance metadata does not contain entity specific information.
+        
+          Seasonal measurement of greenhouse gas concentrations and emissions along the longitudinal profile of a small stream
+          
+             Mach
+            unknown@unknown.un
+          
+          
+            
+              As published in, Polish Journal of Environmental Studies, 2016, 10.15244/pjoes/61668
+              https://doi.org/10.1127/1863-9135/2012/0283
+            
+          
+          
+            E Stanley
+            ehstanley@wisc.edu
+          
+        
+      
+      
+        This provenance metadata does not contain entity specific information.
+        
+          Carbon emissions from oil palm plantations on peat soil
+          
+             Manning
+            unknown@unknown.un
+          
+          
+            
+              As published in, Frontiers in Forests and Global Change, 2019, 10.3389/ffgc.2019.00037
+              https://abdn.alma.exlibrisgroup.com/discovery/delivery/44abe_inst:44abe_vu1/12152929810005941
+            
+          
+          
+            E Stanley
+            ehstanley@wisc.edu
+          
+        
+      
+    
+    
+      LTER: Comparative study of a suite of lakes in Wisconsin
+      
+        Emily Stanley
+        University of Wisconsin-Madison
+        https://orcid.org/0000-0003-4922-8121
+        Principal Investigator
+      
+      NSF DEB-2025982,
+      
+        Sources and dynamics of greenhouse gases in agricultural streams (SAD-GAS) – a process-based approach for improved understanding of a large atmospheric source
+        
+          Marcus Wallin
+          Swedish University of Agricultural Sciences
+          https://orcid.org/0000-0002-3082-8728
+          Principal Investigator
+        
+        Swedish Research Council 2021-04058
+      
+      
+        Forest ditch cleaning and its effect on mobilization of an old soil carbon store
+        
+          Marcus Wallin
+          Swedish University of Agricultural Sciences
+          https://orcid.org/0000-0002-3082-8729
+          Principal Investigator
+        
+        Formas 2019-01105
+      
+      
+        Closing the Carbon Cycle in River Networks across Climate and Terrestrial Productivity Gradients
+        
+          Gerard Rocher-Ros
+          Swedish University of Agricultural Sciences
+          Principal Investigator
+        
+        Swedish Research Council 2021-06667
+      
+      
+        International mobility postdoc grant
+        
+          Gerard Rocher-Ros
+          Swedish University of Agricultural Sciences
+          Principal Investigator
+        
+        Department of Ecology and Environmental Science, Umeå University
+      
+    
+    
+      Concentrations
+      Contrations of methane and related gases and chemical
+      
+        GRiMe_concentrations_v2.csv
+        8654767
+        dd6c6b7170358957a26784ac41a76a53
+        
+          
+            1
+            \r\n
+            column
+            
+              ,
+              "
+            
+          
+        
+        
+          
+            https://pasta.lternet.edu/package/data/eml/knb-lter-ntl/420/2/ba3e270bcab8ace5d157c995e4b791e4
+          
+        
+      
+      
+        
+          Source_ID
+          Unique paper identifier from the Sources Table
+          string
+          
+            
+              
+                
+                  Unique paper identifier from the Sources Table
+                
+              
+            
+          
+          
+            NA
+            not available
+          
+        
+        
+          Site_ID
+          Unique paper identifier from the Sites Table
+          string
+          
+            
+              
+                
+                  Unique paper identifier from the Sites Table
+                
+              
+            
+          
+          
+            NA
+            not available
+          
+        
+        
+          Site_Name
+          Unique site name from the Sites Table
+          string
+          
+            
+              
+                
+                  Unique site name from the Sites Table
+                
+              
+            
+          
+          
+            NA
+            not available
+          
+        
+        
+          Conc_Name
+          Unique name for the sampling event at the site
+          string
+          
+            
+              
+                
+                  Unique name for the sampling event at the site
+                
+              
+            
+          
+          
+            NA
+            not available
+          
+        
+        
+          Date_start
+          First sampling date
+          date
+          
+            
+              YYYY-MM-DD
+              
+            
+          
+          
+            NA
+            not available
+          
+        
+        
+          Date_end
+          Last sampling date; this is the same date as the Date_start if data are not aggregated over time
+          date
+          
+            
+              YYYY-MM-DD
+              
+            
+          
+          
+            NA
+            not available
+          
+        
+        
+          Aggregated_Space
+          Yes or No; “Yes” if CH4 data entered are averages from >1 site
+          string
+          
+            
+              
+                
+                  
+                    No
+                    CH4 data entered are not averages
+                  
+                  
+                    Yes
+                    CH4 data entered are averages from more than 1 site
+                  
+                
+              
+            
+          
+          
+            NA
+            not available
+          
+        
+        
+          Aggregated_Time
+          Yes or No; “Yes: if CH4 data entered are averages from >1 date
+          string
+          
+            
+              
+                
+                  
+                    No
+                    CH4 data entered are not averages
+                  
+                  
+                    Yes
+                    CH4 data entered are averages from more than 1 date
+                  
+                
+              
+            
+          
+          
+            NA
+            not available
+          
+        
+        
+          FluxYesNo
+          Yes or No; “Yes” if there is a corresponding flux measurement associated with this site and date combination
+          string
+          
+            
+              
+                
+                  
+                    No
+                    no corresponding flux measurement
+                  
+                  
+                    Yes
+                    corresponding flux measurement associated with this site
+                  
+                
+              
+            
+          
+          
+            NA
+            not available
+          
+        
+        
+          SampleCount
+          Number of samples or observations corresponding to the mean or median concentration
+          float
+          
+            
+              
+                number
+              
+              
+                whole
+                
+                  0
+                  27039
+                
+              
+            
+          
+          
+            NA
+            not available
+          
+        
+        
+          CH4min
+          Minimum measured CH4 concentration if data are aggregated spatially or temporally, has multiple within-day measurements (e.g., a diel study), or are from a data-dense spatial study
+          float
+          
+            
+              
+                dimensionless
+              
+              
+                real
+                
+                  -999999
+                  30.677
+                
+              
+            
+          
+          
+            NA
+            not available
+          
+        
+        
+          CH4max
+          Maximum measured CH4 concentration if data are aggregated or temporally, has multiple within-day measurements (e.g., a diel study), or are from a data-dense spatial study
+          float
+          
+            
+              
+                dimensionless
+              
+              
+                real
+                
+                  0.0072
+                  386
+                
+              
+            
+          
+          
+            NA
+            not available
+          
+        
+        
+          CH4mean
+          Mean or sole reported CH4 concentration for the sampling event
+          float
+          
+            
+              
+                dimensionless
+              
+              
+                real
+                
+                  -999999
+                  455.75
+                
+              
+            
+          
+          
+            NA
+            not available
+          
+        
+        
+          CH4_SD
+          Standard deviation of the mean CH4 concentration
+          float
+          
+            
+              
+                dimensionless
+              
+              
+                real
+                
+                  0
+                  1149.0432
+                
+              
+            
+          
+          
+            NA
+            not available
+          
+        
+        
+          CH4median
+          Median CH4 concentration
+          float
+          
+            
+              
+                dimensionless
+              
+              
+                real
+                
+                  0.0041632
+                  30.68237
+                
+              
+            
+          
+          
+            NA
+            not available
+          
+        
+        
+          CO2min
+          Minimum measured CO2 concentration if data are aggregated or temporally, has multiple within-day measurements (e.g., a diel study), or are from a data-dense spatial study
+          float
+          
+            
+              
+                dimensionless
+              
+              
+                real
+                
+                  0.000698446
+                  39678
+                
+              
+            
+          
+          
+            NA
+            not available
+          
+        
+        
+          CO2max
+          Maximum measured CO2 concentration if data are aggregated or temporally, has multiple within-day measurements (e.g., a diel study), or are from a data-dense spatial study
+          float
+          
+            
+              
+                dimensionless
+              
+              
+                real
+                
+                  0.1066747
+                  2756.0384
+                
+              
+            
+          
+          
+            NA
+            not available
+          
+        
+        
+          CO2mean
+          Mean or sole reported CO2 concentration for the sampling event
+          float
+          
+            
+              
+                dimensionless
+              
+              
+                real
+                
+                  0
+                  5478.7712
+                
+              
+            
+          
+          
+            NA
+            not available
+          
+        
+        
+          CO2_SD
+          Standard deviation of the mean concentration
+          float
+          
+            
+              
+                dimensionless
+              
+              
+                real
+                
+                  0.029432151
+                  1020.987088
+                
+              
+            
+          
+          
+            NA
+            not available
+          
+        
+        
+          CO2median
+          Median CO2 concentration
+          float
+          
+            
+              
+                dimensionless
+              
+              
+                real
+                
+                  5.94
+                  474.8642
+                
+              
+            
+          
+          
+            NA
+            not available
+          
+        
+        
+          N2Omin
+          Minimum measured N2O concentration if data are or temporally, has multiple within-day measurements (e.g., a diel study), or are from a data-dense spatial study
+          float
+          
+            
+              
+                dimensionless
+              
+              
+                real
+                
+                  0.004
+                  0.394
+                
+              
+            
+          
+          
+            NA
+            not available
+          
+        
+        
+          N2Omax
+          Maximum measured N2O concentration if data are aggregated or temporally, has multiple within-day measurements (e.g., a diel study), or are from a data-dense spatial study
+          float
+          
+            
+              
+                dimensionless
+              
+              
+                real
+                
+                  0.007
+                  6
+                
+              
+            
+          
+          
+            NA
+            not available
+          
+        
+        
+          N2Omean
+          Mean or sole reported N2O concentration for the concentration for the sampling event
+          float
+          
+            
+              
+                dimensionless
+              
+              
+                real
+                
+                  -999999
+                  32.9
+                
+              
+            
+          
+          
+            NA
+            not available
+          
+        
+        
+          N2O_SD
+          Standard deviation of the mean N2O concentration
+          float
+          
+            
+              
+                dimensionless
+              
+              
+                real
+                
+                  0
+                  0.526798285
+                
+              
+            
+          
+          
+            NA
+            not available
+          
+        
+        
+          N2Omedian
+          Median N2O concentration
+          float
+          
+            
+              
+                dimensionless
+              
+              
+                real
+                
+                  0.007708809
+                  0.290191613
+                
+              
+            
+          
+          
+            NA
+            not available
+          
+        
+        
+          WaterTemp_degC
+          Water temperature in degrees C measured concurrently with CH4
+          float
+          
+            
+              
+                celsius
+              
+              
+                real
+                
+                  -3.3
+                  37.5
+                
+              
+            
+          
+          
+            NA
+            not available
+          
+        
+        
+          WaterTemp_degC_estimated
+          Estimated water temperature in degrees C. This field was populated only for cases in which a the temperature value was needed for gas unit conversions. Most estimates were based on temperatures from adjacent sites, averaging temperatures during the prior and proceeding sample dates, or from an adjacent day of the year but from another year.
+          float
+          
+            
+              
+                celsius
+              
+              
+                real
+                
+                  -2
+                  31.7
+                
+              
+            
+          
+          
+            NA
+            not available
+          
+        
+        
+          Cond_uScm
+          Specific conductance in ?S cm-1
+          float
+          
+            
+              
+                microSiemensPerCentimeter
+              
+              
+                real
+                
+                  2.6
+                  7650
+                
+              
+            
+          
+          
+            NA
+            not available
+          
+        
+        
+          pH
+          pH
+          string
+          
+            
+              
+                
+                  pH
+                
+              
+            
+          
+          
+            NA
+            not available
+          
+        
+        
+          DO_mgL
+          Dissolved oxygen in mg L-1
+          float
+          
+            
+              
+                milligramPerLiter
+              
+              
+                real
+                
+                  0
+                  22.62
+                
+              
+            
+          
+          
+            NA
+            not available
+          
+        
+        
+          DO_percentsat
+          Percent saturation of dissolved oxygen
+          float
+          
+            
+              
+                percent
+              
+              
+                real
+                
+                  0
+                  301.4
+                
+              
+            
+          
+          
+            NA
+            not available
+          
+        
+        
+          Q
+          Discharge measured at the time of sample collection
+          float
+          
+            
+              
+                dimensionless
+              
+              
+                real
+                
+                  -999999
+                  6950000
+                
+              
+            
+          
+          
+            NA
+            not available
+          
+        
+        
+          NO3
+          NO3 or NO2+NO3 measured concurrently with CH4
+          float
+          
+            
+              
+                dimensionless
+              
+              
+                real
+                
+                  -999999
+                  2520.88683
+                
+              
+            
+          
+          
+            NA
+            not available
+          
+        
+        
+          NH4
+          NH4 measured concurrently with CH4
+          float
+          
+            
+              
+                dimensionless
+              
+              
+                real
+                
+                  -999999
+                  4280
+                
+              
+            
+          
+          
+            NA
+            not available
+          
+        
+        
+          TN
+          TN or TDN measured concurrently with CH4
+          float
+          
+            
+              
+                dimensionless
+              
+              
+                real
+                
+                  -999999
+                  87813.39
+                
+              
+            
+          
+          
+            NA
+            not available
+          
+        
+        
+          SRP
+          SRP or PO4 measured concurrently with CH4
+          float
+          
+            
+              
+                dimensionless
+              
+              
+                real
+                
+                  -999999
+                  237.1
+                
+              
+            
+          
+          
+            NA
+            not available
+          
+        
+        
+          TP
+          TP or TDP measured concurrently with CH4
+          float
+          
+            
+              
+                dimensionless
+              
+              
+                real
+                
+                  -999999
+                  645.7
+                
+              
+            
+          
+          
+            NA
+            not available
+          
+        
+        
+          DOC
+          DOC or TOC measured concurrently with CH4
+          float
+          
+            
+              
+                dimensionless
+              
+              
+                real
+                
+                  -999999
+                  214821.12
+                
+              
+            
+          
+          
+            NA
+            not available
+          
+        
+        
+          Comments
+          Any additional relevant information regarding data entered in this row
+          string
+          
+            
+              
+                
+                  Any additional relevant information regarding data entered in this row
+                
+              
+            
+          
+          
+            NA
+            not available
+          
+        
+        
+          new_CH4_unit
+          Current common units for all CH4 concentrations
+          string
+          
+            
+              
+                
+                  Current common units for all CH4 concentrations
+                
+              
+            
+          
+          
+            NA
+            not available
+          
+        
+        
+          new_CO2_unit
+          Current common units for all CO2 concentrations
+          string
+          
+            
+              
+                
+                  Current common units for all CO2 concentrations
+                
+              
+            
+          
+          
+            NA
+            not available
+          
+        
+        
+          new_N2O_unit
+          Current common units for all N2O concentrations
+          string
+          
+            
+              
+                
+                  Current common units for all N2O concentrations
+                
+              
+            
+          
+          
+            NA
+            not available
+          
+        
+        
+          new_NO3_unit
+          Current common units for all NO3 or NO2+NO3 concentrations
+          string
+          
+            
+              
+                
+                  Current common units for all NO3 or NO2+NO3 concentrations
+                
+              
+            
+          
+          
+            NA
+            not available
+          
+        
+        
+          new_NH4_unit
+          Current common units for all NH4 concentrations
+          string
+          
+            
+              
+                
+                  Current common units for all NH4 concentrations
+                
+              
+            
+          
+          
+            NA
+            not available
+          
+        
+        
+          new_TN_unit
+          Current common units for all TN or TDN concentrations
+          string
+          
+            
+              
+                
+                  Current common units for all TN or TDN concentrations
+                
+              
+            
+          
+          
+            NA
+            not available
+          
+        
+        
+          new_TP_unit
+          Current common units for all SRP or PO4 concentrations
+          string
+          
+            
+              
+                
+                  Current common units for all SRP or PO4 concentrations
+                
+              
+            
+          
+          
+            NA
+            not available
+          
+        
+        
+          new_SRP_unit
+          Current common units for all TP or TDP concentrations
+          string
+          
+            
+              
+                
+                  Current common units for all TP or TDP concentrations
+                
+              
+            
+          
+          
+            NA
+            not available
+          
+        
+        
+          new_DOC_unit
+          Current common units for all DOC or TOC concentrations
+          string
+          
+            
+              
+                
+                  Current common units for all DOC or TOC concentrations
+                
+              
+            
+          
+          
+            NA
+            not available
+          
+        
+        
+          new_Q_unit
+          Current common units for all discharge measurements
+          string
+          
+            
+              
+                
+                  Current common units for all discharge measurements
+                
+              
+            
+          
+          
+            NA
+            not available
+          
+        
+        
+          orig_CH4_unit
+          Original units for CH4 concentration
+          string
+          
+            
+              
+                
+                  Original units for CH4 concentration
+                
+              
+            
+          
+          
+            NA
+            not available
+          
+        
+        
+          orig_CO2_unit
+          Original units for CO2 concentration
+          string
+          
+            
+              
+                
+                  Original units for CO2 concentration
+                
+              
+            
+          
+          
+            NA
+            not available
+          
+        
+        
+          orig_N2O_unit
+          Original units for N2O concentration
+          string
+          
+            
+              
+                
+                  Original units for N2O concentration
+                
+              
+            
+          
+          
+            NA
+            not available
+          
+        
+        
+          orig_NO3_unit
+          Original units for NO3 or NO2+NO3 concentration
+          string
+          
+            
+              
+                
+                  Original units for NO3 or NO2+NO3 concentration
+                
+              
+            
+          
+          
+            NA
+            not available
+          
+        
+        
+          orig_NH4_unit
+          Original units for NH4 concentration
+          string
+          
+            
+              
+                
+                  Original units for NH4 concentration
+                
+              
+            
+          
+          
+            NA
+            not available
+          
+        
+        
+          orig_TN_unit
+          Original units for TN concentration
+          string
+          
+            
+              
+                
+                  Original units for TN concentration
+                
+              
+            
+          
+          
+            NA
+            not available
+          
+        
+        
+          orig_SRP_unit
+          Original units for SRP or PO4 concentration
+          string
+          
+            
+              
+                
+                  Original units for SRP or PO4 concentration
+                
+              
+            
+          
+          
+            NA
+            not available
+          
+        
+        
+          orig_TP_unit
+          Original units for TP concentration
+          string
+          
+            
+              
+                
+                  Original units for TP concentration
+                
+              
+            
+          
+          
+            NA
+            not available
+          
+        
+        
+          orig_DOC_unit
+          Original units for DOC concentration
+          string
+          
+            
+              
+                
+                  Original units for DOC concentration
+                
+              
+            
+          
+          
+            NA
+            not available
+          
+        
+        
+          orig_Q_unit
+          Original units of discharge
+          string
+          
+            
+              
+                
+                  Original units of discharge
+                
+              
+            
+          
+          
+            NA
+            not available
+          
+        
+      
+      25052
+    
+    
+      Fluxes
+      Fluxes of methane and related gases
+      
+        GRiMe_fluxes_v2.csv
+        2660036
+        649980edc2a1b5ffccf905510c4b7583
+        
+          
+            1
+            \r\n
+            column
+            
+              ,
+              "
+            
+          
+        
+        
+          
+            https://pasta.lternet.edu/package/data/eml/knb-lter-ntl/420/2/1a559f00566ed9f9f33ccb0daab0bef5
+          
+        
+      
+      
+        
+          Source_ID
+          Unique paper identifier from the Sources Table
+          string
+          
+            
+              
+                
+                  Unique paper identifier from the Sources Table
+                
+              
+            
+          
+          
+            NA
+            not available
+          
+        
+        
+          Site_ID
+          Unique paper identifier from the Sites Table
+          string
+          
+            
+              
+                
+                  Unique paper identifier from the Sites Table
+                
+              
+            
+          
+          
+            NA
+            not available
+          
+        
+        
+          Site_Name
+          Unique site name from the Sites Table
+          string
+          
+            
+              
+                
+                  Unique site name from the Sites Table
+                
+              
+            
+          
+          
+            NA
+            not available
+          
+        
+        
+          Flux_Name
+          Unique name for the sampling event at the site
+          string
+          
+            
+              
+                
+                  Unique name for the sampling event at the site
+                
+              
+            
+          
+          
+            NA
+            not available
+          
+        
+        
+          Date_start
+          First sampling date
+          date
+          
+            
+              YYYY-MM-DD
+              
+            
+          
+          
+            NA
+            not available
+          
+        
+        
+          Date_end
+          Last sampling date; this is the same date as the Date_start if data are not aggregated over time
+          date
+          
+            
+              YYYY-MM-DD
+              
+            
+          
+          
+            NA
+            not available
+          
+        
+        
+          Aggregated_Space
+          Yes or No; “Yes” if CH4 data entered are averages from >1 site
+          string
+          
+            
+              
+                
+                  
+                    No
+                    CH4 data entered are not averages
+                  
+                  
+                    Yes
+                    CH4 data entered are averages from more than 1 site
+                  
+                
+              
+            
+          
+          
+            NA
+            not available
+          
+        
+        
+          Aggregated_Time
+          Yes or No; “Yes: if CH4 data entered are averages from >1 date
+          string
+          
+            
+              
+                
+                  
+                    No
+                    CH4 data entered are not averages
+                  
+                  
+                    Yes
+                    CH4 data entered are averages from more than 1 date
+                  
+                
+              
+            
+          
+          
+            NA
+            not available
+          
+        
+        
+          Diffusive_CH4_Flux_Min
+          Minimum measured CH4 diffusive flux if data are aggregated spatially or temporally, has multiple within-day measurements (e.g., a diel study), or are from a data-dense spatial study
+          float
+          
+            
+              
+                dimensionless
+              
+              
+                real
+                
+                  -999999
+                  119.90016
+                
+              
+            
+          
+          
+            NA
+            not available
+          
+        
+        
+          Diffusive_CH4_Flux_Max
+          Maximum measured CH4 diffusive flux if data are aggregated spatially or temporally, has multiple within-day measurements (e.g., a diel study), or are from a data-dense spatial study
+          float
+          
+            
+              
+                dimensionless
+              
+              
+                real
+                
+                  -3.021484032
+                  547.629696
+                
+              
+            
+          
+          
+            NA
+            not available
+          
+        
+        
+          Diffusive_CH4_Flux_Mean
+          Mean or sole reported CH4 diffusive flux for the sampling event
+          float
+          
+            
+              
+                dimensionless
+              
+              
+                real
+                
+                  -999999
+                  4057.472955
+                
+              
+            
+          
+          
+            NA
+            not available
+          
+        
+        
+          Diffusive_CH4_Flux_SD
+          Standard deviation of the mean CH4 diffusive flux
+          float
+          
+            
+              
+                dimensionless
+              
+              
+                real
+                
+                  -172.1160968
+                  5303.565259
+                
+              
+            
+          
+          
+            NA
+            not available
+          
+        
+        
+          Diffusive_CH4_Flux_Median
+          Median CH4 diffusive flux
+          float
+          
+            
+              
+                dimensionless
+              
+              
+                real
+                
+                  -154.1629629
+                  4680.519107
+                
+              
+            
+          
+          
+            NA
+            not available
+          
+        
+        
+          SampleCount_Diffusive
+          Number of samples or observations corresponding to the mean or median diffusive CH4 flux
+          float
+          
+            
+              
+                number
+              
+              
+                natural
+                
+                  1
+                  450
+                
+              
+            
+          
+          
+            NA
+            not available
+          
+        
+        
+          Diff_Method
+          Methodological category used to measure diffusive CH4 flux.
+          string
+          
+            
+              
+                
+                  
+                    chamber (unspecified)- unspecified response
+                    use of an unspecified type of chamber (suspended, tethered, or free-floating) and the pattern of change in chamber gas concentration during flux measurements is also not specified
+                  
+                  
+                    chamber (unspecified)- linear response
+                    unspecified type of chamber with a linear increase in chamber gas concentration over time or use of a linear model to calculate flux
+                  
+                  
+                    suspended/tethered chamber-unspecified response
+                    chamber is restrained to maintain its position during flux measurement; pattern of change in chamber gas concentration during flux measurements is not specified
+                  
+                  
+                    suspended/tethered chamber- linear response
+                    chamber is restrained to maintain its position during flux measurement; linear increase in chamber gas concentration over time or use of a linear model to calculate flux
+                  
+                  
+                    floating chamber- unspecified response
+                    chamber is unrestrained and is able to float downstream during flux measurement; the pattern of change in chamber gas concentration during flux measurements is not specified
+                  
+                  
+                    floating chamber- linear response
+                    chamber is unrestrained and is able to float downstream during flux measurement; linear increase in chamber gas concentration over time or use of a linear model to calculate flux
+                  
+                  
+                    conc+k
+                    diffusive flux calculated using a gas exchange coefficient (k) and the difference between measured CH4 concentration and CH4 concentration in equilibrium with the atmosphere
+                  
+                  
+                    other
+                    methods other than those described above
+                  
+                
+              
+            
+          
+          
+            NA
+            not available
+          
+        
+        
+          Eb_CH4_Flux_Min
+          Minimum measured CH4 ebullitive flux if data are aggregated spatially or temporally, has multiple within-day measurements (e.g., a diel study), or are from a data-dense spatial study
+          float
+          
+            
+              
+                dimensionless
+              
+              
+                real
+                
+                  0
+                  8.32
+                
+              
+            
+          
+          
+            NA
+            not available
+          
+        
+        
+          Eb_CH4_Flux_Max
+          Maximum measured CH4 ebullitive flux if data are aggregated spatially or temporally, has multiple within-day measurements (e.g., a diel study), or are from a data-dense spatial study
+          float
+          
+            
+              
+                dimensionless
+              
+              
+                real
+                
+                  0
+                  211.686
+                
+              
+            
+          
+          
+            NA
+            not available
+          
+        
+        
+          Eb_CH4_Flux_Mean
+          Mean or sole reported CH4 ebullitive flux for the sampling event
+          float
+          
+            
+              
+                dimensionless
+              
+              
+                real
+                
+                  0
+                  365.9996999
+                
+              
+            
+          
+          
+            NA
+            not available
+          
+        
+        
+          Eb_CH4_Flux_SD
+          Standard deviation of the mean CH4 ebullitive flux
+          float
+          
+            
+              
+                dimensionless
+              
+              
+                real
+                
+                  0
+                  420.435912
+                
+              
+            
+          
+          
+            NA
+            not available
+          
+        
+        
+          Eb_CH4_Flux_Median
+          Median CH4 ebullition flux
+          float
+          
+            
+              
+                dimensionless
+              
+              
+                real
+                
+                  0
+                  12.1
+                
+              
+            
+          
+          
+            NA
+            not available
+          
+        
+        
+          SampleCount_Eb
+          Number of samples or observations corresponding to the mean or median ebullitive CH4 flux
+          float
+          
+            
+              
+                number
+              
+              
+                natural
+                
+                  1
+                  60
+                
+              
+            
+          
+          
+            NA
+            not available
+          
+        
+        
+          Eb_Method
+          Methodological category used to measure ebullitive CH4 flux.
+          string
+          
+            
+              
+                
+                  
+                    chamber minus conc+k
+                    ebullition calculated as chamber-measured flux (assumed to be total CH4 flux) minus diffusive flux calculated from the ‘conc+k’ method
+                  
+                  
+                    bubble trap+bubble analysis
+                    gas released by ebullition captured in traps to quantify total gas volume; volume data combined with measurement of gas content of recently collected bubbles
+                  
+                  
+                    echosounder+bubble analysis
+                    gas bubble volume determined using echosounder and combined with measurements of gas bubble content
+                  
+                  
+                    departure from linear increase during measurement
+                    non-linear change in gas concentrations during chamber-based flux measurements taken as evidence of ebullition; various approaches used to quantify ebullition from these departures
+                  
+                
+              
+            
+          
+          
+            NA
+            not available
+          
+        
+        
+          Total_CH4_Flux_Min
+          Minimum measured total CH4 flux if data are aggregated spatially or temporally, has multiple within-day measurements (e.g., a diel study), or are from a data-dense spatial study
+          float
+          
+            
+              
+                dimensionless
+              
+              
+                real
+                
+                  -999999
+                  26.99751936
+                
+              
+            
+          
+          
+            NA
+            not available
+          
+        
+        
+          Total_CH4_Flux_Max
+          Maximum measured total CH4 flux if data are aggregated spatially or temporally, has multiple within-day measurements (e.g., a diel study), or are from a data-dense spatial study
+          float
+          
+            
+              
+                dimensionless
+              
+              
+                real
+                
+                  0.11
+                  1091.02
+                
+              
+            
+          
+          
+            NA
+            not available
+          
+        
+        
+          Total_CH4_Flux_Mean
+          Mean or sole reported total CH4 flux for the sampling event
+          float
+          
+            
+              
+                dimensionless
+              
+              
+                real
+                
+                  -0.046379708
+                  366.4632349
+                
+              
+            
+          
+          
+            NA
+            not available
+          
+        
+        
+          Total_CH4_Flux_SD
+          Standard deviation of the mean total CH4 flux
+          float
+          
+            
+              
+                dimensionless
+              
+              
+                real
+                
+                  0.01
+                  420.5439841
+                
+              
+            
+          
+          
+            NA
+            not available
+          
+        
+        
+          Total_CH4_Flux_Median
+          Median measured total CH4 flux
+          float
+          
+            
+              
+                dimensionless
+              
+              
+                real
+                
+                  0.02
+                  43.03232256
+                
+              
+            
+          
+          
+            NA
+            not available
+          
+        
+        
+          Total_Method
+          Methodological category used to measure total CH4 flux
+          string
+          
+            
+              
+                
+                  
+                    conc+k and ebullition
+                    total flux calculated as the sum of separate measurements of diffusion determined by the conc+k method plus ebullition determined from the bubble trap or echosounder approach combined with bubble gas analysis
+                  
+                  
+                    floating chamber
+                    free-floating chamber is assumed to capture diffusive flux and ebullitive flux (if present)
+                  
+                  
+                    suspended/tethered chamber
+                    suspended or tethered chamber is assumed to capture diffusive flux and ebullitive flux (if present)
+                  
+                  
+                    chamber and ebullition
+                    total flux calculated as the sum of separate measurements of diffusion determined using a floating or suspended/tethered chamber plus ebullition determined from the bubble trap or echosounder approach combined with bubble gas analysis
+                  
+                  
+                    mass balance
+                    total flux represents the difference between all measured inputs to a reach (e.g., dissolved CH4 from upstream flow, groundwater discharge, and methanogenesis) minus all outputs other than efflux to the atmosphere (e.g., downstream export, methane oxidation)
+                  
+                
+              
+            
+          
+          
+            NA
+            not available
+          
+        
+        
+          CO2_Flux_Min
+          Minimum measured CO2 flux if data are aggregated spatially or temporally, has multiple within-day measurements (e.g., a diel study), or are from a data-dense spatial study
+          float
+          
+            
+              
+                dimensionless
+              
+              
+                real
+                
+                  -999999
+                  20982.88362
+                
+              
+            
+          
+          
+            NA
+            not available
+          
+        
+        
+          CO2_Flux_Max
+          Maximum measured CO2 flux if data are aggregated spatially or temporally, has multiple within-day measurements (e.g., a diel study), or are from a data-dense spatial study
+          float
+          
+            
+              
+                dimensionless
+              
+              
+                real
+                
+                  -33.64381837
+                  45629.50464
+                
+              
+            
+          
+          
+            NA
+            not available
+          
+        
+        
+          CO2_Flux_Mean
+          Mean or sole reported CO2 diffusive flux for the sampling event
+          float
+          
+            
+              
+                dimensionless
+              
+              
+                real
+                
+                  -1624.972118
+                  23748.53593
+                
+              
+            
+          
+          
+            NA
+            not available
+          
+        
+        
+          CO2_Flux_SD
+          Standard deviation of the mean CO2 flux
+          float
+          
+            
+              
+                dimensionless
+              
+              
+                real
+                
+                  0
+                  7000
+                
+              
+            
+          
+          
+            NA
+            not available
+          
+        
+        
+          CO2_Flux_Median
+          Median CO2 flux
+          float
+          
+            
+              
+                dimensionless
+              
+              
+                real
+                
+                  50.3883072
+                  3458.160415
+                
+              
+            
+          
+          
+            NA
+            not available
+          
+        
+        
+          CO2_Flux_Method
+          Methodological category used to measure CO2 flux. Categories are the same as those used for CH4 flux
+          string
+          
+            
+              
+                
+                  
+                    chamber
+                    chamber measurements
+                  
+                  
+                    conc+k
+                    diffusive flux calculated using a gas exchange coefficient (k) and the difference between measured CH4 concentration and CH4 concentration in equilibrium with the atmosphere
+                  
+                  
+                    floating chamber- unspecified response
+                    chamber is unrestrained and is able to float downstream during flux measurement; the pattern of change in chamber gas concentration during flux measurements is not specified
+                  
+                  
+                    other
+                    methods other than those described above
+                  
+                
+              
+            
+          
+          
+            NA
+            not available
+          
+        
+        
+          N2O_Flux_Min
+          Minimum measured N2O flux if data are aggregated spatially or temporally, has multiple within-day measurements (e.g., a diel study), or are from a data-dense spatial study
+          float
+          
+            
+              
+                dimensionless
+              
+              
+                real
+                
+                  -0.177554142
+                  27.1473644
+                
+              
+            
+          
+          
+            NA
+            not available
+          
+        
+        
+          N2O_Flux_Max
+          Maximum measured N2O flux if data are aggregated spatially or temporally, has multiple within-day measurements (e.g., a diel study), or are from a data-dense spatial study
+          float
+          
+            
+              
+                dimensionless
+              
+              
+                real
+                
+                  -0.232098318
+                  40.34912529
+                
+              
+            
+          
+          
+            NA
+            not available
+          
+        
+        
+          N2O_Flux_Mean
+          Mean or sole reported N2O diffusive flux for the sampling event
+          float
+          
+            
+              
+                dimensionless
+              
+              
+                real
+                
+                  -11.28367293
+                  31.31596014
+                
+              
+            
+          
+          
+            NA
+            not available
+          
+        
+        
+          N2O_Flux_SD
+          Standard deviation of the mean N2O flux
+          float
+          
+            
+              
+                dimensionless
+              
+              
+                real
+                
+                  0.00012
+                  16.48617211
+                
+              
+            
+          
+          
+            NA
+            not available
+          
+        
+        
+          N2O_Flux_Median
+          Median N2O flux
+          float
+          
+            
+              
+                dimensionless
+              
+              
+                integer
+                
+                  -999999
+                  -999999
+                
+              
+            
+          
+          
+            NA
+            not available
+          
+        
+        
+          k_Method
+          Methodological category used for estimating the gas exchange coefficient, k,
+          string
+          
+            
+              
+                
+                  
+                    assigned k values
+                    use of k values from other dates or sites in the same study or k values considered to be characteristic of the site
+                  
+                  
+                    chamber+conc
+                    k determined by chamber-based measurements of flux, dissolved gas concentration, and calculated as equation: k = (Cw-Ceq)/flux. Typically, these measurements are made for CO2, and kCO2 is then converted to kCH4
+                  
+                  
+                    other
+                    methods other than those described above
+                  
+                  
+                    physical model
+                    k calculated using equations based on physical variables such as channel slope, water velocity, etc.
+                  
+                  
+                    physical model and tracer addition
+                    k calculated using equations based on physical variables such as channel slope, water velocity, etc. and paired conservative solute and gas tracer additions used to calculate k from corrected gas concentration decline along a stream reach
+                  
+                  
+                    tracer addition
+                    paired conservative solute and gas tracer additions used to calculate k from corrected gas concentration decline along a stream reach
+                  
+                
+              
+            
+          
+          
+            NA
+            not available
+          
+        
+        
+          k_ref
+          k method citation reported in the data source
+          string
+          
+            
+              
+                
+                  k method citation reported in the data source
+                
+              
+            
+          
+          
+            NA
+            not available
+          
+        
+        
+          Comments
+          Any additional relevant information regarding data entered in this row
+          string
+          
+            
+              
+                
+                  Any additional relevant information regarding data entered in this row
+                
+              
+            
+          
+          
+            NA
+            not available
+          
+        
+        
+          new_Diffusive_CH4_Flux_unit
+          Current common units for all diffusive CH4 flux data
+          string
+          
+            
+              
+                
+                  Current common units for all diffusive CH4 flux data
+                
+              
+            
+          
+          
+            NA
+            not available
+          
+        
+        
+          new_Eb_CH4_Flux_unit
+          Current common units for all ebullitive CH4 flux data
+          string
+          
+            
+              
+                
+                  Current common units for all ebullitive CH4 flux data
+                
+              
+            
+          
+          
+            NA
+            not available
+          
+        
+        
+          new_Total_CH4_Flux_unit
+          Current common units for all total CH4 flux data
+          string
+          
+            
+              
+                
+                  Current common units for all total CH4 flux data
+                
+              
+            
+          
+          
+            NA
+            not available
+          
+        
+        
+          new_CO2_Flux_unit
+          Current common units for all CO2 flux data
+          string
+          
+            
+              
+                
+                  Current common units for all CO2 flux data
+                
+              
+            
+          
+          
+            NA
+            not available
+          
+        
+        
+          new_N2O_Flux_unit
+          Current common units for all N2O flux data
+          string
+          
+            
+              
+                
+                  Current common units for all N2O flux data
+                
+              
+            
+          
+          
+            NA
+            not available
+          
+        
+        
+          orig_Diffusive_CH4_Flux_unit
+          Original units for diffusive CH4 flux
+          string
+          
+            
+              
+                
+                  Original units for diffusive CH4 flux
+                
+              
+            
+          
+          
+            NA
+            not available
+          
+        
+        
+          orig_Eb_CH4_Flux_unit
+          Original units for ebullitive CH4 flux used
+          string
+          
+            
+              
+                
+                  Original units for ebullitive CH4 flux used
+                
+              
+            
+          
+          
+            NA
+            not available
+          
+        
+        
+          orig_Total_CH4_Flux_unit
+          Original units for total CH4 flux
+          string
+          
+            
+              
+                
+                  Original units for total CH4 flux
+                
+              
+            
+          
+          
+            NA
+            not available
+          
+        
+        
+          orig_CO2_Flux_unit
+          Original units for CO2 flux
+          string
+          
+            
+              
+                
+                  Original units for CO2 flux
+                
+              
+            
+          
+          
+            NA
+            not available
+          
+        
+        
+          orig_N2O_Flux_unit
+          Original units for N2O flux
+          string
+          
+            
+              
+                
+                  Original units for N2O flux
+                
+              
+            
+          
+          
+            NA
+            not available
+          
+        
+      
+      7298
+    
+    
+      Sites
+      Site descriptions, locations, catchment
+      
+        GRiMe_sites_v2.csv
+        687198
+        f9ea2ef926ef5eff6dde29418fed827f
+        
+          
+            1
+            \r\n
+            column
+            
+              ,
+              "
+            
+          
+        
+        
+          
+            https://pasta.lternet.edu/package/data/eml/knb-lter-ntl/420/2/3faa64303d5f5bcd043bb88f6768e603
+          
+        
+      
+      
+        
+          Source_ID
+          Unique data source identifier from the Sources Table
+          string
+          
+            
+              
+                
+                  Unique data source identifier from the Sources Table
+                
+              
+            
+          
+        
+        
+          Site_ID
+          Unique site identifier
+          string
+          
+            
+              
+                
+                  Unique site identifier
+                
+              
+            
+          
+        
+        
+          Site_Name
+          Unique site name
+          string
+          
+            
+              
+                
+                  Unique site name
+                
+              
+            
+          
+        
+        
+          Stream_Name
+          Stream or river name; taken or modified from the data source or generated de novo when a name was not specified in the data source
+          string
+          
+            
+              
+                
+                  Stream or river name; taken or modified from the data source or generated de novo when a name was not specified in the data source
+                
+              
+            
+          
+        
+        
+          Aggregated
+          Yes or No. Yes if CH4 data presented are averages from more than 1 site
+          string
+          
+            
+              
+                
+                  
+                    No
+                    no additional data were acquired directly from the author for any field
+                  
+                  
+                    Yes
+                    additional data were acquired directly from the author for any field
+                  
+                
+              
+            
+          
+          
+            NA
+            not available
+          
+        
+        
+          N_sites_aggregated
+          Number of sites that were averaged for aggregated sites
+          float
+          
+            
+              
+                number
+              
+              
+                natural
+                
+                  1
+                  726
+                
+              
+            
+          
+          
+            NA
+            not available
+          
+        
+        
+          Basin_Region
+          Name of the larger drainage basin or region that contains the site. This information is included to facilitate site grouping during data analysis
+          string
+          
+            
+              
+                
+                  Name of the larger drainage basin or region that contains the site. This information is included to facilitate site grouping during data analysis
+                
+              
+            
+          
+          
+            NA
+            not available
+          
+        
+        
+          Latitude
+          Decimal degrees, WGS84 ensemble: EPSG:4326 coordinate system
+          float
+          
+            
+              
+                dimensionless
+              
+              
+                real
+                
+                  -43.0531
+                  81.835
+                
+              
+            
+          
+          
+            NA
+            not available
+          
+        
+        
+          Longitude
+          Decimal degrees, WGS84 ensemble: EPSG:4326 coordinate system
+          float
+          
+            
+              
+                dimensionless
+              
+              
+                real
+                
+                  -164.479556
+                  175.563
+                
+              
+            
+          
+          
+            NA
+            not available
+          
+        
+        
+          Elevation_m
+          Reported meters above sea level
+          float
+          
+            
+              
+                meter
+              
+              
+                real
+                
+                  -2.2
+                  5500
+                
+              
+            
+          
+          
+            NA
+            not available
+          
+        
+        
+          Slope_m_per_m
+          Reported channel slope expressed as m m-1
+          float
+          
+            
+              
+                meterPerMeter
+              
+              
+                real
+                
+                  0
+                  0.245
+                
+              
+            
+          
+          
+            NA
+            not available
+          
+        
+        
+          Strahler_order
+          Reported Strahler stream order
+          float
+          
+            
+              
+                dimensionless
+              
+              
+                whole
+                
+                  0
+                  8
+                
+              
+            
+          
+          
+            NA
+            not available
+          
+        
+        
+          Basin_size_km2
+          Reported basin size in square kilometer
+          float
+          
+            
+              
+                kilometerSquared
+              
+              
+                real
+                
+                  8e-04
+                  1805200
+                
+              
+            
+          
+          
+            NA
+            not available
+          
+        
+        
+          Channel_type
+          Codes denoting distinct site or channel attributes or presence of specified conditions.
+          string
+          
+            
+              
+                
+                  
+                    CAN
+                    Canal or other artificial channel with hardened channel boundaries
+                  
+                  
+                    CAN, DC
+                    Canal or other artificial channel with hardened channel boundaries; Channel in a river delta
+                  
+                  
+                    CAN, IMP
+                    Canal or other artificial channel with hardened channel boundaries; Presence of multiple and typically small impoundments in a site’s vicinity (e.g., various European rivers, Mississippi River)
+                  
+                  
+                    CAN, PS
+                    Canal or other artificial channel with hardened channel boundaries; Immediately (less than 1 km) downstream of a point source discharge
+                  
+                  
+                    CH
+                    Channelized; a channel that has long straight-line sections and changes in channel direction are typically distinct angular features rather than curves
+                  
+                  
+                    CH, DD
+                    Channelized; a channel that has long straight-line sections and changes in channel direction are typically distinct angular features rather than curves; Downstream (within 7 km) of a dam. Samples from spillways were not included
+                  
+                  
+                    DC
+                    Channel in a river delta
+                  
+                  
+                    DC, PS
+                    Channel in a river delta; Immediately (less than 1 km) downstream of a point source discharge
+                  
+                  
+                    DD
+                    Downstream (within 7 km) of a dam. Samples from spillways were not included
+                  
+                  
+                    DIT
+                    Ditch, typically for agricultural drainage, without channel hardening
+                  
+                  
+                    FP
+                    Site in a floodplain water body connected to the main channel that appears lentic or is described as a floodplain lake or backwater. This category does not include braided river side-channels within floodplains or tributary channels transecting a floodplain
+                  
+                  
+                    GT
+                    Site below the toe or terminus of a glacier
+                  
+                  
+                    IMP
+                    Presence of multiple and typically small impoundments in a site’s vicinity (e.g., various European rivers, Mississippi River)
+                  
+                  
+                    IMP, CH
+                    Presence of multiple and typically small impoundments in a site’s vicinity (e.g., various European rivers, Mississippi River); Channelized; a channel that has long straight-line sections and changes in channel direction are typically distinct angular features rather than curves
+                  
+                  
+                    PI
+                    Permafrost influenced; this refers specifically to sites at or immediately below thermokarst outflows and not to sites in areas underlain with permafrost
+                  
+                  
+                    PS
+                    Immediately (less than 1 km) downstream of a point source discharge
+                  
+                  
+                    PS, CAN
+                    Immediately (less than 1 km) downstream of a point source discharge; Canal or other artificial channel with hardened channel boundaries
+                  
+                  
+                    PS, CH
+                    Immediately (less than 1 km) downstream of a point source discharge; Channelized; a channel that has long straight-line sections and changes in channel direction are typically distinct angular features rather than curves
+                  
+                  
+                    SP
+                    Spring channel; this does not include sites characterized as seeps (features with low flow volume adjacent to channels)
+                  
+                  
+                    TH
+                    Site receiving inputs of thermogenic CH4, either naturally or as a result of mining, fracking, oil extraction, and other related activities.
+                  
+                  
+                    WS
+                    Wetland stream; site is in a wetland or immediately downstream from the outlet of a wetland
+                  
+                
+              
+            
+          
+          
+            NA
+            not available
+          
+        
+        
+          Latitude_snapped
+          Latitude in decimal degrees for site location after snapping to the closest channel for elevation determination
+          float
+          
+            
+              
+                degree
+              
+              
+                real
+                
+                  -43.05314706
+                  81.835
+                
+              
+            
+          
+          
+            NA
+            not available
+          
+        
+        
+          Longitude_snapped
+          Longitude in decimal degrees for site location after snapping to the closest channel for elevation determination
+          float
+          
+            
+              
+                degree
+              
+              
+                real
+                
+                  -164.4815031
+                  175.563
+                
+              
+            
+          
+          
+            NA
+            not available
+          
+        
+        
+          Elevation_estimated_m
+          Elevation (meters above sea level) calculated from the DEM.
+          float
+          
+            
+              
+                meter
+              
+              
+                real
+                
+                  0
+                  5489
+                
+              
+            
+          
+          
+            NA
+            not available
+          
+        
+        
+          Comments
+          Additional information or clarification about the site source
+          string
+          
+            
+              
+                
+                  Additional information or clarification about the site source
+                
+              
+            
+          
+          
+            NA
+            not available
+          
+        
+      
+      5029
+    
+    
+      Data Sources
+      Data sources used in compilation
+      
+        GRiMe_sources_v2.csv
+        68823
+        b2ab21172a6c0245b2a977ce91edc57e
+        
+          
+            1
+            \r\n
+            column
+            
+              ,
+              "
+            
+          
+        
+        
+          
+            https://pasta.lternet.edu/package/data/eml/knb-lter-ntl/420/2/3615386d27a2d148be09e70ac22799e4
+          
+        
+      
+      
+        
+          Title
+          Title of the source
+          string
+          
+            
+              
+                
+                  Title of the source
+                
+              
+            
+          
+        
+        
+          Author
+          Lead author last name
+          string
+          
+            
+              
+                
+                  Lead author last name
+                
+              
+            
+          
+        
+        
+          Source
+          Identity of the outlet for the data source (e.g., the journal, data repository, agency that presented the data. For titles with published papers paired with published datasets, the journal is listed in this column
+          string
+          
+            
+              
+                
+                  Identity of the outlet for the data source (e.g., the journal, data repository, agency that presented the data. For titles with published papers paired with published datasets, the journal is listed in this column
+                
+              
+            
+          
+        
+        
+          Pub_year
+          Year of publication/data release
+          float
+          
+            
+              
+                nominalYear
+              
+              
+                natural
+                
+                  1973
+                  2022
+                
+              
+            
+          
+          
+            NA
+            not available
+          
+        
+        
+          Source_ID
+          Unique data source identifier
+          string
+          
+            
+              
+                
+                  Unique data source identifier
+                
+              
+            
+          
+          
+            NA
+            not available
+          
+        
+        
+          Additional_data
+          Yes indicates that additional data were acquired directly from the author for any field. Additions are described in the Comments field
+          string
+          
+            
+              
+                
+                  Yes indicates that additional data were acquired directly from the author for any field. Additions are described in the Comments field
+                
+              
+            
+          
+          
+            NA
+            not available
+          
+        
+        
+          Comments
+          Additional information or clarification about the data source
+          string
+          
+            
+              
+                
+                  Additional information or clarification about the data source
+                
+              
+            
+          
+          
+            NA
+            not available
+          
+        
+        
+          Paper_DOI
+          DOI or hyperlink for publication based on the CH4 data
+          string
+          
+            
+              
+                
+                  DOI or hyperlink for publication based on the CH4 data
+                
+              
+            
+          
+          
+            NA
+            not available
+          
+        
+        
+          Data_DOI_primary
+          DOI or hyperlink for CH4 data posted in a data repository
+          string
+          
+            
+              
+                
+                  DOI or hyperlink for CH4 data posted in a data repository
+                
+              
+            
+          
+          
+            NA
+            not available
+          
+        
+        
+          Data_DOI_supporting
+          DOI or hyperlink for separate datasets providing supporting data acquired from a data repository
+          string
+          
+            
+              
+                
+                  DOI or hyperlink for separate datasets providing supporting data acquired from a data repository
+                
+              
+            
+          
+          
+            NA
+            not available
+          
+        
+      
+      298
+    
+    
+      code archive
+      R code used for analysis and graphs in the paper
+      
+        archive.zip
+        30259
+        b957d0054138feec4f71f7db9f52f3e7
+        
+          
+            application/zip
+          
+        
+        
+          
+            https://pasta.lternet.edu/package/data/eml/knb-lter-ntl/420/2/2171e21fc5778d63d5692298d61b2f72
+          
+        
+      
+      unknown
+    
+  
+  
+    
+      
+        
+          slope
+        
+        
+          
+        
+        
+          
+        
+      
+    
+  
+  
+    
+      
+        EMLassemblyline
+        3.5.5
+      
+    
+  

@@ -1,0 +1,9 @@
+Manifest file for knb-lter-ntl.420.2.zip created on Thu Dec 21 15:29:24 UTC 2023
+GRiMe_concentrations_v2.csv (8654767 bytes)
+GRiMe_fluxes_v2.csv (2660036 bytes)
+GRiMe_sites_v2.csv (687198 bytes)
+GRiMe_sources_v2.csv (68823 bytes)
+archive.zip (30259 bytes)
+knb-lter-ntl.420.2.xml (367798 bytes)
+knb-lter-ntl.420.2.txt (178060 bytes)
+knb-lter-ntl.420.2.report.xml (111940 bytes)

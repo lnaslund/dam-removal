@@ -1,0 +1,481 @@
+ID,Reference,Site,Lat,Long,Biome,LandUse,HumFoot,MAP,MAT,SOC,BulkDens,SoilNit,SoilSand,soilpH,Methane
+1,Zhang et al. 2017," Dongmen Forest Farm, China",22.26,107.21,Tropical,Afforestation,40,1465,23,137,123,9,37,5,-4.818
+2,Zhang et al. 2017," Dongmen Forest Farm, China",22.26,107.21,Tropical,Afforestation,40,1465,23,137,123,9,37,5,-4.993
+4,Kagotani et al. 2001,"a decondary forest, central Japan",35.36,135.9,Subtropical,Secondary Forest,28,1859,13,351,108,23,42,5.3,-8.76
+5,Morishita et al. 2007,"Aichi, Japan",34.86,137.61,Subtropical,Reforestation,34,2022,15,216,121,18,38,5.1,-14.991
+6,Morishita et al. 2007,"Akita, Japan",39.98,140.4,Temperate,Reforestation,40,1547,10,325,118,19,40,6.2,-6.26
+7,Yamulki & Morison 2017,"Alice Holt Research Forest, Thin04, UK",51.15,-0.85,Temperate,Afforestation,46,810,10,376,112,14,27,6.3,-2.054
+8,Yamulki & Morison 2017,"Alice Holt Research Forest, Thin07a, UK",51.15,-0.85,Temperate,Afforestation,46,810,10,376,112,14,27,6.3,-4.394
+9,Yamulki & Morison 2017,"Alice Holt Research Forest, Thin07b, UK",51.15,-0.85,Temperate,Afforestation,46,810,10,376,112,14,27,6.3,-4.45
+10,Yamulki & Morison 2017,"Alice Holt Research Forest, Thin90, UK",51.15,-0.85,Temperate,Afforestation,46,810,10,376,112,14,27,6.3,-3.507
+11,Yamulki & Morison 2017,"Alice Holt Research Forest, Thin96, UK",51.15,-0.85,Temperate,Afforestation,46,810,10,376,112,14,27,6.3,-3.682
+12,Krause et al. 2013,"Alptal, Switzerland",47.03,8.72,Boreal,Primary Forest,21,1755,5,168,131,12,77,4.4,-5.353
+13,Lavelle et al. 2014,"Altillanura Plana of Colombia, Venezuelan",4.5,-72,Savanna,Reforestation,17,2596,27,111,151,6,66,4.3,-2.651
+14,Lavelle et al. 2014,"Altillanura Plana of Colombia, Venezuelan",4.5,-72,Savanna,Primary Forest,17,2596,27,111,151,6,66,4.3,-5.12
+15,Pangala et al. 2017,"Amazon river-A7, Amazon, Brazil",-2.33,-57.58,Tropical,Primary Forest,7,2213,27,294,112,19,36,3.5,-1.701
+16,Jones et al. 2016,"Andes, Perue",-13.19,-71.58,Tropical,Primary Forest,28,443,15,116,119,7,51,7.1,-6.57
+17,Chen et al. 2020,"Anshun City, Guizhou Province, China ",26.368,105.7527,Subtropical,Secondary Forest,46,1163,16,158,126,18,15,7.5,-0.689
+18,Chen et al. 2020,"Anshun City, Guizhou Province, China ",26.368,105.7527,Subtropical,Afforestation,46,1163,16,158,126,18,15,7.5,-0.301
+19,Hart et al. 2006,"Arizo Snowbowl, USA",35.33,-111.7,Temperate,Primary Forest,7,699,4,149,143,23,47,4.6,3
+20,Barrena et al. 2013,"Artzentales, Spain",43.21,-3.18,Temperate,Reforestation,65,1096,13,493,115,30,53,4.8,0.5
+21,Barrena et al. 2013,"Artzentales, Spain",43.21,-3.18,Temperate,Reforestation,65,1096,13,493,115,30,53,4.8,10.5
+22,Barrena et al. 2013,"Artzentales, Spain",43.21,-3.18,Temperate,Reforestation,65,1096,13,493,115,30,53,4.8,6.877
+24,von Arnold et al. 2005a,"Asa, Sweden",57.13,14.75,Boreal,Afforestation,28,680,6,763,111,40,52,5,9.286
+25,von Arnold et al. 2005a,"Asa, Sweden",57.13,14.75,Boreal,Afforestation,28,680,6,763,111,40,52,5,-6.57
+26,von Arnold et al. 2005a,"Asa, Sweden",57.13,14.75,Boreal,Afforestation,28,680,6,763,111,40,52,5,-0.905
+27,von Arnold et al. 2005b,"Asa, Sweden",57.13,14.75,Boreal,Afforestation,28,680,6,763,111,40,52,5,-4.964
+28,von Arnold et al. 2005b,"Asa, Sweden",57.13,14.75,Boreal,Afforestation,28,680,6,763,111,40,52,5,-3.173
+29,von Arnold et al. 2005b,"Asa, Sweden",57.13,14.75,Boreal,Afforestation,28,680,6,763,111,40,52,5,-7.201
+30,do Carmo et al. 2012,"Atlantic Montane Forest, Brazil",-23.32,-45.09,Tropical,Primary Forest,34,1754,17,251,116,16,20,4.5,-6.872
+31,Fang et al. 2016,"Baoying Agriculture Farm, Chi",33.36,119.25,Temperate,Afforestation,56,866,15,135,120,14,16,5.8,-0.73
+32,Fest et al. 2016a,"Barkstead, Australia",-37.48,144.8,Temperate,Secondary Forest,34,673,13,124,135,10,49,5.9,-2.433
+33,Luo et al. 2013,"Bellenden Ker, Australia",-17.26,145.9,Tropical,Primary Forest,39,4756,24,144,110,9,52,6.2,2.041
+34,Steinkamp et al. 2001,"Black Forest, Germany ",48.5,8.36,Temperate,Afforestation,43,1533,8,391,130,21,52,4,2.54
+35,Kim & Tanaka 2003,"Bonza Creek, USA",64.75,-148.3,Boreal,Primary Forest,20,296,-2,1606,69,44,36,5,-0.556
+36,Gulledge & Schimel 2000,"Bonza Creek, USA ",64.75,-148.3,Boreal,Afforestation,20,296,-2,1606,69,44,36,5,0.124
+37,Gulledge & Schimel 2000,"Bonza Creek, USA ",64.75,-148.3,Boreal,Afforestation,20,296,-2,1606,69,44,36,5,21.44
+38,Brümmer et al. 2009,"Botioli Reserve, Ouagadougou, Burkina Faso",10.8654,-3.0726,Savanna,Primary Forest,34,943,28,124,135,13,31,6.7,39.55
+39,Brümmer et al. 2009,"Botioli Reserve, Ouagadougou, Burkina Faso",10.8654,-3.0726,Savanna,Primary Forest,34,943,28,124,135,13,31,6.7,-0.8
+40,Rivera et al. 2019,"Cauca Valley, Colombia",3.6441,-76.3197,Tropical,Secondary Forest,65,1466,23,228,128,13,48,5.9,-2.53
+41,Rivera et al. 2019,"Cauca Valley, Colombia",3.6441,-76.3197,Tropical,Agroforestry,65,1466,23,228,128,13,48,5.9,-1.53
+42,Murdiyarso et al. 2017,"Central Kalimantan, Indonesia",-2.5436,113.0111,Tropical,Secondary Forest,42,2583,27,497,111,30,39,4.8,-0.591
+43,Murdiyarso et al. 2017,"Central Kalimantan, Indonesia",-2.5436,113.0111,Tropical,Secondary Forest,42,2583,27,497,111,30,39,4.8,-0.555
+44,Allen et al. 2009,"Central New South Wales, Australia",-33,149,Subtropical,Afforestation,21,787,15,92,140,9,52,6.9,-3.147
+45,Allen et al. 2009,"Central New South Wales, Australia",-33,149,Subtropical,Afforestation,21,787,15,92,140,9,52,6.9,-3.528
+46,Allen et al. 2009,"Central New South Wales, Australia",-33,149,Subtropical,Agroforestry,21,787,15,92,140,9,52,6.9,-2.845
+47,Fang et al. 2010,"Changbai Mountain, China",42.4,128.08,Temperate,Reforestation,28,680,3,521,104,27,40,6,-3.08
+48,Fang et al. 2010,"Changbai Mountain, China",42.4,128.08,Temperate,Reforestation,28,680,3,521,104,27,40,6,-1.226
+49,Huang et al. 2016,"Changsha Dashan Chong Forest Park, Chi",28.38,113.28,Subtropical,Reforestation,28,1395,17,158,120,16,30,5.2,-6.552
+50,Huang et al. 2016,"Changsha Dashan Chong Forest Park, Chi",28.38,113.28,Subtropical,Reforestation,28,1395,17,158,120,16,30,5.2,-3.486
+51,Huang et al. 2016,"Changsha Dashan Chong Forest Park, Chi",28.38,113.28,Subtropical,Reforestation,28,1395,17,158,120,16,30,5.2,-3.31
+52,Wanyama et al. 2019,"Chepsir, Kenia",-0.2947,35.4177,Tropical,Primary Forest,39,1551,16,241,115,29,21,4.7,-3.816
+53,Morishita et al. 2007,"Chiba-1, Japan",35.2,140.13,Subtropical,Reforestation,34,1756,14,201,122,18,30,6.4,-4.558
+54,Morishita et al. 2007,"Chiba-2, Japan",35.2,140.15,Subtropical,Primary Forest,34,1759,14,201,122,18,30,6.4,-0.8
+55,Wang et al. 2010,"Chinese Academy of Forestry Experimental Center, Chi",22.16,106.83,Subtropical,Reforestation,32,1311,22,119,123,11,47,5.3,4.6
+56,Wang et al. 2010,"Chinese Academy of Forestry Experimental Center, Chi",22.16,106.83,Subtropical,Reforestation,32,1311,22,119,123,11,47,5.3,21
+57,Wang et al. 2010,"Chinese Academy of Forestry Experimental Center, Chi",22.16,106.83,Subtropical,Reforestation,32,1311,22,119,123,11,47,5.3,-0.95
+58,Wang et al. 2010,"Chinese Academy of Forestry Experimental Center, Chi",22.16,106.83,Subtropical,Reforestation,32,1311,22,119,123,11,47,5.3,-3.75
+59,Yu et al. 2019,"Chongqing City, China",29.6337,106.6835,Subtropical,Secondary Forest,28,1145,18,413,105,33,36,4.9,8.267
+60,Yu et al. 2019,"Chongqing City, China",29.6337,106.6835,Subtropical,Secondary Forest,28,1145,18,413,105,33,36,4.9,-1.583
+61,Benanti et al. 2014,"County Laois, Irish Midlands",52.95,-7.25,Temperate,Afforestation,21,1168,9,3150,46,33,26,4.3,-0.8
+62,Benanti et al. 2014,"County Laois, Irish Midlands",52.95,-7.25,Temperate,Afforestation,21,1168,9,3150,46,33,26,4.3,0.61
+63,Benanti et al. 2014,"County Laois, Irish Midlands",52.95,-7.25,Temperate,Afforestation,21,1168,9,3150,46,33,26,4.3,0.49
+64,Benanti et al. 2014,"County Offaly, Irish Midlands",53.3,-7.2,Temperate,Afforestation,34,934,10,621,130,24,43,6.4,-0.75
+65,Benanti et al. 2014,"County Offaly, Irish Midlands",53.3,-7.2,Temperate,Afforestation,34,934,10,621,130,24,43,6.4,-0.19
+66,Dou et al . 2016,"Danjiangkou Reservoir, China",32.75,111.2166,Savanna,Afforestation,46,930,15,86,140,9,33,8,3.574
+67,Dou et al . 2016,"Danjiangkou Reservoir, China",32.75,111.2166,Savanna,Afforestation,46,930,15,86,140,9,33,8,5.922
+68,Dou et al . 2016,"Danjiangkou Reservoir, China",32.75,111.2166,Savanna,Afforestation,46,930,15,86,140,9,33,8,-4.108
+69,Wu et al. 2019a,"Danjiangkou Reservoir, China",32.75,111.2166,Temperate,Reforestation,46,930,15,86,140,9,33,8,-2.987
+70,Fang et al. 2010,"Daxinganling, China",50.93,121.5,Boreal,Reforestation,12,488,-4,643,126,63,37,5.1,-0.009
+71,van Straaten et al. 2019,"Dindéresso, Bobo-Dioulasso, Burkina Faso",11.225,4.447,Savanna,Secondary Forest,40,924,29,143,135,9,64,6.7,13.751
+72,Tang et al. 2006,"Dinghushan, Chi",23.15,112.5,Tropical,Secondary Forest,32,1812,21,152,120,12,28,5.2,-7.796
+73,Tang et al. 2006,"Dinghushan, Chi",23.15,112.5,Tropical,Primary Forest,32,1812,21,152,120,12,28,5.2,-5.519
+74,Tang et al. 2006,"Dinghushan, Chi",23.15,112.5,Tropical,Reforestation,32,1812,21,152,120,12,28,5.2,-4.993
+75,Zhang et al. 2008,"Dinghushan, Chi",23.16,112.16,Tropical,Primary Forest,28,1789,22,165,122,12,22,4.2,-4.8
+76,Zhang et al. 2008,"Dinghushan, Chi",23.16,112.16,Tropical,Secondary Forest,28,1789,22,165,122,12,22,4.2,-2.081
+77,Zhang et al. 2008,"Dinghushan, Chi",23.16,112.16,Tropical,Secondary Forest,28,1789,22,165,122,12,22,4.2,-3.34
+78,Zhang et al. 2011,"Dinghushan, Chi",23.16,112.16,Tropical,Primary Forest,28,1789,22,165,122,12,22,4.2,-3.644
+79,Fang et al. 2010,"Dinghushan, China ",23.16,112.56,Tropical,Reforestation,39,1772,22,187,119,17,46,5.5,-1.287
+80,Zheng et al. 2016,"Dinghushan, China ",23.16,112.16,Tropical,Reforestation,28,1789,22,165,122,12,22,4.2,-1.994
+81,Zheng et al. 2016,"Dinghushan, China ",23.16,112.16,Tropical,Secondary Forest,28,1789,22,165,122,12,22,4.2,-2.85
+82,Zhang et al. 2017,"Dongmen Forest Farm, China",22.26,107.21,Tropical,Reforestation,40,1465,23,137,123,9,37,5,-3.723
+83,Zhang et al. 2017,"Dongmen Forest Farm, China",22.26,107.21,Tropical,Reforestation,40,1465,23,137,123,9,37,5,-3.635
+84,Yin et al. 2016,"Dongping, China",41.68,121.48,Temperate,Reforestation,34,518,8,383,128,29,40,6.1,-2.234
+85,Yin et al. 2016,"Dongping, China",41.68,121.48,Temperate,Reforestation,34,518,8,383,128,29,40,6.1,-2.847
+86,Yin et al. 2016,"Dongping, China",41.68,121.48,Temperate,Reforestation,34,518,8,383,128,29,40,6.1,-6.001
+87,Dubbs & Whalen 2010,"Duke Forest, USA",35.96,-79.8,Subtropical,Reforestation,40,1137,15,81,161,15,70,5.5,-1.923
+88,McLain et al. 2002,"Duke Forest, USA",35.96,-79.8,Subtropical,Reforestation,40,1137,15,81,161,15,70,5.5,-2.157
+89,Phillips et al. 2001,"Duke Forest, USA ",35.96,-79.08,Subtropical,Reforestation,65,1170,15,137,149,17,65,5.4,-2.19
+90,Morishita et al. 2007,"Ehime, Japan",33.58,132.9,Subtropical,Reforestation,40,2413,9,381,106,28,40,6.1,-13.006
+91,Rehschuh et al. 2019,"Emmendingen, Germany",48.2333,7.15,Temperate,Reforestation,28,960,8,250,129,8,69,4.6,-4
+92,Rehschuh et al. 2019,"Emmendingen, Germany",48.2333,7.15,Temperate,Reforestation,28,960,8,250,129,8,69,4.6,-3.6
+93,Verchot et al. 2000,"Fazenda Agua Parada, Brazil",-2.98,-47.51,Tropical,Secondary Forest,18,1988,26,142,139,10,76,5.3,-1
+94,Verchot et al. 2000,"Fazenda Vitória, Brazil",-2.98,-47.51,Tropical,Primary Forest,18,1988,26,142,139,10,76,5.3,-2.1
+95,Vasconcelos et al. 2004,"Federal Rural University of Amazonia, Brazil",-1.31,-47.95,Tropical,Secondary Forest,48,2538,26,133,139,10,77,5.2,31.08
+96,Assouma et al. 2017,"Ferlo, Senegal?West Africa.",15.98,-15.31,Tropical,Agroforestry,25,303,29,23,139,2,88,7,-11.68
+97,Mason et al. 2019 ,"Fettjärn, Sweden",65.9244,18.4994,Boreal,Primary Forest,7,592,-1,1128,91,61,50,4.7,-0.865
+98,Merino et al. 2004,"Fingio, Spain",40,-4,Subtropical,Afforestation,53,349,15,128,144,12,20,7,-6.267
+99,Blankinship et al. 2010,"Flagstaff, Arizona, USA ",35.3539,111.706,Savanna,Primary Forest,48,572,12,206,122,20,42,7.4,-4.617
+100,Blankinship et al. 2010,"Flagstaff, Arizona, USA ",35.3539,111.706,Savanna,Primary Forest,48,572,12,206,122,20,42,7.4,-2.584
+101,Blankinship et al. 2010,"Flagstaff, Arizona, USA ",35.3539,111.706,Savanna,Primary Forest,48,572,12,206,122,20,42,7.4,-2.987
+102,Hart et al. 2006,"Flagstaff, USA",35.26,-111.73,Savanna,Primary Forest,14,537,7,119,161,13,25,7.4,-2.588
+103,Sullivan et al. 2011,"Flagstaff, USA ",35.08,-111.76,Savanna,Primary Forest,7,583,7,119,161,13,25,7.4,-1.067
+104,Maljanen et al. 2017,"ForHot, Iceland",64.008,-21.178,Boreal,Afforestation,39,1326,4,190,123,12,71,5.6,-4.38
+105,Veldkamp et al. 2013,"Fortu Forest Reserve, Pama",8.75,-82.25,Tropical,Primary Forest,34,2938,20,291,119,27,25,5.3,-0.496
+106,Lohmus et al. 2019 ,"Free Air Humidity Manipulation, Estonia",58.2333,27.3,Boreal,Primary Forest,15,613,5,2426,53,50,58,4.6,0
+107,Liu et al. 2012,"Fujian Province, China",27.05,118.15,Subtropical,Primary Forest,28,1754,18,107,145,12,21,5.2,-2.804
+108,Liu et al. 2012,"Fujian Province, China",27.05,118.15,Subtropical,Primary Forest,28,1754,18,107,145,12,21,5.2,-2.217
+109,Morishita et al. 2007,"Fukushima, Japan",37.35,140.33,Temperate,Reforestation,60,1180,12,550,88,32,33,5.8,-4.958
+110,Luo et al. 2012,Germany,48.5,11.17,Temperate,Afforestation,46,815,8,263,123,29,52,6.2,-1.86
+111,Veldkamp et al. 2013,"Gigante Peninsula, Pama",9.1,-79.83,Tropical,Primary Forest,NA,2396,27,163,134,15,54,5.7,-2.576
+112,McNamara et al. 2008,"Gisburn, England",54.13,-2.38,Boreal,Afforestation,34,1452,8,1393,81,19,30,4.9,-0.517
+113,McNamara et al. 2008,"Gisburn, England",54.13,-2.38,Temperate,Afforestation,34,1452,8,1393,81,19,30,4.9,-0.675
+114,McNamara et al. 2008,"Gisburn, England",54.13,-2.38,Temperate,Afforestation,34,1452,8,1393,81,19,30,4.9,-0.578
+115,McNamara et al. 2008,"Gisburn, England",54.13,-2.38,Temperate,Afforestation,34,1452,8,1393,81,19,30,4.9,-0.254
+116,Dong et al. 2003,"Gongga Mountain, Chi",29,101.5,Temperate,Primary Forest,26,897,10,385,131,18,39,6.6,-6.96
+117,Dong et al. 2003,"Gongga Mountain, Chi",29,101.5,Temperate,Secondary Forest,26,897,10,385,131,18,39,6.6,-3.973
+118,Barrena et al. 2013,"Gorbea tiol Park, Spain",43.1,-2.8,Temperate,Reforestation,28,1043,11,624,130,14,33,5.8,-1.674
+119,Barrena et al. 2013,"Gorbea tiol Park, Spain",43.1,-2.8,Temperate,Reforestation,28,1043,11,624,130,14,33,5.8,-1.651
+120,Fang et al. 2009,"Guangdong, Chi",23.16,112.55,Tropical,Primary Forest,39,1770,22,165,122,12,22,4.2,-2.533
+121,Cheng et al. 2013,"Guiyang city, China",26.53,106.76,Subtropical,Primary Forest,46,1105,16,178,128,14,28,6.2,-10.87
+122,Mason et al. 2019 ,"Guorbaive, Sweden",65.8158,19.0483,Boreal,Primary Forest,7,565,-1,1128,91,61,50,4.7,-3.632
+123,Fender et al. 2013,"Hainich tiol Park, Germany",51.06,10.5,Temperate,Reforestation,40,807,8,221,129,15,13,6.6,-0.577
+124,Guckland et al. 2009,"Hainich tiol Park, Stand A, Germany",51.096667,10.390833,Temperate,Primary Forest,28,861,8,221,129,15,13,6.6,-4.427
+125,Guckland et al. 2009,"Hainich tiol Park, Stand B, Germany",51.096667,10.390833,Temperate,Primary Forest,28,861,8,221,129,15,13,6.6,-3.133
+126,Guckland et al. 2009,"Hainich tiol Park, Stand C, Germany",51.096667,10.390833,Temperate,Primary Forest,28,861,8,221,129,15,13,6.6,-2.953
+127,Borken et al. 2006,"Harvard Forest, USA",42.53,-72.18,Temperate,Reforestation,21,1114,7,778,98,52,67,5,-15.586
+128,Mojeremane et al. 2010,"Harwood Forest, England",55.16,-2.05,Temperate,Afforestation,28,952,8,2789,54,47,34,4,17.593
+129,Mojeremane et al. 2010,"Harwood Forest, England",55.16,-2.05,Temperate,Afforestation,28,952,8,2789,54,47,34,4,9.782
+130,Mojeremane et al. 2010,"Harwood Forest, England",55.16,-2.05,Temperate,Afforestation,28,952,8,2789,54,47,34,4,9.892
+131,Epron et al. 2016,"Hauts Bois, France",48.48,6.69,Temperate,Afforestation,45,804,9,594,126,26,46,7.5,-3
+132,"Sarauer and Coleman, 2018","Hayden, ID, USA",47.79,-116.84,Temperate,Afforestation,65,655,8,255,150,20,69,6.2,-0.894
+133,Ishizuka et al. 2000,"HED: Hitachi Ohta, Japan ",36.56,140.58,Temperate,Primary Forest,59,1425,13,201,122,18,30,6.4,-12.045
+134,Wu et al. 2019,"Heilongjiang, China",45.3666,127.5333,Temperate,Secondary Forest,21,586,3,532,115,44,40,6.6,-4.38
+135,Wu et al. 2019,"Heilongjiang, China",45.3666,127.5333,Temperate,Secondary Forest,21,586,3,532,115,44,40,6.6,-5.431
+136,Wu et al. 2019,"Heilongjiang, China",45.3666,127.5333,Temperate,Secondary Forest,21,586,3,532,115,44,40,6.6,-5.344
+137,Wu et al. 2019,"Heilongjiang, China",45.3666,127.5333,Temperate,Secondary Forest,21,586,3,532,115,44,40,6.6,-4.468
+138,Wu et al. 2019,"Heilongjiang, China",45.3666,127.5333,Temperate,Reforestation,21,586,3,532,115,44,40,6.6,-4.03
+139,Wu et al. 2019,"Heilongjiang, China",45.3666,127.5333,Temperate,Primary Forest,21,586,3,532,115,44,40,6.6,-6.132
+140,Wu et al. 2019,"Heilongjiang, China",45.3666,127.5333,Temperate,Secondary Forest,21,586,3,532,115,44,40,6.6,-6.745
+141,Wu et al. 2019c,"Heilongjiang, China",53.2833,122.1,Boreal,Primary Forest,7,461,-5,643,126,63,37,5.1,-1.443
+142,Wu et al. 2019c,"Heilongjiang, China",53.2833,122.1,Boreal,Primary Forest,7,461,-5,643,126,63,37,5.1,-0.584
+143,Wu et al. 2019c,"Heilongjiang, China",53.2833,122.1,Boreal,Primary Forest,7,461,-5,643,126,63,37,5.1,-1.173
+144,Shvaleva et al. 2015,"Herdade da Mochequeira de Grou, Coruche, Portugal",39.1384,-8.3329,Savanna,Agroforestry,26,709,16,124,155,13,87,5.8,-0.389
+145,Li 2010,"Heshan, Chi",22.68,112.9,Tropical,Reforestation,40,1898,22,165,122,12,21,4.2,-0.296
+146,Li 2010,"Heshan, Chi",22.68,112.9,Tropical,Reforestation,40,1898,22,165,122,12,21,4.2,-0.142
+147,Li 2010,"Heshan, Chi",22.68,112.9,Tropical,Reforestation,40,1898,22,165,122,12,21,4.2,0.197
+148,Li 2010,"Heshan, Chi",22.68,112.9,Tropical,Reforestation,40,1898,22,165,122,12,21,4.2,0.81
+149,Liu et al. 2008,"Heshan, Chi",22.68,112.9,Tropical,Reforestation,40,1898,22,165,122,12,21,4.2,-3.285
+150,Zhang et al. 2012,"Heshan, China ",22.56,112.83,Tropical,Afforestation,21,1945,22,113,121,10,46,5.2,-4.24
+151,Zhang et al. 2012,"Heshan, China ",22.56,112.83,Tropical,Afforestation,21,1945,22,113,121,10,46,5.2,-3.492
+152,Fest et al. 2017a,"Hobart, Tasmania, Australia ",-43.09,146.64,Temperate,Primary Forest,9,1577,10,151,110,11,53,5.2,-3.83
+153,Butterbach-Bahl et al. 2002b,"Höglwald, Germany",48.5,11.18,Boreal,Reforestation,46,817,8,263,123,29,52,6.2,-5.333
+154,Butterbach-Bahl et al. 2002b,"Höglwald, Germany",48.5,11.18,Boreal,Reforestation,46,817,8,263,123,29,52,6.2,-2.5
+155,Wu et al. 2011,"Höglwald Forest, Germany",48.29,11.075,Boreal,Afforestation,28,902,8,115,135,8,28,7.1,-1.573
+156,Luo et al. 2013,"Höglwald, Germany",48.5,11.18,Temperate,Reforestation,46,817,8,263,123,29,52,6.2,-4.16
+157,Kim et al. 2012,"Hokkaido University Sapporo, Japan",43.1,141.33,Temperate,Afforestation,84,1192,9,941,111,68,38,6.2,-0.964
+158,Morishita et al. 2007,"Hokkaido-1, Japan",43.13,141.96,Temperate,Reforestation,40,1179,6,325,118,19,40,6.2,-6.617
+159,Morishita et al. 2007,"Hokkaido-2, Japan",43.2,141.9,Temperate,Reforestation,21,1144,7,325,118,19,40,6.2,-10.868
+160,Morishita et al. 2007,"Hokkaido-3, Japan",43.36,141.6,Temperate,Reforestation,40,1221,7,941,111,68,38,6.2,-0.339
+162,Ishizuka et al. 2009,"Japanese Archipelago ANM, Japan",39.98,140.4,Temperate,Reforestation,40,1547,10,325,118,19,40,6.2,-3.979
+163,Ishizuka et al. 2009,"Japanese Archipelago AP, Japan",40,140.93,Temperate,Primary Forest,45,1515,6,550,88,32,33,5.8,-8.468
+164,Ishizuka et al. 2009,"Japanese Archipelago HG1, Janpan",42.98,141.4,Temperate,Primary Forest,65,1243,7,431,85,37,40,5.8,-15.075
+165,Ishizuka et al. 2009,"Japanese Archipelago HG2, Janpan",42.98,141.4,Temperate,Primary Forest,65,1243,7,431,85,37,40,5.8,-12.082
+166,Ishizuka et al. 2009,"Japanese Archipelago HG3, Janpan",42.98,141.38,Temperate,Primary Forest,78,1242,7,941,111,68,38,6.2,-9.417
+167,Ishizuka et al. 2009,"Japanese Archipelago IB, Japan",35.2,137.56,Subtropical,Reforestation,28,2176,10,381,106,28,40,6.1,-16.352
+168,Ishizuka et al. 2009,"Japanese Archipelago JK, Japan",42.98,141.16,Temperate,Reforestation,53,1335,6,941,111,68,38,6.2,-6.315
+169,Ishizuka et al. 2009,"Japanese Archipelago KB1, Japan",36.3,140.15,Temperate,Afforestation,40,1482,12,550,88,32,33,5.8,-25.076
+170,Ishizuka et al. 2009,"Japanese Archipelago KB2, Japan",36.31,140.15,Temperate,Reforestation,40,1442,12,550,88,32,33,5.8,-17.192
+171,Ishizuka et al. 2009,"Japanese Archipelago KH, Japan",33.13,130.71,Subtropical,Reforestation,28,1918,15,381,106,28,40,6.1,-8.614
+172,Ishizuka et al. 2009,"Japanese Archipelago OD1, Japan",35.85,138.65,Temperate,Primary Forest,34,1960,3,301,123,17,38,6.2,-10.622
+173,Ishizuka et al. 2009,"Japanese Archipelago OD2, Japan",35.85,138.65,Temperate,Reforestation,34,1960,3,301,123,17,38,6.2,-11.644
+174,Ishizuka et al. 2009,"Japanese Archipelago OG1, Japan",36.93,140.58,Temperate,Primary Forest,28,1421,10,381,106,28,40,6.1,-8.943
+175,Ishizuka et al. 2009,"Japanese Archipelago OG2, Japan",36.93,140.58,Temperate,Primary Forest,28,1421,10,381,106,28,40,6.1,-17.228
+176,Ishizuka et al. 2009,"Japanese Archipelago OG3, Japan",36.93,140.58,Temperate,Reforestation,28,1421,10,381,106,28,40,6.1,-14.491
+177,Ishizuka et al. 2009,"Japanese Archipelago OG4, Japan",36.93,140.58,Temperate,Secondary Forest,28,1421,10,381,106,28,40,6.1,-16.535
+178,Ishizuka et al. 2009,"Japanese Archipelago OK, Japan",26.51,127.98,Subtropical,Primary Forest,65,2080,23,170,125,14,37,5,-0.694
+179,Ishizuka et al. 2009,"Japanese Archipelago OT, Japan",35.91,137.31,Subtropical,Reforestation,34,1917,10,301,123,17,38,6.2,-9.892
+180,Ishizuka et al. 2009,"Japanese Archipelago SK, Japan",43.66,143.1,Temperate,Primary Forest,51,1207,2,183,130,13,36,5.4,-10.695
+181,Ishizuka et al. 2009,"Japanese Archipelago ST, Japan",35.23,137.13,Subtropical,Reforestation,90,2105,14,216,121,18,38,5.1,-7.118
+182,Ishizuka et al. 2009,"Japanese Archipelago TZ, Japan",39.76,140.71,Temperate,Reforestation,28,1534,9,262,122,22,38,5.9,-8.76
+183,Mason et al. 2019 ,"Jarvliden, Sweden",65.5691,18.4002,Boreal,Secondary Forest,20,599,-1,1128,91,61,50,4.7,-3.414
+184,"Sarauer and Coleman, 2018","Jefferson, OR, USA",44.69,-122.95,Temperate,Afforestation,46,1079,11,113,139,17,24,5.2,-1.428
+185,Morishita et al. 2007,"Kagoshima, Japan",31.573,131.239,Subtropical,Reforestation,28,2526,16,550,88,32,33,5.8,-7.428
+186,Maljanen et al. 2014,"Kannus, Finland",63.86,23.73,Boreal,Afforestation,40,527,3,1907,82,106,58,4.4,-21.462
+188,Maljanen et al. 2014,"Kannus, Finland",63.9,23.93,Boreal,Afforestation,78,522,3,3391,50,28,39,4.3,-5.694
+189,Wanyama et al. 2019,"Kapkatugor, Kenia",-0.3169,35.3833,Tropical,Primary Forest,34,1624,17,241,115,29,21,4.7,-5.84
+190,Wanyama et al. 2019,"Kapkatugor, Kenia",-0.3169,35.3833,Tropical,Reforestation,34,1624,17,241,115,29,21,4.7,-3.43
+191,Lohila et al. 2016,"Kenttärova, Finland",67.98,24.24,Boreal,Primary Forest,20,525,-1,2024,81,119,63,4.4,-4.526
+192,Saari et al. 2004,"Kerimäki, Finland",61.85,29.36,Boreal,Primary Forest,21,598,3,NA,NA,NA,156,15.6,-7.183
+193,Morishita et al. 2007,"Kochi-1, Japan",33.46,133,Subtropical,Reforestation,28,2418,11,381,106,28,40,6.1,-12.877
+194,Morishita et al. 2007,"Kochi-2, Japan",33.43,133.01,Subtropical,Reforestation,28,2172,13,381,106,28,40,6.1,-8.287
+195,Ishizuka et al. 2000,"KRD, Kaba, Japan ",36.33,140.3,Temperate,Primary Forest,53,1374,13,550,88,32,33,5.8,-27.74
+196,Morishita et al. 2007,"Kyoto, Japan",34.78,135.85,Subtropical,Primary Forest,65,1525,14,553,122,40,32,6.2,-5.583
+197,Mason et al. 2019 ,"Laddok, Sweden",65.9452,18.3769,Boreal,Primary Forest,6,594,-1,1128,91,61,50,4.7,-3.21
+198,Korkiakoski et al. 2017,"Lettosuo, Finland",60.63,23.95,Boreal,Secondary Forest,26,672,4,317,128,18,77,4.1,-2.19
+199,Song et al. 2017,"Liangshui, China",47.18,128.88,Temperate,Reforestation,34,622,2,228,123,15,37,6.4,-0.058
+201,Inclán et al. 2012,"Madrid, Spain",40.56,-4.14,Subtropical,Reforestation,34,411,12,1041,113,9,35,5.5,-3.402
+202,Inclán et al. 2012,"Madrid, Spain",40.59,-3.92,Subtropical,Reforestation,90,429,13,1041,113,9,35,5.5,-0.902
+203,Inclán et al. 2012,"Madrid, Spain",40.72,-4.12,Subtropical,Reforestation,46,648,9,487,115,29,40,5.3,-5.501
+204,Kähkönen et al. 2002,"Mämmilampi, Finland",61.8,24.31,Boreal,Secondary Forest,28,660,3,317,128,18,77,4.1,-33.2
+205,Wang et al. 2017,"Mangshan Nature Reserve, Hunan, China",24.87,112.72,Subtropical,Primary Forest,21,1686,15,359,112,20,59,4.9,-0.207
+206,Wang et al. 2017,"Mangshan Nature Reserve, Hunan, China",24.87,112.72,Subtropical,Primary Forest,21,1686,15,359,112,20,59,4.9,-0.528
+207,Wang et al. 2017,"Mangshan Nature Reserve, Hunan, China",24.87,112.72,Subtropical,Primary Forest,21,1686,15,359,112,20,59,4.9,-1.478
+208,Awasthi et al. 2005,"Mardi watershed, Nepal",28.31,83.83,Tropical,Primary Forest,30,1589,15,302,114,26,42,5.9,-1.997
+209,Mapanda et al. 2010,"Mazowe District, Zimbabwe",-17.7008,31.0083,Savanna,Reforestation,34,868,18,163,142,13,29,6.1,-0.885
+210,Mapanda et al. 2010,"Mazowe District, Zimbabwe",-17.7008,31.0083,Savanna,Primary Forest,34,868,18,163,142,13,29,6.1,0.683
+211,Jacinthe 2015,"McCormick's Creek State Park, USA",39.28,-86.73,Temperate,Reforestation,56,1107,11,118,139,13,41,7.4,-6.108
+212,Matson et al. 2017a,"Metropolitan, Panama Canal watershed, Panama",8.98,-79.55,Tropical,Secondary Forest,65,2110,27,187,163,15,15,6.2,-0.453
+213,Ni et al. 2019,"Millbrook, New York, USA",41.7833,-73.7333,Temperate,Reforestation,28,1136,9,245,124,37,33,5.2,-7.464
+214,Castro et al. 2000,"Mize in Florida, USA ",29.65,-82.31,Subtropical,Reforestation,71,1316,21,98,148,4,97,5.3,-1.825
+215,Ullah & Moore 2011,"Mont St. Hilaire, Cada",45.56,-73.2,Temperate,Reforestation,78,1045,6,308,134,21,50,5.3,7.785
+216,Ullah & Moore 2011,"Mont St. Hilaire, Cada",45.56,-73.2,Temperate,Reforestation,78,1045,6,308,134,21,50,5.3,-8.275
+217,Ullah & Moore 2011,"Mont St. Hilaire, Cada",45.56,-73.2,Temperate,Reforestation,78,1045,6,308,134,21,50,5.3,-4.38
+218,Ullah & Moore 2011,"Mont St. Hilaire, Cada",45.56,-73.2,Temperate,Reforestation,78,1045,6,308,134,21,50,5.3,20.44
+219,Mazza et al. 2019,"Monte Morello, Italy",43.85,11.85,Subtropical,Reforestation,28,1398,11,289,104,22,82,5.7,-2.007
+220,Rowlings et al. 2012,"Mooloolah River, Australia",-26,152,Subtropical,Primary Forest,14,818,20,152,160,8,52,5.7,-5.28
+221,Rowlings et al. 2013,"Mooloolah River, Australia",-26.75,152.91,Subtropical,Reforestation,28,1662,19,124,110,9,29,5.5,-0.1
+222,Ullah & Moore 2011,"Morgan Arboretum, Cada",45.41,-73.95,Temperate,Reforestation,90,986,6,494,142,17,28,7.4,-4.865
+223,Ullah & Moore 2011,"Morgan Arboretum, Cada",45.41,-73.95,Temperate,Reforestation,90,986,6,494,142,17,28,7.4,-4.38
+225,Ullah & Moore 2011,"Morgan Arboretum, Cada",45.41,-73.95,Temperate,Reforestation,90,986,6,494,142,17,28,7.4,17.52
+226,Guetlein et al. 2018,"Mount Kilimanjaro, Tanzania",-2.75,37,Savanna,Primary Forest,21,585,22,80,130,6,42,7.6,-0.75
+227,Guetlein et al. 2018,"Mount Kilimanjaro, Tanzania",-2.75,37,Tropical,Primary Forest,21,585,22,80,130,6,42,7.6,-5.214
+228,Guetlein et al. 2018,"Mount Kilimanjaro, Tanzania",-2.75,37,Tropical,Primary Forest,21,585,22,80,130,6,42,7.6,-3.645
+229,Guetlein et al. 2018,"Mount Kilimanjaro, Tanzania",-2.75,37,Tropical,Primary Forest,21,585,22,80,130,6,42,7.6,-3.623
+230,Jang et al. 2006,"Mt Jumbong, South Korea",38.03,128.43,Temperate,Primary Forest,28,1375,6,207,123,13,41,7,-7.154
+231,Jang et al. 2011,"Mt. Jumbong, South Korea",38.03,128.43,Temperate,Primary Forest,28,1375,6,207,123,13,41,7,-10.658
+232,Morishita et al. 2007,"Nagano-1, Japan",36.13,138,Subtropical,Reforestation,59,1261,9,381,106,28,40,6.1,-20.487
+233,Morishita et al. 2007,"Nagano-2, Japan",35.93,137.51,Subtropical,Reforestation,28,2006,4,301,123,17,38,6.2,-4.596
+234,Morishita et al. 2007,"Nagano-3, Japan",35.13,137.51,Subtropical,Reforestation,40,2265,11,201,122,18,30,6.4,-14.915
+235,Tamai et al. 2003,"Nagoya University Forest, Japan",35.2,137.56,Subtropical,Reforestation,28,2176,10,381,106,28,40,6.1,-15.586
+236,Wang et al. 2017,"Nanling Nature Reserve, Guangdong, China",24,110,Subtropical,Primary Forest,21,1537,20,214,145,17,12,4.8,-0.332
+237,Wang et al. 2017,"Nanling Nature Reserve, Guangdong, China",24,110,Subtropical,Primary Forest,21,1537,20,214,145,17,12,4.8,-1.353
+238,Lang et al. 2019,"Nature Reserve, Xishuangbanna, China",22.0727,100.5368,Tropical,Primary Forest,15,1564,20,113,121,10,47,5.3,-2.383
+239,Lang et al. 2019,"Nature Reserve, Xishuangbanna, China",22.0727,100.5368,Tropical,Reforestation,15,1564,20,113,121,10,47,5.3,-0.911
+241,Mason et al. 2019 ,"Njallatjivelg, Sweden ",65.815,19.0352,Boreal,Secondary Forest,7,560,-1,1128,91,61,50,4.7,-4.243
+242,Tamai et al. 2003,"Ochiai tiol Forest, Japan",35.91,137.31,Subtropical,Reforestation,34,1917,10,301,123,17,38,6.2,-10.22
+243,Ishizuka et al. 2000,"OFC, Ogawa, Japan ",36.93,140.58,Temperate,Reforestation,28,1421,10,381,106,28,40,6.1,-17.885
+244,Ishizuka et al. 2000,"OFD1, Ogawa, Japan ",36.93,140.58,Temperate,Primary Forest,28,1421,10,381,106,28,40,6.1,-9.125
+245,Ishizuka et al. 2000,"OFD2, Ogawa, Japan ",36.93,140.58,Temperate,Primary Forest,28,1421,10,381,106,28,40,6.1,-17.885
+246,Morishita et al. 2007,"Oita-1, Japan",33.18,131.28,Subtropical,Reforestation,28,2798,10,550,88,32,33,5.8,-7.58
+247,Morishita et al. 2007,"Oita-2, Japan",33.2,131.28,Subtropical,Reforestation,28,2625,11,550,88,32,33,5.8,-6.558
+248,Morishita et al. 2007,"Okinawa-1, Japan",26.51,127.96,Subtropical,Reforestation,65,2100,22,170,125,14,37,5,-0.841
+249,Morishita et al. 2007,"Okinawa-2, Japan",26.5,127.9,Subtropical,Reforestation,65,2083,22,170,125,14,37,5,-1.022
+250,Jacinthe & Lal 2004,"OSU Waterman farm, USA",40,-83.01,Temperate,Secondary Forest,93,957,11,220,148,16,25,6.1,-2.894
+251,Flessa et al. 2008,"P1, Igarka, Russian Federation",67.49,86.42,Boreal,Primary Forest,20,505,-8,820,65,100,39,6.3,-1.223
+252,Matson et al. 2017a,"P19, Panama Canal watershed, Pama",9.18,-79.77,Tropical,Secondary Forest,53,2521,26,163,134,15,54,5.7,-2.64
+253,Matson et al. 2017a,"P27, Panama Canal watershed, Pama",9.067,-79.63,Tropical,Secondary Forest,84,2454,26,163,134,15,54,5.7,-0.68
+254,Flessa et al. 2008,"P3, Igarka, Russian
+Federation",67.49,86.42,Boreal,Primary Forest,20,505,-8,820,65,100,39,6.3,-0.223
+255,Matson et al. 2017a,"P32, Panama Canal watershed, Pama",9.35,-79.72,Tropical,Primary Forest,46,2724,26,349,130,33,12,4.9,-1.253
+256,Flessa et al. 2008,"P4, Igarka, Russian
+Federation",67.49,86.42,Boreal,Primary Forest,20,505,-8,820,65,100,39,6.3,-1.617
+257,Flessa et al. 2008,"P5, Igarka, Russian
+Federation",67.49,86.42,Boreal,Primary Forest,20,505,-8,820,65,100,39,6.3,-0.511
+258,Matson et al. 2017a,"P8, Panama Canal watershed, Pama",9.17,-79.73,Tropical,Primary Forest,28,2671,26,163,134,15,54,5.7,-1.933
+259,Ishizuka et al. 2002,"Pasir Mayang, Primary forest 1, Indonesia",-1.12,102.27,Tropical,Primary Forest,28,2598,26,148,125,12,49,4.9,-2.475
+260,Ishizuka et al. 2002,"Pasir Mayang, Primary forest 2, Indonesia",-1.12,102.27,Tropical,Primary Forest,28,2598,26,148,125,12,49,4.9,0.489
+261,Ishizuka et al. 2002,"Pasir Mayang, Rubber plantation, Indonesia",-1.09,102.12,Tropical,Reforestation,32,2622,27,148,125,12,49,4.9,-1.497
+262,Itoh et al. 2012,"Pasoh Forest, Malaysia",2.98,102.3,Tropical,Primary Forest,21,1942,27,144,131,11,44,5.2,-1.789
+263,Zhang et al. 2014b,"Pearl River Delta, Chi",23.14,112.51,Tropical,Reforestation,32,1801,21,152,120,12,28,5.2,-4.263
+264,Zhang et al. 2014b,"Pearl River Delta, Chi",23.14,112.51,Tropical,Reforestation,32,1801,21,152,120,12,28,5.2,-3.13
+265,Zhang et al. 2014b,"Pearl River Delta, Chi",23.3,113.45,Tropical,Reforestation,21,1770,21,108,121,10,47,5.3,-3.095
+266,Zhang et al. 2014b,"Pearl River Delta, Chi",23.3,113.45,Tropical,Reforestation,21,1770,21,108,121,10,47,5.3,-2.803
+267,Zhang et al. 2014b,"Pearl River Delta, Chi",23.46,111.9,Subtropical,Reforestation,28,1713,20,108,121,10,49,5.3,-4.695
+268,Zhang et al. 2014b,"Pearl River Delta, Chi",23.46,111.9,Subtropical,Reforestation,28,1713,20,108,121,10,49,5.3,-4.053
+269,Bradford et al. 2001,"Perridge Forest, England",50.7019,-3.6083,Temperate,Reforestation,54,990,10,633,98,17,30,5,-5.878
+270,"Sarauer and Coleman, 2018","Pilchuck, USA",48.29,-122.24,Temperate,Afforestation,53,1254,9,154,142,52,58,6.4,-2.214
+271,Wang et al. 2013b,"Pingxiang City, Guangxi, China",22.16,106.83,Subtropical,Afforestation,32,1311,22,119,123,11,47,5.3,-4.485
+272,Wolf et al. 2012,"Podocarpus tiol Park, Ecuador",-4.1,-79.18,Tropical,Primary Forest,28,1127,13,55,124,3,63,7.5,-0.8
+273,Wolf et al. 2012,"Podocarpus tiol Park, Ecuador",-4.1,-79.18,Tropical,Primary Forest,28,1127,13,55,124,3,63,7.5,-2.133
+274,Wolf et al. 2012,"Podocarpus tiol Park, Ecuador",-4.1,-79.18,Tropical,Primary Forest,28,1127,13,55,124,3,63,7.5,-1.333
+275,Wolf et al. 2012,"Podocarpus tiol Park, Ecuador",-4.1,-78.96,Tropical,Primary Forest,34,1553,23,225,129,17,47,5.3,-7.333
+276,Wolf et al. 2012,"Podocarpus tiol Park, Ecuador",-4.1,-78.96,Tropical,Primary Forest,34,1553,23,225,129,17,47,5.3,-7.2
+277,Wolf et al. 2012,"Podocarpus tiol Park, Ecuador",-4.1,-78.96,Tropical,Primary Forest,34,1553,23,225,129,17,47,5.3,-7.867
+278,Wolf et al. 2012,"Podocarpus tiol Park, Ecuador",-3.96,-79.06,Tropical,Primary Forest,26,833,17,225,129,17,47,5.3,-3.067
+279,Wolf et al. 2012,"Podocarpus tiol Park, Ecuador",-3.96,-79.06,Tropical,Primary Forest,26,833,17,225,129,17,47,5.3,-5.733
+280,Wolf et al. 2012,"Podocarpus tiol Park, Ecuador",-3.96,-79.06,Tropical,Primary Forest,26,833,17,225,129,17,47,5.3,-3.6
+281,Beas et al. 2019,"Puerto Montt, Chile",-41.45,-73.13333333,Temperate,Primary Forest,28,1750,11,519,109,28,41,5.2,-3.32
+282,Purbopuspito et al. 2006,"Puncak Dingin, Indonesia",-1.26,120.3,Tropical,Primary Forest,7,2137,14,277,125,20,46,5.2,-1.935
+283,Tate et al. 2006,"Purukohukohu, New Zealand",-39.26,175.498,Subtropical,Reforestation,9,2098,7,116,106,14,70,6.3,-12
+284,Haghverdia & Koochb 2020,"Qaemshahr, Mazandaran, northern Iran",36.3075,52.8625,Savanna,Reforestation,28,604,16,125,134,10,34,7.4,-0.183
+285,Haghverdia & Koochb 2020,"Qaemshahr, Mazandaran, northern Iran",36.3075,52.8625,Savanna,Reforestation,28,604,16,125,134,10,34,7.4,-0.146
+286,Haghverdia & Koochb 2020,"Qaemshahr, Mazandaran, northern Iran",36.3075,52.8625,Savanna,Reforestation,28,604,16,125,134,10,34,7.4,0.255
+287,Haghverdia & Koochb 2020,"Qaemshahr, Mazandaran, northern Iran",36.3075,52.8625,Savanna,Primary Forest,28,604,16,125,134,10,34,7.4,0.438
+288,Haghverdia & Koochb 2020,"Qaemshahr, Mazandaran, northern Iran",36.3075,52.8625,Savanna,Reforestation,28,604,16,125,134,10,34,7.4,0.402
+289,Li et al. 2015,"Qianyanzhou, China",26.74,115.05,Subtropical,Reforestation,28,1516,18,154,117,11,41,4.7,-0.637
+290,Wang et al. 2013a,"Qianyanzhou, China",26.74,115.05,Subtropical,Afforestation,28,1516,18,154,117,11,41,4.7,-1.25
+291,Semenov et al. 2004,"RAS Experimental Field Station, Russian",55.7,37.56,Temperate,Agroforestry,87,673,5,159,138,12,34,5.6,-3.037
+292,Mason et al. 2019 ,"Reivo, Sweden",65.7744,19.1052,Boreal,Primary Forest,7,573,-1,1128,91,61,50,4.7,-2.399
+293,Yao et al. 2019,"Rierlangshan catchment, Tibetan Plateu, China",34.0333,102.7166,Temperate,Primary Forest,25,651,2,507,125,52,37,5.8,-2.24
+294,Veloso et al. 2019,"Rio Negrinho, SC, Brazil",-26.38638889,-49.5594,Subtropical,Primary Forest,21,1527,16,273,109,24,18,4.4,-10.77
+295,Veloso et al. 2019,"Rio Negrinho, SC, Brazil",-26.38638889,-49.5594,Subtropical,Reforestation,21,1527,16,273,109,24,18,4.4,-1.83
+296,Veloso et al. 2019,"Rio Negrinho, SC, Brazil",-26.38638889,-49.5594,Subtropical,Reforestation,21,1527,16,273,109,24,18,4.4,-3.275
+297,Purbopuspito et al. 2006,"Rorekatimbu, Indonesia",-1.31,120.3,Tropical,Primary Forest,7,2031,17,277,125,20,46,5.2,-4.427
+298,Jones et al. 2016,"San Pedro, Andes",-13.04,-71.53,Tropical,Primary Forest,14,2443,21,79,142,6,76,4.9,-5.109
+299,Teh et al. 2014,"San Pedro, Peru",-13.04,-71.53,Tropical,Primary Forest,14,2443,21,79,142,6,76,4.9,-3.113
+300,Simona et al. 2004,"Santa Bárbara, Venezuelan",9.75,-63.45,Savanna,Primary Forest,43,1096,26,83,154,6,63,4.4,0.188
+301,Simona et al. 2004,"Santa Bárbara, Venezuelan",9.75,-63.45,Savanna,Primary Forest,43,1096,26,83,154,6,63,4.4,0.84
+302,Sakabe et al. 2016,"Shiga Prefecture, Japan ",35,136,Subtropical,Reforestation,65,1606,15,216,121,18,38,5.1,-6.055
+303,Sakabe et al. 2015,"Shiga Prefecture, Plot A, central Japan",35,136,Subtropical,Reforestation,65,1606,15,216,121,18,38,5.1,-1.893
+304,Sakabe et al. 2015,"Shiga Prefecture, Plot B, central Japan",35,136,Subtropical,Reforestation,65,1606,15,216,121,18,38,5.1,-11
+305,Sakabe et al. 2015,"Shiga Prefecture, Plot C, central Japan",35,136,Subtropical,Reforestation,65,1606,15,216,121,18,38,5.1,-2.16
+306,Itoh et al. 2009,"Shiga Prefecture, plot L, central Japan",35,136,Subtropical,Reforestation,65,1606,15,216,121,18,38,5.1,0.402
+307,Itoh et al. 2009,"Shiga Prefecture, plot M, central Japan",35,136,Subtropical,Reforestation,65,1606,15,216,121,18,38,5.1,-0.937
+308,Itoh et al. 2009,"Shiga Prefecture, plot U, central Japan",35,136,Subtropical,Reforestation,65,1606,15,216,121,18,38,5.1,-2.202
+309,Morishita et al. 2007,"Shimane-1, Japan",35.15,132.65,Temperate,Reforestation,39,1824,12,201,122,18,30,6.4,-8.976
+310,Morishita et al. 2007,"Shimane-2, Japan",35.15,132.65,Temperate,Reforestation,39,1824,12,201,122,18,30,6.4,-10.699
+311,Zhou et al. 2019,"Sichuan Province, China",31.269,105.4696,Temperate,Afforestation,34,1001,17,52,140,6,32,7.9,-1.691
+312,Zhou et al. 2019,"Sichuan Province, China",31.269,105.4696,Temperate,Afforestation,34,1001,17,52,140,6,32,7.9,-1.848
+313,Zhou et al. 2019,"Sichuan Province, China",31.269,105.4696,Temperate,Afforestation,34,1001,17,52,140,6,32,7.9,-3.013
+314,Zhou et al. 2019,"Sichuan Province, China",31.269,105.4696,Temperate,Secondary Forest,34,1001,17,52,140,6,32,7.9,-1.629
+315,Meyer et al. 2013,"Skogaryd, Sweden",58.38,12.15,Boreal,Afforestation,28,830,6,482,122,26,46,5.7,-4.398
+317,Borken & Beese 2006,"Solling, Germany",51.76,-9.58,Boreal,Reforestation,32,1495,10,4390,48,50,55,4.2,-3.666
+318,Borken & Beese 2006,"Solling, Germany",51.76,-9.58,Boreal,Reforestation,32,1495,10,4390,48,50,55,4.2,-5.013
+319,Borken & Beese 2006,"Solling, Germany",51.76,-9.58,Boreal,Reforestation,32,1495,10,4390,48,50,55,4.2,-4.506
+320,Borken & Beese 2006,"Solling, Germany",51.76,-9.58,Boreal,Reforestation,32,1495,10,4390,48,50,55,4.2,-1.894
+321,Borken et al. 2002,"Solling, Germany",51.51,9.56,Boreal,Reforestation,28,894,8,263,123,29,52,6.2,-1.409
+322,Borken et al. 2003,"Solling, Germany",51.56,9.66,Boreal,Reforestation,40,890,8,153,140,10,25,5.9,-1.759
+323,Borken et al. 2003,"Solling, Germany",51.76,9.56,Boreal,Reforestation,34,1075,7,153,140,10,25,5.9,-1.451
+324,Borken et al. 2003,"Solling, Germany",51.76,9.58,Boreal,Reforestation,28,1087,7,153,140,10,25,5.9,-3.995
+325,Raut et al. 2014,"Someshora Ashram, India",12.03,77.08,Tropical,Primary Forest,50,663,25,124,146,10,41,7.1,-2.598
+326,Mori et al. 2013,"South Sumatra, Indonesia",-3.7,104,Tropical,Reforestation,21,2972,26,172,134,15,41,4.7,-0.535
+327,Allen et al. 2009,"South-east Queensland, Australia",-26,151,Subtropical,Afforestation,7,665,20,101,129,8,52,7.6,-1.62
+328,Allen et al. 2009,"South-east Queensland, Australia",-26,151,Subtropical,Agroforestry,7,665,20,101,129,8,52,7.6,-1.72
+329,Allen et al. 2009,"South-east Queensland, Australia",-26,151,Subtropical,Agroforestry,7,665,20,101,129,8,52,7.6,-3.43
+330,Klemedtsson et al. 2010,Southwest Sweden,58.38,12.15,Boreal,Afforestation,28,830,6,482,122,26,46,5.7,-4.449
+331,Weslien et al. 2009,Southwest Sweden,58.33,13.5,Temperate,Secondary Forest,34,619,6,386,121,25,47,5.2,-0.8
+332,Allen et al. 2009,South-western Australia,-35,118,Subtropical,Afforestation,23,843,16,92,136,6,67,6.1,-0.61
+333,Allen et al. 2009,South-western Australia,-35,118,Subtropical,Afforestation,23,843,16,92,136,6,67,6.1,-0.53
+334,Allen et al. 2009,South-western Australia,-35,118,Subtropical,Afforestation,23,843,16,92,136,6,67,6.1,-0.96
+335,Jacinthe 2015,"Southwestway Park, USA",39.65,-86.23,Temperate,Reforestation,46,1026,11,224,144,20,21,7,-7.639
+336,Christiansen & Gundersen 2012,"Strødam, Denmark",55.95,12.27,Temperate,Primary Forest,59,593,8,3458,45,20,85,4.1,3.037
+337,Hassler et al. 2015,"Sumatra, Indonesia",-1.94,102.58,Tropical,Reforestation,15,2908,26,148,125,12,49,4.9,-0.694
+338,Hassler et al. 2015,"Sumatra, Indonesia",-1.94,102.58,Tropical,Reforestation,15,2908,26,148,125,12,49,4.9,-0.387
+339,Hassler et al. 2015,"Sumatra, Indonesia",-1.94,102.58,Tropical,Primary Forest,15,2908,26,148,125,12,49,4.9,-2.467
+340,Hassler et al. 2015,"Sumatra, Indonesia",-1.94,102.58,Tropical,Primary Forest,15,2908,26,148,125,12,49,4.9,-4.84
+341,Hassler et al. 2015,"Sumatra, Indonesia",-1.79,103.24,Tropical,Reforestation,32,2632,27,148,125,12,49,4.9,-1.84
+342,Hassler et al. 2015,"Sumatra, Indonesia",-1.79,103.24,Tropical,Reforestation,32,2632,27,148,125,12,49,4.9,-1.241
+343,Hassler et al. 2015,"Sumatra, Indonesia",-1.79,103.24,Tropical,Primary Forest,32,2632,27,148,125,12,49,4.9,-3.227
+344,Hassler et al. 2015,"Sumatra, Indonesia",-1.79,103.24,Tropical,Primary Forest,32,2632,27,148,125,12,49,4.9,-0.241
+345,Liu et al. 2014,"Taihang Mountain, China",37.87,114.26,Temperate,Primary Forest,40,515,13,56,142,6,38,8,-8.681
+346,Liu et al. 2014,"Taihang Mountain, China",37.87,114.26,Temperate,Primary Forest,40,515,13,56,142,6,38,8,-18.843
+347,Liu et al. 2014,"Taihang Mountain, China",37.87,114.26,Temperate,Reforestation,40,515,13,56,142,6,38,8,-11.519
+348,Liu et al. 2014,"Taihang Mountain, China",37.87,114.26,Temperate,Reforestation,40,515,13,56,142,6,38,8,-13.306
+349,Liu et al. 2014,"Taihang Mountain, China",37.87,114.26,Temperate,Primary Forest,40,515,13,56,142,6,38,8,-8.874
+350,Liu et al. 2014,"Taihang Mountain, China",37.87,114.26,Temperate,Reforestation,40,515,13,56,142,6,38,8,-8.322
+351,De Bernardi et al. 2019,"Tandil, Buenos Aires, Argentina",-31.2835,-59.1167,Subtropical,Afforestation,14,1122,19,138,118,12,20,7.4,-4.463
+352,Priano et al. 2014,"Tandil, Buenos Aires, Argentina",-37.363,-59.1135,Subtropical,Afforestation,40,898,13,334,128,31,34,6.9,-0.053
+353,Priano et al. 2014,"Tandil, Buenos Aires, Argentina",-37.3212,-59.363,Subtropical,Afforestation,36,881,14,369,129,32,33,6.3,-0.031
+354,Priano et al. 2014,"Tandil, Buenos Aires, Argentina",-37.2835,-59.11678,Subtropical,Agroforestry,81,919,14,369,129,32,33,6.3,-0.078
+355,Priano et al. 2017,"Tandil, Buenos Aires, Argentina",-37.3212,-59.363,Subtropical,Afforestation,36,881,14,369,129,32,33,6.3,-0.035
+356,Priano et al. 2017,"Tandil, Buenos Aires, Argentina",-37.3212,-59.363,Subtropical,Agroforestry,36,881,14,369,129,32,33,6.3,-0.126
+357,Priano et al. 2017,"Tandil, Buenos Aires, Argentina",-37.3212,-59.363,Subtropical,Afforestation,36,881,14,369,129,32,33,6.3,-0.086
+359,Keller et al. 2005,"Tapajos tiol Forest, Brazil",-3.04,-54.95,Tropical,Primary Forest,10,1847,26,173,128,10,50,3.5,-0.73
+360,Keller et al. 2005,"Tapajos tiol Forest, Brazil",-3.04,-54.95,Tropical,Primary Forest,10,1847,26,173,128,10,50,3.5,-3.468
+361,Davidson et al. 2004,"Tapajós tiol Forest, Brazil",-2.8968,-54.9519,Tropical,Primary Forest,23,1870,25,173,128,10,50,3.5,-1.1
+362,Davidson et al. 2008,"Tapajós tiol Forest, Brazil ",-2.8968,-54.9519,Tropical,Primary Forest,23,1870,25,173,128,10,50,3.5,-1.6
+363,Uri et al. 2019,"Tartu, Estonia",58.2836,27.1619,Temperate,Reforestation,23,611,5,1090,16,279,56,6.5,-3.907
+364,Castaldi et al. 2010,"Tchizalamou, Congo",-4.289,11.6563,Savanna,Primary Forest,18,1317,26,80,136,6,77,5.3,0.548
+365,Warlo et al. 2019,"Tepfenharder Wald, Ravensburg, Germany",47.7699,9.4697,Temperate,Reforestation,40,979,9,192,131,9,61,6.2,-1.5
+366,Warlo et al. 2019,"Tepfenharder Wald, Ravensburg, Germany",47.7699,9.4697,Temperate,Reforestation,40,979,9,192,131,9,61,6.2,-4
+367,Kim et al. 2011,"Teshio, Japan",44.95,142.01,Temperate,Secondary Forest,20,1137,5,325,118,19,40,6.2,-3.502
+368,Zhang et al. 2015,"Tianze Forest Farm, Chi",30.41,120.43,Subtropical,Reforestation,46,1222,16,132,108,11,33,5.5,-3.19
+369,Zhang et al. 2014a,"Tianze Forest Farm, China",30.41,120.43,Subtropical,Reforestation,46,1222,16,132,108,11,33,5.5,-2.9
+370,Yu et al. 2017,"Tieshanping, China (block 1 and 2)",35.33,112.83,Temperate,Secondary Forest,34,614,11,43,119,5,36,8.3,0.444
+371,van Straaten et al. 2019,"Tiogo, Koudougou, Burkina Faso",12.223,2.706,Savanna,Secondary Forest,26,694,28,74,144,8,71,6.4,0.196
+372,Tamai et al. 2003,"Tokyo University Forest, Japan",35.23,137.13,Subtropical,Reforestation,90,2105,14,216,121,18,38,5.1,-7.702
+373,Maris et al. 2015,"Torres de Segre, Spain",41.61,0.63,Subtropical,Afforestation,93,362,15,48,135,5,37,8,-39
+375,Morishita et al. 2007,"Toyama-1, Janpan",36.56,137.36,Subtropical,Reforestation,21,1775,11,199,121,17,41,5.4,-6.874
+376,Morishita et al. 2007,"Toyama-2, Janpan",36.33,137.01,Subtropical,Primary Forest,17,1989,7,301,123,17,38,6.2,-7.172
+377,Borken et al. 2003,"Unterlüß, Germany",52.83,10.26,Boreal,Reforestation,21,807,8,192,132,6,92,4.5,-1.989
+378,Borken et al. 2003,"Unterlüß, Germany",52.83,10.28,Boreal,Reforestation,21,807,8,192,132,6,92,4.5,-1.371
+379,Borken et al. 2003,"Unterlüß, Germany",52.83,10.3,Boreal,Reforestation,39,803,8,192,132,6,92,4.5,-3.311
+380,Médice Firme Sá et al. 2019,"Ushuaia, Tierra del Fuego, Argentina",-54.7943,-68.3952,Temperate,Primary Forest,40,645,2,1391,91,113,35,6.6,-4.652
+381,?upek et al. 2015,"Vatiharju-Lakkasuo, Finland",61.78,24.31,Boreal,Reforestation,40,661,3,317,128,18,77,4.1,-3.329
+382,Mäkiranta et al. 2012,"Vesijako Research Forest, Finland",61.36,25.11,Boreal,Primary Forest,17,631,4,317,128,18,77,4.1,-4.307
+383,Christiansen & Gundersen 2011,"Vestskoven, Denmark",55.68,12.35,Boreal,Afforestation,65,610,8,456,137,10,54,5.8,-0.899
+384,Christiansen & Gundersen 2011,"Vestskoven, Denmark",55.68,12.35,Boreal,Afforestation,65,610,8,456,137,10,54,5.8,-1.04
+385,Christiansen & Gundersen 2011,"Vestskoven, Denmark",55.68,12.35,Boreal,Afforestation,65,610,8,456,137,10,54,5.8,-0.853
+386,Christiansen & Gundersen 2011,"Vestskoven, Denmark",55.68,12.35,Boreal,Afforestation,65,610,8,456,137,10,54,5.8,-1.098
+387,Fest et al. 2015b,"Victoria, Australia",-37.42,144.08,Temperate,Primary Forest,32,1018,11,116,153,10,68,6.4,-3.843
+388,Fest et al. 2017a,"Victorian forest, Melbourne, Australia",-37.42,144.09,Temperate,Primary Forest,31,1050,11,116,153,10,68,6.4,-1.79
+389,Jones et al. 2016,"Villa Carmen, Andes",-12.89,-71.4,Tropical,Primary Forest,14,3264,24,79,142,6,76,4.9,-0.73
+390,Morishita et al. 2007,"Wakayama-1, Japan",33.66,135.65,Subtropical,Reforestation,34,2330,14,201,122,18,30,6.4,-3.498
+391,Morishita et al. 2007,"Wakayama-2, Japan",33.66,135.65,Subtropical,Primary Forest,34,2330,14,201,122,18,30,6.4,-7.125
+392,Fest et al. 2015b,"Warra, Australia",-26.91,150.95,Subtropical,Primary Forest,14,633,20,88,133,9,34,7.5,-4.753
+393,Fest et al. 2015b,"Warra, Australia",-26.91,150.95,Subtropical,Secondary Forest,14,633,20,88,133,9,34,7.5,-8.217
+394,Fest et al. 2015b,"Warra, Australia",-26.91,150.95,Subtropical,Secondary Forest,14,633,20,88,133,9,34,7.5,-8.295
+395,Fest et al. 2015b,"Warra, Australia",-26.91,150.95,Subtropical,Secondary Forest,14,633,20,88,133,9,34,7.5,-1.923
+396,Fest et al. 2015b,"Warra, Australia",-26.91,150.95,Subtropical,Primary Forest,14,633,20,88,133,9,34,7.5,-1.912
+397,Teh et al. 2014,"Wayqecha, Peru",-13.19,-71.58,Tropical,Primary Forest,28,443,15,116,119,7,51,7.1,-3.989
+398,Fiedler et al. 2008,"Wildmooswald, Germany",47.11,8.11,Boreal,Primary Forest,21,1356,9,270,125,16,42,5.4,-0.292
+399,Purbopuspito et al. 2006,"Wuasa, Indonesia",-1.41,120.28,Tropical,Primary Forest,21,1945,20,277,125,20,46,5.2,-3.267
+400,Doukalianou et al. 2019,"Xanthi, Greece",41.1576,24.9027,Subtropical,Afforestation,90,574,13,141,132,10,58,6.4,-1.69
+401,Mazza et al. 2019,"Xanthi, Greece",41.15,24.9,Subtropical,Reforestation,90,560,14,141,132,10,58,6.4,-1.5
+403,Fang et al. 2010,"Xishuangban, China",21.93,101.26,Tropical,Reforestation,34,1658,23,64,125,4,45,5.3,-0.619
+404,Palm et al. 2002,"Yurimaguas, Peru",-5.75,-76.08,Tropical,Secondary Forest,28,2117,27,1530,96,79,31,5.2,-3.493
+405,Palm et al. 2002,"Yurimaguas, Peru",-5.75,-76.08,Tropical,Reforestation,28,2117,27,1530,96,79,31,5.2,-1.548
+406,Iqbal et al. 2009,"Zugui, Chi",30.63,110.3,Subtropical,Afforestation,28,1372,12,168,122,21,26,6.7,-2.269
+407,Scharffe et al. 1990,"Guayana Shield, Venezuela",7.85,-62.95,Savanna,Primary Forest,14,1414,27,119,134,14,23,3.7,2.92
+408,Scharffe et al. 1991,"Guayana Shield, Venezuela",7.85,-62.95,Tropical,Primary Forest,14,1414,27,119,134,14,23,3.7,-4.198
+409,Sanhueza et al. 1994,"Estación Biólogica de los Llanos, Venezuela",8.83,-67.31,Savanna,Primary Forest,26,1232,28,225,130,22,16,5,3.322
+410,Poth et al. 1995,"IBGE, Brasilia, Brasil",-15.9327,-47.85055,Savanna,Primary Forest,28,1520,20,207,107,15,47,5.2,4.198
+411,Anderson & Poth 1998,"IBGE, Brasilia, Brasil",-15.9327,-47.85055,Savanna,Primary Forest,28,1520,20,207,107,15,47,5.2,-6.205
+412,Otter & Scholes 2000,Nylsvley Nature Reserve,-24.65,28.7,Savanna,Primary Forest,14,565,19,88,137,10,38,7,-1.022
+413,Otter & Scholes 2000,Nylsvley Nature Reserve,-24.65,28.7,Savanna,Primary Forest,14,565,19,88,137,10,38,7,-0.84
+414,Zepp et al. 1996,"KNP, South Africa",-25.183298,31.287822,Savanna,Primary Forest,12,702,21,69,137,6,68,6.3,-5.95
+415,Premié & Christensen 1999,"Dalun, Ghana",9.58333,-0.96666,Savanna,Primary Forest,32,1056,28,62,149,6,81,6.3,-1.405
+416,Premié & Christensen 1999,"Dalun, Ghana",9.58333,-0.96666,Savanna,Secondary Forest,32,1056,28,62,149,6,81,6.3,-1.606
+417,Premié & Christensen 1999,"Dalun, Ghana",9.58333,-0.96666,Savanna,Secondary Forest,32,1056,28,62,149,6,81,6.3,-1.624
+418,Premié & Christensen 1999,"Tamale, Ghana",9.25,-1.83,Savanna,Primary Forest,25,1038,28,144,137,11,57,6.6,-0.803
+419,Díaz et al. 2018,"National Reserve, Santiago, Chile",-34.13,-71.05,Savanna,Secondary Forest,28,542,17,107,137,12,45,6.9,0.016
+420,Díaz et al. 2018,"National Reserve, Santiago, Chile",-34.13,-71.05,Subtropical,Secondary Forest,28,542,17,107,137,12,45,6.9,-0.012
+421,Borken & Brumme 1997,"Solling, Germany (B1)",51.73,9.6,Temperate,Reforestation,28,993,7,263,123,29,52,6.2,-0.191
+422,Borken & Brumme 1997,"Solling, Germany (F1)",51.73,9.6,Temperate,Reforestation,28,993,7,263,123,29,52,6.2,-1.073
+423,Borken & Brumme 1997,"Lappwald, Germany (LB)",52.25,11.3,Temperate,Reforestation,53,569,9,198,129,13,52,6.4,-0.724
+424,Borken & Brumme 1997,"Lappwald, Germany (LF)",52.25,11.3,Temperate,Reforestation,53,569,9,198,129,13,52,6.4,-0.152
+425,Bowden et al. 1993,"Harvard Forest, USA",42.5,-72.2,Temperate,Reforestation,28,1105,7,736,106,60,70,5,-4.292
+426,Brumme & Borken 1999,"Göttingen, Germany",51.53,9.93,Temperate,Reforestation,87,638,9,143,128,12,40,6.1,-2.48
+427,Brumme & Borken 2000,"Lappwald, Germany (LB)",52.25,11.3,Temperate,Reforestation,53,569,9,198,129,13,52,6.4,-1.34
+428,Brumme & Borken 2001,"Harste, Germany",51.53,9.93,Temperate,Reforestation,87,638,9,143,128,12,40,6.1,-0.75
+429,Brumme & Borken 2002,"Solling, Germany (F1)",51.73,9.6,Temperate,Reforestation,28,993,7,263,123,29,52,6.2,-0.73
+430,Brumme & Borken 2003,"Spanbeck, Germany",51.53,9.93,Temperate,Reforestation,87,638,9,143,128,12,40,6.1,-0.3
+431,Brumme & Borken 2004,"Lappwald, Germany (LF)",52.25,11.3,Temperate,Reforestation,53,569,9,198,129,13,52,6.4,-0.19
+432,Brumme & Borken 2005,"Solling, Germany (B1)",51.73,9.6,Temperate,Reforestation,28,993,7,263,123,29,52,6.2,-0.1
+433,Burke et al. 1999,"UGA HorseShoe Bend, USA",33.9,-83.4,Subtropical,Secondary Forest,71,1255,17,72,147,14,59,5.6,-2.65
+434,Castro et al. 1995,"Harvard Forest, USA",42.5,-72.16,Temperate,Reforestation,21,1094,7,778,98,52,67,5,-0.533
+435,Castro et al. 1996,"Harvard Forest, USA",42.5,-72.16,Temperate,Reforestation,21,1094,7,778,98,52,67,5,-0.504
+436,Castro et al. 1997,"Harvard Forest, USA",42.5,-72.16,Temperate,Reforestation,21,1094,7,778,98,52,67,5,-0.197
+437,Castro et al. 1998,"Harvard Forest, USA",42.5,-72.16,Temperate,Reforestation,21,1094,7,778,98,52,67,5,-0.343
+438,Crill et al. 1991,"UNH College Woods, USA",43.13,-71.95,Temperate,Primary Forest,28,1085,7,426,107,59,67,4.9,-6.249
+439,Delmas et al. 1992,"Dimonika, Congo",-4.5,12.9,Tropical,Primary Forest,21,1236,24,193,123,17,35,6,-6.972
+440,Delmas et al. 1992,"Dimonika, Congo",-4.5,12.9,Tropical,Primary Forest,21,1236,24,193,123,17,35,6,-1.168
+441,Dong et al. 1998,"Darmstadt, Germany",49.86,8.65,Temperate,Primary Forest,87,728,10,169,128,14,56,5.5,-6.716
+442,Eggleton et al. 1999,"Danum Valley Conservation Area, Malaysia",4.96,117.8,Tropical,Primary Forest,21,2185,27,159,130,13,39,5.1,-1.3
+443,Eggleton et al. 2000,"Danum Valley Conservation Area, Malaysia",4.96,117.8,Tropical,Secondary Forest,21,2185,27,159,130,13,39,5.1,-1.15
+444,Eggleton et al. 2001,"Danum Valley Conservation Area, Malaysia",4.96,117.8,Tropical,Secondary Forest,21,2185,27,159,130,13,39,5.1,-0.93
+445,Gulledge et al. 1997,"Bonanza Creek, USA",64.75,-148.3,Boreal,Primary Forest,20,296,-2,1606,69,44,36,5,-2.117
+446,Hudgens & Yavitt 1997,"Ithaca, USA",42.5,-76.5,Temperate,Primary Forest,84,916,8,311,120,14,22,6.4,-3.249
+447,Hudgens & Yavitt 1998,"Trumansburg, USA",42.5,-76.5,Temperate,Primary Forest,84,916,8,311,120,14,22,6.4,-3.577
+448,Hudgens & Yavitt 1999,"Ithaca, USA",42.5,-76.5,Temperate,Secondary Forest,84,916,8,311,120,14,22,6.4,-1.095
+449,Hudgens & Yavitt 2000,"Trumansburg, USA",42.5,-76.5,Temperate,Secondary Forest,84,916,8,311,120,14,22,6.4,-1.497
+450,Hudgens & Yavitt 2001,"Ithaca, USA",42.5,-76.5,Temperate,Reforestation,84,916,8,311,120,14,22,6.4,-1.898
+451,Hudgens & Yavitt 2002,"Trumansburg, USA",42.5,-76.5,Temperate,Reforestation,84,916,8,311,120,14,22,6.4,-4.818
+452,Keller & Reiners 1994,"La Selva, Costa Rica",10.43,-84,Tropical,Primary Forest,46,3707,26,425,123,37,23,4.7,-4.599
+453,Keller & Reiners 1994,"La Selva, Costa Rica",10.43,-84,Tropical,Primary Forest,46,3707,26,425,123,37,23,4.7,-4.38
+454,Klemedtsson & Klemedtsson 1997,"Gårdsjön, Sweden",58.6,12.1,Temperate,Reforestation,21,900,6,482,122,26,46,5.7,-1.387
+455,MacDonald et al. 1997,"Dunslair, Scotland",55.67,-3.13,Temperate,Reforestation,48,1436,7,3258,51,10,62,3.9,-1.716
+456,MacDonald et al. 1997,"Dunslair, Scotland",55.67,-3.13,Temperate,Reforestation,48,1436,7,3258,51,10,62,3.9,-0.84
+457,MacDonald et al. 1997,"Dunslair, Scotland",55.67,-3.13,Temperate,Reforestation,48,1436,7,3258,51,10,62,3.9,-1.825
+458,MacDonald et al. 1997,"Dunslair, Scotland",55.67,-3.13,Temperate,Reforestation,48,1436,7,3258,51,10,62,3.9,-0.803
+459,MacDonald et al. 1999,"Mbalmayo forest, Cameroon",3.51,11.5,Tropical,Primary Forest,67,1690,24,184,129,11,55,5.2,-8.578
+460,MacDonald et al. 1999,"Mbalmayo forest, Cameroon",3.51,11.5,Tropical,Secondary Forest,67,1690,24,184,129,11,55,5.2,-5.512
+461,MacDonald et al. 1999,"Ulu Segama Forest Reserve, Borneo",4.96,117.8,Tropical,Primary Forest,21,2185,27,159,130,13,39,5.1,-4.855
+462,MacDonald et al. 1999,"Ulu Segama Forest Reserve, Borneo",4.96,117.8,Tropical,Secondary Forest,21,2185,27,159,130,13,39,5.1,-4.38
+463,MacDonald et al. 1999,"Ulu Segama Forest Reserve, Borneo",4.96,117.8,Tropical,Secondary Forest,21,2185,27,159,130,13,39,5.1,-3.395
+464,McHale et al. 1998,"Anna and Archer Huntingyon Wildlife Forest, USA",43.98,-74.23,Temperate,Primary Forest,20,1062,5,451,99,64,65,5,-1.971
+465,Priemé & Christensen 1997,"Copenhagen Danish forest, Denmark",55.66,12.56,Temperate,Reforestation,NA,616,9,456,137,10,54,5.8,-2.212
+466,Rustad & Fernandez 1998,"Howland Integrated Forest Study, USA",45.16,-68.66,Temperate,Reforestation,20,1060,6,1389,91,81,28,5.3,-0.365
+467,Singh et al. 1997,"Hathinala, India",24.3,83.1,Tropical,Primary Forest,34,1098,25,85,146,7,68,6.3,-1.789
+468,Singh et al. 1997,"Hathinala, India",24.3,83.1,Tropical,Primary Forest,34,1098,25,85,146,7,68,6.3,-1.314
+469,Singh et al. 1997,"Marihan, India",25.45,81.85,Tropical,Primary Forest,93,927,26,28,139,6,52,9.2,-1.46
+470,Singh et al. 1997,"Marihan, India",25.45,81.85,Tropical,Primary Forest,93,927,26,28,139,6,52,9.2,-2.081
+471,Singh et al. 1997,"Telburva, India",24.3,83.1,Savanna,Primary Forest,34,1098,25,85,146,7,68,6.3,-1.752
+472,Whalen et al. 1991,"Bonanza Creek, USA",64.75,-148.3,Boreal,Afforestation,20,296,-2,1606,69,44,36,5,-1.57
+473,Whalen et al. 1992,"Bonanza Creek, USA",64.75,-148.3,Boreal,Afforestation,20,296,-2,1606,69,44,36,5,0
+474,Whalen et al. 1993,"Bonanza Creek, USA",64.75,-148.3,Boreal,Afforestation,20,296,-2,1606,69,44,36,5,-0.949
+475,Whalen et al. 1994,"Bonanza Creek, USA",64.75,-148.3,Boreal,Afforestation,20,296,-2,1606,69,44,36,5,-1.46
+476,Whalen et al. 1995,"Bonanza Creek, USA",64.75,-148.3,Boreal,Afforestation,20,296,-2,1606,69,44,36,5,-2.044
+477,Whalen et al. 1996,"Bonanza Creek, USA",64.75,-148.3,Boreal,Afforestation,20,296,-2,1606,69,44,36,5,5.092
+478,Whalen et al. 1997,"Bonanza Creek, USA",64.75,-148.3,Boreal,Afforestation,20,296,-2,1606,69,44,36,5,0.913
+479,Whalen et al. 1998,"Bonanza Creek, USA",64.75,-148.3,Boreal,Afforestation,20,296,-2,1606,69,44,36,5,-0.59
+480,Whalen et al. 1999,"Bonanza Creek, USA",64.75,-148.3,Boreal,Afforestation,20,296,-2,1606,69,44,36,5,-0.614
+481,Whalen et al. 2000,"Bonanza Creek, USA",64.75,-148.3,Boreal,Afforestation,20,296,-2,1606,69,44,36,5,-0.578
+482,Yavitt et al. 1990b,"Monongahela National Park, USA",39.5,-79.43,Temperate,Primary Forest,21,1202,9,232,140,20,39,4.5,-0.438
+483,Yavitt et al. 1990b,"Monongahela National Park, USA",39.5,-79.43,Temperate,Primary Forest,21,1202,9,232,140,20,39,4.5,0.015
+484,Yavitt et al. 1990b,"Monongahela National Park, USA",38.4,-80,Temperate,Primary Forest,34,1400,7,125,144,41,38,4.7,0.073
+485,Yavitt et al. 1990b,"Monongahela National Park, USA",38.4,-80,Temperate,Primary Forest,34,1400,7,125,144,41,38,4.7,-0.004
+486,Livesley et al. 2009,"Manypeaks, Australia",-34.833,118.166,Savanna,Primary Forest,23,720,15,92,138,6,75,6.1,-1.384
+487,Livesley et al. 2009,"Manypeaks, Australia",-34.833,118.166,Savanna,Reforestation,23,720,15,92,138,6,75,6.1,-0.438
+488,Livesley et al. 2009,"Manypeaks, Australia",-34.833,118.166,Savanna,Reforestation,23,720,15,92,138,6,75,6.1,-0.603

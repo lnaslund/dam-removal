@@ -1,0 +1,325 @@
+---
+title: "model"
+author: "L. Naslund"
+date: "2023-11-27"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+
+library(tidyverse)
+library(sf)
+library(raster)
+
+# # required geospatial 
+# res <- st_read(NULL)
+# expo_sed <- st_read(NULL)
+# elev <- raster(NULL) %>% project(crs(res)) %>% crop(res)
+# lc <- raster(NULL)
+# 
+# # https://websoilsurvey.sc.egov.usda.gov/DataAvailability/SoilDataAvailabilityMap.pdf
+# soil_soc <- raster(NULL)
+# soil_k <- raster(NULL)
+```
+
+```{r parameter inputs}
+# CH4 global warming potential
+ch4_co2eq <- 27
+
+# maximum depth to which sediment can be mineralized (in cm)
+max_sed_depth <- 1
+
+# max and min values of proportion of exposed sediment which is labile
+max_prop_labile <- 1
+min_prop_labile <- 0
+
+# max and min proportion of annual ebullition emitted during drawdown
+max_eb_prop <- 10
+min_eb_prop <- 0
+
+# max and min proportion of sediment OC oxidized in transport
+max_ox_trans <- 1
+min_ox_trans <- 0
+
+# number of simulations
+n <- 10000
+
+# eroded sediment mass
+erode_sed <- NULL
+```
+
+```{r}
+f_age <- function(a, b, e, age){
+  return(e + a * (1-exp(b*age)))
+}
+# Age where NEP = 0
+log(1 + (-324.54/587.74))/-0.19
+
+df <- read.csv("../1-input-data/bresnard_2018.csv") %>% mutate(age_func = f_age(587.74, -0.19, -324.54, Age)) %>% mutate(nutrient = as.factor(`NA.`))
+
+# need to think about the non-linear function embedded here in the model
+mod1 <- lm(NEP ~ P + MAT + Age + age_func + nutrient, data = df)
+summary(mod1)
+mod2 <- lm(NEP ~ MAT + Age + age_func + nutrient, data = df)
+summary(mod2)
+mod3 <- lm(NEP ~ 0 + MAT + Age + age_func + nutrient, data = df)
+summary(mod3)
+
+
+cand <- list()
+cand[[1]] <- mod1
+cand[[2]] <- mod2
+cand[[3]] <- mod3
+
+library(AICcmodavg)
+aictab(cand, modnames = c("mod1", "mod2", "mod3"))
+
+library(randomForest)
+
+df_slim <- df %>% dplyr::select(NEP, MAT, Age, age_func, nutrient)
+set.seed(620)
+
+rf <- randomForest(NEP ~ ., data = df_slim, promixity = T)
+print(rf)
+```
+
+
+```{r}
+clow <- read.csv("../1-input-data/6-clow-data/res_sed_rate.csv")
+
+
+
+# 0 - 30 % slope
+# 0 - 100 $ forest
+
+sed_int <- -1.18
+sa_b <- 0.9148
+slope_b <- 0.03866
+forest_b <- -0.437
+
+x <- max(clow$`Sed.Rate..mm.yr.`, na.rm = T) %>% log10()
+
+# importance of slope
+10^(sed_int + sa_b*x + slope_b * 0.30 + forest_b * 1)
+
+10^(sed_int + sa_b*x + slope_b * 0 + forest_b * 1)
+
+# importance of forest
+10^(sed_int + sa_b*x + slope_b * 0.30 + forest_b * 0)
+10^(sed_int + sa_b*x + slope_b * 0.30 + forest_b * 1)
+
+# importance of sa
+10^(sed_int + sa_b*x + slope_b * 0.30 + forest_b * 1)
+
+10^(sed_int + sa_b*0 + slope_b * 0.30 + forest_b * 1)
+
+# it looks like forest also matters not just surface area 
+
+clow %>% filter(DSNUM == "1001")
+```
+
+
+```{r reservoir characteristics}
+
+# eventually it would be cool to build this out into a web feature service but for now we could use elevator to get 30 m elevation data or download 3DEP from the National Map
+
+res_area <- st_area(res)
+res_slope <- terrain(elev, opt = "slope", unit = "degrees")
+sed_expo_area <- st_area(expo_sed)
+
+# TODO add LC calculation
+perc_forest <- NULL
+perc_crop <- NULL
+
+river_q <- NULL
+```
+
+```{r}
+library(nhdplusTools)
+
+res_sed <- read.csv("../1-input-data/6-clow-data/res_sed_rate.csv") 
+ressed_snap <- read.csv("../1-input-data/6-clow-data/ressed_snapped.csv")
+
+res_sed_snap <- res_sed %>% left_join(ressed_snap %>% mutate(DSNUM = as.character(DSNUM)) %>% dplyr::select(-ID), by = "DSNUM")
+
+
+names(res_sed)
+names(ressed_snap)
+
+# filter out a site that appears to have incorrect coordinates
+res_sed_sf <- res_sed_snap %>% filter(is.na(LON_NHD100)==FALSE) %>% filter(NAME != "JESSE POND") %>% st_as_sf(coords = c("LON_NHD100", "LAT_NHD100"), crs = 4326)
+
+test <- res_sed_sf %>% slice(4)
+       
+mapview(test)
+
+library(nhdplusTools)
+# Extract the ComID of the outlet flowline segment
+# ComID is an identifier of an NHD flowlines
+start_comid <- discover_nhdplus_id(test)
+
+# Extract upstream flowline segments
+flowline <- navigate_nldi(list(featureSource = "comid",
+                               featureID = start_comid),
+                          mode = "upstreamTributaries",
+                          distance_km = 1000)
+
+# Download flowline, catchment, and waterbody layers 
+subset_file <- tempfile(fileext = ".gpkg")
+subset <- subset_nhdplus(comids = as.integer(flowline$UT$nhdplus_comid),
+                         output_file = subset_file,
+                         nhdplus_data = "download",
+                         flowline_only = FALSE,
+                         return_data = TRUE, overwrite = TRUE)
+
+# No waterbodies in this upstream trace
+flowline <- subset$NHDFlowline_Network # notice the attributes that are downloaded (e.g., stream order, QAMA) 
+catchment <- subset$CatchmentSP
+wb <- subset$NHDArea
+
+mapview(wb) + mapview(test)
+
+# plot flowline
+class(catchment)
+mapview(catchment)+mapview(test)
+
+mapview(flowline) + mapview(test)
+
+# second test is little closer
+sum(st_area(catchment))*3.86102e-7
+
+# looks like part of the problem is that it isn't snapping well to the NHDPlus network and in some cases the pore points are decently far from the reservoir outlet
+```
+
+
+# Before
+
+## Reservoir surface emissions
+
+**G-res tool**
+
+https://131.datatrium.com/fmi/webd/G-res%20Tool?script=ChoiceWebPage&param=Grestool&homeurl=https://g-res.hydropower.org
+
+**Required data**
+
+Must know
+
+- reservoir age
+- P concentration (ug/L) or population in the catchment and category of wastewater treatment
+- water residence time or mean depth
+- reservoir area (km^2)
+- reservoir climate zone
+- maximum depth
+- mean depth or volume
+
+Can be derived from other inputs
+
+- % littoral area
+- water residence time
+
+Can be calculated from Google Earth Engine script given a delineated catchment with 
+https://code.earthengine.google.com/db5542fcc97469961bfd890123aa55df
+
+- mean annual air temperature (C)
+- reservoir surface soil carbon content (kgC m^-2)
+- cumulative global horizontal radiance (kWh m^-2 d-1)
+- catchment area (km2)
+- annual runoff (mm/yr)
+- catchment landcover (%)
+- k factor (soil erodibility factor)
+- mean basin slope
+
+Can delineate catchments in US reservoirs using the StreamStats tool 
+https://streamstats.usgs.gov/ss/ 
+
+```{r gres outputs}
+res_co2_diff <- NULL
+res_ch4_diff <- NULL
+res_ch4_eb <- NULL
+res_ch4_degas <- NULL
+
+res_surface_emissions <- res_co2_diff + (res_ch4_diff * ch4_co2eq) + (res_ch4_eb * ch4_co2eq) + (res_ch4_degas * ch4_co2eq)
+
+# incorporate uncertainty here
+```
+
+## Reservoir carbon burial
+```{r}
+sed_mod <- NULL
+perc_carbon_mod <- NULL
+
+# make sure res_area units are correct. st_area will use projection units
+new_sed_data <- data.frame(surface_area = res_area, slope = res_slope, forest = perc_forest, crops = perc_crop)
+new_carbon_data <- data.frame(soc = res_soc, )
+
+# may need to deal with transformation in estimating PI
+oc <- NULL
+# generate prediction interval for sed_mod
+predict(sed_mod, new_sed_data, interval = "prediction")
+```
+
+# Burp
+
+## Exposed sediment emissions
+```{r}
+# sample range of sediment depths for C to mineralized
+sed_depth <- runif(n, max = max_sed_depth, min = 0)
+
+# sample range of possible sediment lability
+labile <- runif(n, max = max_prop_labile, min = min_prop_labile)
+
+# function to calculate dry bulk density (g m-3)
+dbd <- function(oc){
+  return(1.665 * (oc^-0.887))
+}
+
+# find a way to include range of OC % may need to map function 
+
+# check units and unit conversions (should output g)
+sed_depth * res_area * 10000 * dbd(oc) * labile
+```
+
+## Drawdown ebullition 
+```{r}
+# we may instead want to present a couple of scenarios rather than injecting a bunch of noise here
+eb_prop <- runif(n, min = min_eb_prop, max = max_eb_prop)
+
+# next step is to discard top and bottom proportion 
+drawdown_eb <- eb_prop * res_ch4_eb
+```
+
+## Eroded sediment emissions
+```{r}
+prop_ox <- runif(n, min = min_ox_trans, max = max_ox_trans)
+
+# depending on how mass vs volume is presented in the literature, may need to add unit conversions and/or use dry bulk density to get mass
+erode_emissions <- erode_sed * ox * prop_ox
+```
+
+## River surface emissions
+```{r}
+# create a look up table for both binned CO2 and binned CH4 emissions by Q
+
+# TODO bin Stanley et al. 2023 emissions
+```
+
+# Build
+
+## River surface emissions
+```{r}
+# create a look up table for both binned CO2 and binned CH4 emissions by Q
+
+# TODO bin Stanley et al. 2023 emissions
+```
+
+## ?? Doesn't this depend on whether FVS is giving NPP or NEP. If NPP, then do we need to include soil surface CO2 and CH4 emissions and tree CH4 emissions (including dead wood CH4 emissions)
+
+```{r}
+vec <- runif(20, 0, 10)
+
+hist(vec)
+
+sample(vec, 100, replace = T) %>% hist(breaks = c(0, 2, 4, 6, 8, 10))
+```
+

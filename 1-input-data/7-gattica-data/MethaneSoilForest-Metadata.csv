@@ -1,0 +1,17 @@
+Variables,Units,Description,Source,Spatial Resolution
+ID,,Sampling unit (independent site with soil methane data),,
+Reference,,Name of first author and year of publication,Original data from papers,
+Site,,Name of sampling site ,Original data from papers,
+Lat,Decimal degree,N - S geogrpahic coordinate value,Original data from papers,
+Long,Decimal degree,W - E geographic coordinate value,Original data from papers,
+Biome,,"Biome classification for each observational sample, which is based on climatic determinants related to changes in latitude; except for savanna. ",,
+LandUse,,"Classification of each observational unit as “primary forest” (without reported human disturbances), “secondary forest” (whose structure is derived from regrowing after human disturbances), “reforestation” (restocking with monospecific or mixed forest stand), “afforestation” (forest crops on previous grassland ecosystems, i.e. ecosystems where trees never have grown before) and agroforestry systems (forest production is combined with natural or cultivated pastures or croplands)",Original data from papers,
+HumFoot,,"The Global Human Footprint Dataset of the Last of the Wild Project, Version 2, 2005 (LWP-2) (WCS & CIESIN, 2005)",,
+MAP,,Mean annual precipitation,WordClim 2.0,30 seconds
+MAT,,Mean annual temperature,WordClim 2.0,30 seconds
+SOC,%,Soil organic carbon at 0-10 cm of soil surface ,GSDE,30 seconds
+BulkDens,kg cm-3,Soil bulk density at 0-10 cm of soil surface,GSDE,31 seconds
+SoilNit,%,Soil nitrogen content at 0-10 cm of soil surface,GSDE,32 seconds
+SoilSand,%,Soil sand content at 0-10 cm of soil surface,GSDE,33 seconds
+soilpH,,Soil pH determined by water methods,GSDE,34 seconds
+Methane,kg ha-1 yr-1,Values of methane flux measure in each sampling site,Original data from papers,
