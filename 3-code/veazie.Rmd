@@ -18,54 +18,37 @@ library(lme4)
 library(MuMIn)
 
 # required geospatial 
-res <- st_read("../1-input-data/1-geospatial/reservoirs/glines_res.shp")
-ws <- st_read("../1-input-data/1-geospatial/watersheds/glineswatershed.shp")
+res <- st_read("../1-input-data/1-geospatial/reservoirs/veazie_res.shp")
+ws <- st_read("../1-input-data/1-geospatial/watersheds/veaziewatershed.shp") %>% st_transform(st_crs(res))
+
+st_bbox(ws %>% st_transform(4326))
 
 summary_df <- data.frame(period = character(), flux = character(), variation = character(), flux_unit = character(), annual = character(), area = character(), mean = double(), ci_lwr = double(), ci_upr = double())
-```
 
-```{r parameter inputs}
-# # CH4 global warming potential
-# ch4_co2eq <- 27
-# 
-# # maximum depth to which sediment can be mineralized (in cm)
-# max_sed_depth <- 1
-# 
-# # max and min values of proportion of exposed sediment which is labile
-# max_prop_labile <- 1
-# min_prop_labile <- 0
-# 
-# # max and min proportion of annual ebullition emitted during drawdown
-# max_eb_prop <- 10
-# min_eb_prop <- 0
-# 
-# # max and min proportion of sediment OC oxidized in transport
-# max_ox_trans <- 1
-# min_ox_trans <- 0
-# 
-# # number of simulations
-# n <- 10000
-# 
-# # eroded sediment mass
-# erode_sed <- NULL
+# https://soilgrids.org/
+# 2108.599973611574 dg/kg
+
+# I think you are going to need bulk density too
+
 ```
 
 ```{r reservoir and catchment characteristics}
 ## g-res required inputs
 # catchment area (km2)
+sf_use_s2(FALSE)
 ws_area <- st_area(ws)
 print(paste0("Catchment area (km2): ", round(ws_area * 1e-6, 2)))
 
 # gres required inputs
-ws_pop <- 0
+ws_pop <- 79672
 print(paste0("Population in the catchment: ", ws_pop))
 
 # community wastewater treatment
-wwtp <- "primary"
+wwtp <- "secondary"
 print(paste0("Wastewater treatment: ", wwtp))
 
 # land cover
-glines_lc <- read.csv("../1-input-data/3-gres/glines_lc.csv") %>% 
+veazie_lc <- read.csv("../1-input-data/3-gres/veazie_lc.csv") %>% 
   mutate(gres_class = case_when(
     Legend == "Open Water" ~ "Water Bodies", 
     Legend == "Perennial Snow/Ice" ~ "Permanent Snow/Ice",
@@ -85,69 +68,68 @@ glines_lc <- read.csv("../1-input-data/3-gres/glines_lc.csv") %>%
   ))
 
 print("Catchment landcover:")
-glines_lc %>% group_by(gres_class) %>% summarize(perc = sum(percent) %>% round(1)) %>% print()
+lc <- veazie_lc %>% group_by(gres_class) %>% summarize(perc = sum(percent) %>% round(1)) 
+print(lc)
 
 # country
 country <- "United States"
 print(paste0("Country: ", country))
 
 # coordinates
-long <- -123.6
-lat <- 48.002
+long <- -68.7011
+lat <- 44.8322
 print(paste0("Coordinates: ", lat, ",", long))
 
 # reservoir area (km2)
-res_area <- 1.51 
-print(paste0("Reservoir Area (km2): ", res_area %>% round(1)))
+res_area <- st_area(res) 
+print(paste0("Reservoir Area (km2): ", res_area * 1e-6 ))
 
 # mean depth (m)
-mean_depth <- 23.2
+mean_depth <- 4.42
 print(paste0("Mean Depth (m): ", mean_depth))
 
 # max depth (m)
-max_depth <- 45
+max_depth <- 8.70
 print(paste0("Max Depth (m): ", max_depth))
 
 # littoral area (%) Output from g-res given from max and mean depth
-lit_area <- 6.277
+lit_area <- NA
 print(paste0("Littoral Area (%): ", lit_area))
 
 # thermocline depth (m) Output from g-res
-thermo_depth <- 3.3
+thermo_depth <- NA
 print(paste0("Thermocline depth (m): ", thermo_depth))
 
 # soil carbon
-soil_carbon <- 7.18
+soil_carbon <- 5.11
 print(paste0("Soil carbon under impounded area (kgC/m2): ", soil_carbon))
 
 # reservoir wind
-res_wind <- 4.46
+res_wind <- 5.31
 print(paste0("Reservoir wind at 50 m: ", res_wind))
 
 # water residence time (yrs) Output from g-res
-wrt <- 0.0287
+wrt <- NA
 print(paste0("Water residence time (yrs): ", wrt))
 
 # annual discharge
-q_annual <- 38.71
+q_annual <- 345
 print(paste0("Annual Discharge (m3/s): ", q_annual))
 
-# p concentration (ug/L) Output from g-res
-p_conc <- 5.4
+# p concentration (ug/L) Output from Cronan et al. 2012
+p_conc <- 3
 print(paste0("P Concentration (ug/L): ", p_conc))
 
 # global horizontal radiance
-rad <- 3.4
+rad <- 3.47
 print(paste0("Global horizontal radiance: ", rad))
 
 # mean temperature per month
-temp <- data.frame(Jan = 2, Feb = 3.6, Mar = 5.1, Apr = 7.3, May = 10.3, June = 13.2, July = 15.5, Aug = 16.0, Sept = 13.3, Oct = 9.1, Nov = 4.6, Dec = 2.4) %>% pivot_longer(cols = Jan:Dec, names_to = "Month", values_to = "Temperature")
+temp <- data.frame(Jan = -7.9, Feb = -6.7, Mar = -1.1, Apr = 5.4, May = 11.7, June = 17.0, July = 19.9, Aug = 18.8, Sept = 14.0, Oct = 8.4, Nov = 2.5, Dec = -4.8) %>% pivot_longer(cols = Jan:Dec, names_to = "Month", values_to = "Temperature")
 print("Temperature per month (C)")
 temp
 
 # eventually it would be cool to build this out using a web feature service but for now we could use elevator to get 30 m elevation data or download 3DEP from the National Map
-
-res_area <- 1.51 # km2 from Stratton & Grant 2019
 
 # res_slope <- terrain(elev, opt = "slope", unit = "degrees")
 # sed_expo_area <- st_area(expo_sed)
@@ -158,6 +140,51 @@ res_area <- 1.51 # km2 from Stratton & Grant 2019
 # 
 # river_q <- NULL
 ```
+
+```{r}
+# library(soilDB)
+# 
+# # from Soil Grids not SSURGO or STATSGO
+# 
+# veazie_soil <- fetchSoilGrids(ws, depth_intervals = c("0-5"), variables = c("soc", "bdod"), grid = TRUE, progress = TRUE)
+# 
+# veazie_polyg <- ws %>% st_transform(crs(veazie_soil))
+# 
+# veazie_clip <- crop(veazie_soil, extent(veazie_polyg))
+# veazie_mask <- mask(veazie_clip, veazie_polyg)
+# 
+# plot(veazie_mask)
+# 
+# names(veazie_mask)
+# 
+# veazie_c <- mean(values(veazie_mask[[7]], na.rm = T))
+# veazie_bd <- mean(values(veazie_mask[[8]], na.rm = T))
+# 
+# # our estimates are definitely low and I suspect a unit conversion error but I'm not sure 
+# veazie_c * 1e-1 * 1e-3 * veazie_bd * 1e-2 * 5 * 1e4
+# 
+# 
+# # units are automatically converted but I think this is still wrong
+# # https://search.r-project.org/CRAN/refmans/soilDB/html/fetchSoilGrids.html
+# veazie_c * veazie_bd * 5 * 10
+# 
+# 100000 == 10^5
+# 
+# 1636*85.96*5*10^-5*10^-1*10^4
+# 
+# names(c_content_pared)
+# # should I be concerned this is below the range
+# range(c_content_pared$SOC_0_5, na.rm = TRUE)
+# 
+# #466
+# 
+# test_ws <- read_sf("../1-input-data/6-clow-data/test_ws/layers/globalwatershed.shp")
+# 
+# test_soil <- fetchSoilGrids(test_ws, depth_intervals = c("0-5"), variables = c("soc", "bdod"), grid = TRUE, progress = TRUE)
+# 
+# c_content %>% st_as_sf(coords = c("LON_DD", "LAT_DD"), crs = 4326) %>% dplyr::select(SOC_0_5) %>%  mapview()
+```
+
 
 # Before
 
@@ -199,30 +226,13 @@ https://code.earthengine.google.com/db5542fcc97469961bfd890123aa55df
 Can delineate catchments in US reservoirs using the StreamStats tool 
 https://streamstats.usgs.gov/ss/ 
 
+DONE
 ```{r surface emissions}
 ## output from g-res: emissions in g CO2 eq by pathway
-res_co2_diff_eq <- 36
-res_ch4_diff_eq <- 44 * 0.6
-res_ch4_eb_eq <- 44 * 0.23
-res_ch4_degas_eq <- 44 * 0.17
-
-## with degassing
-# calculate emissions in CO2 eq with degassing
-res_degas_eq <- res_ch4_diff_eq + res_ch4_eb_eq +res_ch4_degas_eq + res_co2_diff_eq
-
-# determine the standard deviation of emissions in CO2 eq with degassing
-res_degas_net <- 367
-res_degas_net_2.5 <- 359
-res_degas_net_97.5 <- 377
-
-res_degas_eq_sd <- max(c((res_degas_net-res_degas_net_2.5),(res_degas_net_97.5-res_degas_net)))/1.96
-
-# calculate emissions in g C with degassing
-res_degas_g <- (res_co2_diff_eq * (12.01/44.01)) + ((res_ch4_diff_eq+res_ch4_eb_eq+res_ch4_degas_eq) *(12.01/16.04) * (1/34))
-
-# determine the standard deviation of emissions in g C with degassing
-# because the CO2 eq sd calculated above is comprised of both CH4 and CO2, I multiplied the CO2-eq sd by the proportion of total CO2-eq emissions comprised of each gas and then multiplied by the relevant GWP to get g of the gas and then converted to grams of C using the appropriate molecular weights
-res_degas_g_sd <- (res_degas_eq_sd * (res_co2_diff_eq/res_degas_eq) * (12.01/44.01)) + ((res_degas_eq_sd * ((res_ch4_diff_eq+res_ch4_eb_eq+res_ch4_degas_eq)/res_degas_eq) * (1/34) *(12.01/16.04)))
+res_co2_diff_eq <- 3
+res_ch4_diff_eq <- 79 * .89
+res_ch4_eb_eq <- 79 * 0.11
+res_ch4_degas_eq <- 0
 
 ## without degassing
 # calculate emissions in g CO2 eq without degassing
@@ -232,334 +242,93 @@ res_eq <- res_co2_diff_eq+res_ch4_diff_eq+res_ch4_eb_eq
 res_g <- (res_co2_diff_eq * (12.01/44.01)) + ((res_ch4_diff_eq+res_ch4_eb_eq) *(12.01/16.04) * (1/34))
 
 # calculate standard deviation in g of CO2 eq without degassing
-res_net_eq <- 360
-res_net_2.5_eq <- 352
-res_net_97.5_eq <- 369
+res_net_eq <- 64
+res_net_2.5_eq <- 55
+res_net_97.5_eq <- 75
 
-res_eq_sd <- max(c((res_net_eq - res_net_2.5_eq),(res_net_97.5_eq-res_net_eq)))/1.96
+res_eq_2.5 <- res_eq - max(c(res_net_97.5_eq-res_net_eq, res_net_eq - res_net_2.5_eq))
+res_eq_97.5 <-  res_eq + max(c(res_net_97.5_eq-res_net_eq, res_net_eq - res_net_2.5_eq))
 
-# calculation standard deviation in g of C without degassing
-res_g_sd <- (res_eq_sd * (res_co2_diff_eq/res_eq) * (12.01/44.01)) + ((res_eq_sd * ((res_ch4_diff_eq+res_ch4_eb_eq)/res_eq) * (1/34) *(12.01/16.04)))
+res_g_interval <- max(c(res_net_97.5_eq-res_net_eq, res_net_eq - res_net_2.5_eq))*(res_co2_diff_eq/res_eq)*(12.01/44.01) + max(c(res_net_97.5_eq-res_net_eq, res_net_eq - res_net_2.5_eq))*((res_ch4_diff_eq + res_ch4_degas_eq)/res_eq)*(1/34) * (12.01/16.04)
 
-emission_vec <- c()
-for(i in 1:10000){
-  val <- sample(c(0,1), 1)
-  if(val == 0){
-    temporary <- rnorm(1, res_eq, res_eq_sd)
-  }
-  if(val == 1){
-    temporary <- rnorm(1, res_degas_eq, res_degas_eq_sd)
-  }
-  emission_vec <- c(emission_vec, temporary)
-}
+res_g_2.5 <- res_g - res_g_interval
+res_g_97.5 <- res_g + res_g_interval
 
-res_emissions_co2eq_97.5 <- sort(emission_vec)[9750]
-res_emissions_co2eq <- sort(emission_vec)[5000]
-res_emissions_co2eq_2.5 <- sort(emission_vec)[250]
-
-print(paste0("Reservoir CO2 emissions in g CO2 eq: ", round(res_emissions_co2eq, 0), " (", round(res_emissions_co2eq_2.5,0), " - ", round(res_emissions_co2eq_97.5, 0), ")"))
-
-emission_vec_g <- c()
-for(i in 1:10000){
-  val <- sample(c(0,1), 1)
-  if(val == 0){
-    temporary <- rnorm(1, res_g, res_g_sd)
-  }
-  if(val == 1){
-    temporary <- rnorm(1, res_degas_g, res_degas_g_sd)
-  }
-  emission_vec_g <- c(emission_vec_g, temporary)
-}
-
-res_emissions_g_97.5 <- sort(emission_vec_g)[9750]
-res_emissions_g <- sort(emission_vec_g)[5000]
-res_emissions_g_2.5 <- sort(emission_vec_g)[250]
-
-print(paste0("Reservoir CO2 emissions in g C: ", round(res_emissions_g, 0), " (", round(res_emissions_g_2.5, 0), " - ", round(res_emissions_g_97.5, 0), ")"))
-
-res_emissions_summary <- data.frame(period = c("before"), flux = c("reservoir emissions"), variation = NA, flux_unit = c("CO2-eq", "C"), annual = "yes", area = "reservoir", mean = c(res_emissions_co2eq, res_emissions_g), ci_lwr = c(res_emissions_co2eq_2.5, res_emissions_g_2.5), ci_upr = c(res_emissions_co2eq_97.5, res_emissions_g_97.5))
+# got rid of the over-complicated combining of degassing an non-degassing fluxes
+res_emissions_summary <- data.frame(period = c("before"), flux = c("reservoir emissions"), variation = NA, flux_unit = c("CO2-eq", "C"), annual = "yes", area = "reservoir", mean = c(res_eq, res_g), ci_lwr = c(res_eq_2.5, res_g_2.5), ci_upr = c(res_eq_97.5, res_g_97.5))
 ```
 
-## Reservoir carbon burial
+## Reservoir carbon burial TODO
 ```{r carbon burial}
-# for now I am keeping these components separate (e.g.,a draw could have one value for bulk density here and then another for eroded C emissions, but will fix later)
-burial_rate <- 2098
+# sedimentation model
+clow_df <- read.csv("../1-input-data/6-clow-data/clow_all.csv") %>% mutate(sed_rate_m3_yr = sed_rate_mm_yr * 1e-3 * surface_area_m2, log_sed_rate_m3_yr = log10(sed_rate_m3_yr), log_surface_area_m2 = log10(surface_area_m2), crop_perc = Crop_Perc/100, forest_perc = Forest_Perc/100)
 
-# Means are from table 3 in Stratton et al. 2019, SD for volume from USBR 2011 and SD for bulk density and C content from Wing 2014
-# I am assuming that in USBR 2011, when they say uncertainty they mean the 95% CI
-volume <- 1.51e7
-volume_sd <- (2700000 *0.764555)/1.96 # conversion from cubic yards to cubic meters
+clow.mod <- lm(log_sed_rate_m3_yr ~ log_surface_area_m2 + slope_calc + forest_perc + crop_perc, data = clow_df)
 
-bulk_density <- 2.03e13/1.51e7 #g m-3
-bulk_density_sd <- 0.29 * 1e6
+# run predictors in the clow-predictors script 
+# decided to use the same lc as input for g-res rather than EnviroAtlas delineation method because this also let's us get barren and it's weird to have different numbers here
+veazie_sed_pred <- read.csv("../1-input-data/6-clow-data/veazie_sed_pred.csv") %>% 
+  mutate(log_surface_area_m2 = log10(st_area(res) %>% as.numeric()), crop_perc = lc %>% filter(gres_class == "Croplands") %>% pull(perc)/100, forest_perc = lc %>% filter(gres_class == "Forest") %>% pull(perc)/100) %>% 
+  dplyr::select(-Crop_Perc, -Forest_Perc, - dam) %>% 
+  rename("slope_calc" = "slope")
 
-c_content <- (302 * 1e9)/2.03e13
-c_content_sd <- 0.83 *1e-2
+# need to figure out how to use this prediction interval to sample sedimentation rates
+predict(clow.mod, veazie_sed_pred, interval = "prediction")
 
-# what to do about the potential negative C content? Make it a gamma distribution?
+# c content model
+c_content <- read.csv("../1-input-data/6-clow-data/c_content.csv") %>% mutate(LAKE_ORIGIN_renamed = as.factor(LAKE_ORIGIN_renamed))
 
-# proving to myself this works
-b = (c_content_sd)^2/c_content
-a = (c_content)^2/(c_content_sd)^2
+c_content_pared <- c_content %>% dplyr::select(sediment_C_pct, SOC_0_5, Wetlands90, log_Wetlands90, Barren30, KFactor, log_WaterBody_Area_m2, log_Lake_Area_m2_EPA, LAKE_ORIGIN_renamed) %>% mutate(wetland_si = log10(Wetlands90 + 1))
 
-x <- seq(0,0.2, length.out = 10000)
-y <- dgamma(x, shape=a, scale=b)
-y2 <- dnorm(x, mean = c_content, sd= c_content_sd)
+# I think this is the correct model 
+c.mod <- lm(sediment_C_pct ~ SOC_0_5 + wetland_si + Barren30 + KFactor + log_Lake_Area_m2_EPA + LAKE_ORIGIN_renamed, data = c_content_pared)
 
-plot(x, y)
-points(x, y2, col = "red")
+# this is with kf not kw
+veazie_c_pred <- read.csv("../1-input-data/6-clow-data/veazie_soil.csv") %>% rename("SOC_0_5" = "soc", "KFactor" = "kf") %>% dplyr::select(-kw) %>% mutate(wetland_si = log10(lc %>% filter(gres_class == "Wetlands") %>% pull(perc)/100 + 1), Barren30 = lc %>% filter(gres_class == "Bare Areas") %>% pull(perc)/100, log_Lake_Area_m2_EPA = log10(as.numeric(res_area)), LAKE_ORIGIN_renamed = "RESERVOIR")
 
-# 83 is the  number of years between when the reservoir was created until the survey was taken to generate volume estimates
-burial_vec <- c()
-for(i in 1:10000){
-  temporary <- (rnorm(1, volume, volume_sd) * rnorm(1, bulk_density, bulk_density_sd) * rgamma(1, shape=a, scale = b))/(res_area * 1e6 * 83)
-  burial_vec <- c(burial_vec, temporary)
-}
+predict(c.mod, veazie_c_pred, interval = "prediction")
 
-# totals
-res_burial_97.5 <- sort(burial_vec)[9750]
-res_burial <- sort(burial_vec)[5000]
-res_burial_2.5 <- sort(burial_vec)[250]
+```
 
-print(paste0("Reservoir C burial in g C: ", round(res_burial,0), " (", round(res_burial_2.5, 0), " - ", round(res_burial_97.5, 0), ")"))
+```{r}
+# spot checked that the log areas are correct but there are two different ones and who knows which they used
 
-res_burial_co2eq_97.5 <- res_burial_97.5 * (44.01/12.01)
-res_burial_co2eq <- res_burial * (44.01/12.01)
-res_burial_co2eq_2.5 <- res_burial_2.5 * (44.01/12.01)
+range(c_content$sediment_C_pct, na.rm = T)
 
-print(paste0("Reservoir C burial in g CO2 eq: ", round(res_burial_co2eq,0), " (", round(res_burial_co2eq_2.5,0), " - ", round(res_burial_co2eq_97.5, 0), ")"))
+
+
+c.mod <- lm(sediment_C_pct ~ SOC_0_5 + test_wetlands + Barren30 + KFactor + log_WaterBody_Area_m2 + wb_type, data = c_content %>% mutate(test_wetlands = log10(Wetlands90 + 1)))
+
+
+options(scipen = 13)
+summary(c.mod)
+
+range(c_content$Wetlands90)
 
 res_burial_summary <- data.frame(period = c("before"), flux = c("reservoir burial"), variation = NA, flux_unit = c("CO2-eq", "C"), annual = "yes", area = "reservoir", mean = c(-res_burial_co2eq, -res_burial), ci_lwr = c(-res_burial_co2eq_2.5, -res_burial_2.5), ci_upr = c(-res_burial_co2eq_97.5, -res_burial_97.5))
 ```
 
 # Burp
 
-## Exposed sediment CO2 emissions
+## Exposed sediment CO2 emissions DONE
 ```{r}
-keller <- read_csv("../1-input-data/4-exposed-sediment-emissions/Keller_NatureCommunications_2020_data.csv", skip = 6) %>% slice(-1)
-
-# mmol/m2/day -> g CO2/m2/yr
-keller_res <- keller %>% filter(`system type` == "reservoir") %>% mutate(co2_flux = as.numeric(`CO2 flux dry sediment`) * 1e-3 * 44.01 * 365, moisture_num = as.numeric(moisture))
-
-# Had the idea of saying these emissions stop when moisture content is zero but there are still some relatively high fluxes at low sediment moisture content when we don't exclude non-reservoir systems but it looks like there is a reasonable decline with moisture content. We can also say that even if we understood about how long it takes for sediments to dry out, there are still rewetting events that may continue to create pulses of emissions.
-keller_res %>% ggplot(aes(moisture_num, co2_flux))+geom_point()
-
-other_sed_co2 <- read_csv("../1-input-data/4-exposed-sediment-emissions/additional_exposed_sed_flux.csv") %>% mutate(co2_flux = flux_mgC_m2_day * 1e-3 *365 * (44.01/12.01)) # convert mg C/m2/day to g CO2/m2/yr
-
-exp_sed_co2 <- other_sed_co2 %>% dplyr::select(co2_flux)  %>% bind_rows(keller_res %>% dplyr::select(co2_flux)) 
-exp_sed_co2 %>% ggplot(aes(co2_flux))+geom_histogram() + xlab("CO2 flux (g/m2/yr)")
-
-# find exponential decay constants that lead to different years to 0.1 g/m2/yr
-
-# plot with initial value = mean
-a <- mean(exp_sed_co2$co2_flux)
-
-years <- c(1/12, 1, 5, 10, 30, 100)
-rates <- (0.1/a)^(1/years)
-
-x <- seq(0, 100, by = 0.5)
-for(i in 1:length(rates)){
-  y <- a*(rates[i]^x)
-  plot(x, y, type = "l")
-}
-
-integrand <- function(x){a*b^x}
-
-# calculate for every possible starting CO2 value and rate
-df <- data.frame(a=double(), y = double(), b=double(), total=double())
-
-for(j in 1:nrow(exp_sed_co2)){
-  a <- exp_sed_co2$co2_flux[j]
-  
-  for(i in 1:length(years)){
-    b <-(0.1/a)^(1/years[i])
-    total <- integrate(integrand, 0, 100)[[1]]
-    y <- years[i]
-    
-    temporary <- data.frame(a = a, y = y, b = b, total = total)
-    df <- df %>% bind_rows(temporary)
-  }
-}
-
-# is it ok to calculated the CI this way because you are not sampling 10000x from a distribution but rather sampling each measurement?
-res_exp_sed_co2 <- df %>% 
-  mutate(total_c = total * (12.01/44.01)) %>% 
-  group_by(y) %>% 
-  summarize(mean_co2 = mean(total) %>% round(0), 
-            sd_co2 = sd(total)%>% round(0), 
-            ci_upper_co2 = (mean_co2 + 1.96 *(sd_co2/sqrt(nrow(exp_sed_co2))))%>% round(0), 
-            ci_lower_co2 = (mean_co2 - 1.96 *(sd_co2/sqrt(nrow(exp_sed_co2))))%>% round(0), 
-            mean_c = mean(total_c)%>% round(0), 
-            sd_c = sd(total_c)%>% round(0), 
-            ci_upper_c = (mean_c + 1.96 *(sd_c/sqrt(nrow(exp_sed_co2))))%>% round(0), 
-            ci_lower_c = (mean_c - 1.96 *(sd_c/sqrt(nrow(exp_sed_co2))))%>% round(0),
-            sed_co2 = paste0(mean_co2, " (", ci_lower_co2, " - ", ci_upper_co2, ")"),
-            sed_c = paste0(mean_c, " (", ci_lower_c, " - ", ci_upper_c, ")"))
-
-res_exp_sed_co2
-
-write.csv(res_exp_sed_co2, "../2-output-data/glines_exp_sed_co2.csv", row.names = FALSE)
+# double check when you are fresh that these should be the same as the glines output
+res_exp_sed_co2 <- read.csv("../2-output-data/exp_sed_co2.csv")
 
 res_sed_co2_summary <- data.frame(period = c("burp"), flux = c("exposed sediment CO2"), variation = res_exp_sed_co2$y %>% as.character(), flux_unit = c(rep("CO2-eq", 6), rep("C", 6)), annual = "no", area = "exposed sediment area", mean = c(res_exp_sed_co2$mean_co2, res_exp_sed_co2$mean_c), ci_lwr = c(res_exp_sed_co2$ci_lower_co2, res_exp_sed_co2$ci_lower_c), ci_upr = c(res_exp_sed_co2$ci_upper_co2, res_exp_sed_co2$ci_upper_c))
 ```
 
-## Exposed sediment CH4 emissions
+## Exposed sediment CH4 emissions DONE
 ```{r}
-# check this math when you are more fresh
-sed_ch4_avg = 36 * 1e-3 * 365 # conversion to g CH4 /m2/yr
-sed_ch4_sd = 78 * 1e-3 * 365
+thresh_0.01 <- read.csv("../2-output-data/exp_sed_ch4.csv")
 
-years <- c(1/12, 1, 5, 10, 30, 100)
-
-# it is a little weird that you are sampling a distribution here but values for CO2 flux, but the only reason you are doing that is because the authors for the CH4 synthesis to not report the original values
-df <- data.frame(a=double(), y = double(), b=double(), total=double(), sign = character())
-
-integrand <- function(x){a_pos*b^x}
-
-for(j in 1:10000){
-  a <- rnorm(1, sed_ch4_avg, sed_ch4_sd)
-  
-  # integration won't work if the starting value is less than the threshold value 0.01
-  if(-0.01 < a & a < 0.01){
-    next
-  }
-  
-  sign <- if_else(a > 0, "pos", "neg")
-  
-  for(i in 1:length(years)){
-    y <- years[i]
-    
-    if(sign == "neg"){
-      a_pos <- -a
-      b <-(0.01/a_pos)^(1/years[i])
-      total <- tryCatch(integrate(integrand, 0, 100)[[1]] * -1,  error = function(e){NA})
-    }
-    
-    if(sign == "pos"){
-      a_pos <- a
-       b <-(0.01/a_pos)^(1/years[i])
-       total <- tryCatch(integrate(integrand, 0, 100)[[1]], error = function(e){NA})
-    }
-    
-    temporary <- data.frame(a = a, y = y, b = b, total = total, sign = sign)
-    df <- df %>% bind_rows(temporary)
-  }
-}
-
-# need to convert to CO2 eq emissions
-# 8102.2 mg C m-2 total CH4 emissions during drying period from Kosten et al. 2018 table 1
 pore_co2_eq <- 8102.2 * 1e-3 * (16.04/12.01)* 34
 pore_c <- 8102.2 * 1e-3
-
-# I think this is the wrong way to do it
-# thresh_0.01 <- df %>%
-#   mutate(total_co2_eq = total * 34, 
-#          total_c = total * (12.01/16.04), 
-#          total_pore = total_co2_eq + pore_co2_eq, 
-#          total_pore_c = total + pore_c) %>%
-#   group_by(y) %>%
-#   summarize(count = n(),
-#             mean_ch4 = mean(total_co2_eq),
-#             sd_ch4 = sd(total_co2_eq),
-#             ci_upper_ch4 = mean_ch4 + 1.96 *(sd_ch4/sqrt(count)),
-#             ci_lower_ch4 = mean_ch4 - 1.96 *(sd_ch4/sqrt(count)),
-#             
-#             mean_c = mean(total_c),
-#             sd_c = sd(total_c),
-#             ci_upper_c = mean_c + 1.96 *(sd_c/sqrt(count)),
-#             ci_lower_c = mean_c - 1.96 *(sd_c/sqrt(count)), 
-#             
-#             mean_pore_ch4 = mean(total_pore), 
-#             sd_pore_ch4 = sd(total_pore), 
-#             ci_upper_pore_ch4 = mean_pore_ch4 + 1.96 *(sd_pore_ch4/sqrt(count)), 
-#             ci_lower_pore_ch4 = mean_pore_ch4 + 1.96 *(sd_pore_ch4/sqrt(count)),
-#             
-#             mean_pore_c = mean(total_pore_c),
-#             sd_pore_c = sd(total_pore_c),
-#             ci_upper_pore_c = mean_pore_c + 1.96 *(sd_pore_c/sqrt(count)),
-#             ci_lower_pore_c = mean_pore_c - 1.96 *(sd_pore_c/sqrt(count)))
-# 
-# write.csv(thresh_0.01, "../2-output-data/glines_exp_sed_ch4.csv", row.names = FALSE)
-
-# with the large number of samples, we are probably deflating the CI, why are you calculating it this way instead of simulating the 95% CI
-
-thresh_0.01 <- df %>% 
-  mutate(total_co2_eq = total * 34, total_c = total * (12.01/16.04)) %>% 
-  group_by(y) %>% 
-  arrange(total_co2_eq) %>% 
-  summarize(count = n(), 
-            mean_co2 = total_co2_eq[count * 0.5], 
-            lwr_co2 = total_co2_eq[count*0.025], 
-            upr_co2 = total_co2_eq[count *0.975], 
-            mean_c = total_c[count * 0.5], 
-            lwr_c = total_c[count * 0.025], 
-            upr_c = total_c[count * 0.975],
-            sed_ch4_co2_eq = paste0(round(mean_co2, 0), " (", round(lwr_co2,0), " - ", round(upr_co2, 0), ")"),
-            sed_ch4_gC = paste0(round(mean_c, 1), " (", round(lwr_c,1), " - ", round(upr_c, 1), ")"),
-            sed_ch4_co2_eq_pore = paste0(round(mean_co2 + pore_co2_eq, 0), " (", round(lwr_co2 + pore_co2_eq,0), " - ", round(upr_co2 +pore_co2_eq, 0), ")"),
-            sed_ch4_gC_pore = paste0(round(mean_c +pore_c, 1), " (", round(lwr_c+pore_c,1), " - ", round(upr_c+pore_c, 1), ")"))
-
-write.csv(thresh_0.01, "../2-output-data/glines_exp_sed_ch4.csv", row.names = FALSE)
-
-thresh_0.01
-
 
 res_sed_ch4_summary <- data.frame(period = c("burp"), flux = c("exposed sediment CH4"), variation = c(rep(paste0("no_pore_", thresh_0.01$y), 2), rep(paste0("pore_", thresh_0.01$y), 2)), flux_unit = rep(c(rep("CO2-eq", 6), rep("C", 6)), 2), annual = "no", area = "exposed sediment area", mean = c(thresh_0.01$mean_co2,  thresh_0.01$mean_c, thresh_0.01$mean_co2 + pore_co2_eq, thresh_0.01$mean_c + pore_c), ci_lwr = c(thresh_0.01$lwr_co2,  thresh_0.01$lwr_c, thresh_0.01$lwr_co2 + pore_co2_eq, thresh_0.01$lwr_c + pore_c), ci_upr = c(thresh_0.01$upr_co2, thresh_0.01$upr_c, thresh_0.01$upr_co2 + pore_co2_eq, thresh_0.01$upr_c + pore_c))
 ```
 
-```{r}
-# in case I want to test out the thresholds again
-# thresh_0.1 <- df %>% 
-#   mutate(total_c = total * (12.01/16.04)) %>% 
-#   group_by(y) %>% 
-#   summarize(count = n(), 
-#             mean_ch4 = mean(total), 
-#             sd_ch4 = sd(total), 
-#             ci_upper_ch4 = mean_ch4 + 1.96 *(sd_ch4/sqrt(count)), 
-#             ci_lower_ch4 = mean_ch4 - 1.96 *(sd_ch4/sqrt(count)), 
-#             mean_c = mean(total_c), 
-#             sd_c = sd(total_c), 
-#             ci_upper_c = mean_c + 1.96 *(sd_c/sqrt(count)), 
-#             ci_lower_c = mean_c - 1.96 *(sd_c/sqrt(count)))
-# 
-# thresh_0.01 <- df %>% 
-#   mutate(total_c = total * (12.01/16.04)) %>% 
-#   group_by(y) %>% 
-#   summarize(count = n(), 
-#             mean_ch4 = mean(total), 
-#             sd_ch4 = sd(total), 
-#             ci_upper_ch4 = mean_ch4 + 1.96 *(sd_ch4/sqrt(count)), 
-#             ci_lower_ch4 = mean_ch4 - 1.96 *(sd_ch4/sqrt(count)), 
-#             mean_c = mean(total_c), 
-#             sd_c = sd(total_c), 
-#             ci_upper_c = mean_c + 1.96 *(sd_c/sqrt(count)), 
-#             ci_lower_c = mean_c - 1.96 *(sd_c/sqrt(count)))
-# 
-# thresh_0.01
-# thresh_0.1
-
-```
-
-### Alternative exposed sediment emissions (C only)
-```{r}
-# sample range of sediment depths for C to mineralized
-# sed_depth <- runif(n, max = max_sed_depth, min = 0)
-# 
-# # sample range of possible sediment lability
-# labile <- runif(n, max = max_prop_labile, min = min_prop_labile)
-# 
-# # function to calculate dry bulk density (g m-3)
-# dbd <- function(oc){
-#   return(1.665 * (oc^-0.887))
-# }
-# 
-# # find a way to include range of OC % may need to map function 
-# 
-# # check units and unit conversions (should output g)
-# sed_depth * res_area * 10000 * dbd(oc) * labile
-```
-
-## Drawdown ebullition 
+## Drawdown ebullition DONE
 ```{r}
 res_ch4_eb_eq_2.5 <- res_ch4_eb_eq - max((res_net_eq - res_net_2.5_eq), (res_net_97.5_eq - res_net_eq))
 res_ch4_eb_eq_97.5 <- res_ch4_eb_eq + max((res_net_eq - res_net_2.5_eq), (res_net_97.5_eq - res_net_eq))
@@ -580,10 +349,12 @@ round(res_ch4_eb_g_97.5 * drawdown_eb_prop,1)
 res_drawdown_eb_summary <- data.frame(period = c("burp"), flux = c("drawdown ebullition"), variation = drawdown_eb_prop %>% as.character(), flux_unit = c(rep("CO2-eq",5), rep("C", 5)), annual = "no", area = "reservoir", mean = c(res_ch4_eb_eq * drawdown_eb_prop, res_ch4_eb_g * drawdown_eb_prop) , ci_lwr = c(res_ch4_eb_eq_2.5 * drawdown_eb_prop, res_ch4_eb_g_2.5 * drawdown_eb_prop) , ci_upr = c(res_ch4_eb_eq_97.5 * drawdown_eb_prop, res_ch4_eb_g_97.5 * drawdown_eb_prop))
 ```
 
-## Eroded sediment emissions
+## Eroded sediment emissions TODO
 ```{r}
-res_erode_g <- 9.1 * 1e6
-res_erode_g_sd <- 1.8 * 1e6
+# Collins et al. write that a combination of the CR Environmental Report and post-removal survey suggest that the combined volume of mobilized sediment from Veazie and Great Works dam was 15,000 m3 or smaller
+# Fit a uniform distribution between 0 and 15,000 m3
+res_erode_g_max <- 15000
+res_erode_g_min <- 0
 
 # parameters for g distribution of % C
 b = (c_content_sd)^2/c_content
@@ -595,7 +366,7 @@ max_ox_trans = 1
 
 eroded_vec <- c()
 for(i in 1:10000){
-  temporary <- (rnorm(1, res_erode_g, res_erode_g_sd) * rgamma(1, shape=a, scale = b) * runif(1, min = min_ox_trans, max = max_ox_trans))/(res_area * 1e6)
+  temporary <- (runif(1, min = res_erode_g_min, max = res_erode_g_max) * rgamma(1, shape=a, scale = b) * runif(1, min = min_ox_trans, max = max_ox_trans))/(res_area * 1e6)
   eroded_vec <- c(eroded_vec, temporary)
 }
 
@@ -618,11 +389,11 @@ res_erode_summary <- data.frame(period = c("burp"), flux = c("eroded sediment em
 
 # Build
 
-## River surface CO2 emissions
+## River surface CO2 emissions DONE
 ```{r}
 # Nate suggested writing a function that takes parameters of a gamma distribution as arguments and calculates those parameters that I have. Use optim or mle2 to optimize estimates to be as close to empirical as possible
 
-# Discharge is in the 10-100 m3/s bin
+# Discharge is in the >100 m3/s bin
 # Values are reported as g C m-2 d-
 
 # Function to calculate the sum of squared differences between observed and target quantiles
@@ -637,7 +408,7 @@ gamma_params_diff <- function(params, quantiles_target) {
 }
 
 # Target quantiles
-quantiles_target <- c(1.58, 2.50, 4.36)
+quantiles_target <- c(1.5, 2.16, 4.78)
 
 # Initial guess for shape and scale parameters
 initial_params <- c(shape = 1, scale = 1)
@@ -681,7 +452,7 @@ riv_co2_2.5_gco2
 riv_co2_summary <- data.frame(period = c("build"), flux = c("river CO2 emissions"), variation = NA, flux_unit = c("CO2-eq", "C"), annual = "yes", area = "river", mean = c(riv_co2_gco2, riv_co2_gC), ci_lwr = c(riv_co2_2.5_gco2, riv_co2_2.5_gC), ci_upr = c(riv_co2_97.5_gco2, riv_co2_97.5_gC))
 ```
 
-## River surface CH4 emissions
+## River surface CH4 emissions DONE these seem, really high
 ```{r}
 ch4_conc <- read.csv("../1-input-data/5-ch4-fluxes/GRiMe_concentrations_v2.csv") 
 ch4_flux <- read.csv("../1-input-data/5-ch4-fluxes/GRiMe_fluxes_v2.csv")
@@ -707,14 +478,6 @@ mapview(ch4_flux_sites_usa)
 ch4_flux_sites_usa %>% ggplot(aes(Q, Diffusive_CH4_Flux_Mean))+geom_point()
 ch4_flux_sites_usa %>% filter(Q < 500 & Diffusive_CH4_Flux_Mean<45) %>% ggplot(aes(Q, Diffusive_CH4_Flux_Mean))+geom_point()
 
-# Elwha measurements
-elwha <- ch4_flux_sites_usa %>% filter(Site_Name == "Elwha River")
-
-# glines CO2 mmol m-2 d- -> g CO2 m2 yr
-elwha$CO2_Flux_Mean * 365 * 1e-3 * 44.01
-
-# glines CH4 mmol m2 day
-elwha$Diffusive_CH4_Flux_Mean * 365 * 1e-3 * 16.04
 
 # TODO: figure out how many obs are in each bin, sample appropriate bin report number, decide what to do RE ebullition, and compare CO2 values to the ones derived from Hotchkiss et al. 2015
 
@@ -734,7 +497,7 @@ ch4_flux_sites_usa %>% filter(is.na(Diffusive_CH4_Flux_Mean)==FALSE) %>% group_b
 ch4_flux_sites_usa %>% filter(is.na(Eb_CH4_Flux_Mean)==FALSE) %>% group_by(q_bin) %>% summarize(count = n())
 
 
-ch4_flux_vec <- sort(sample(ch4_flux_sites_usa %>% filter(q_bin== "10-100") %>% pull(Diffusive_CH4_Flux_Mean), 10000, replace = TRUE))
+ch4_flux_vec <- sort(sample(ch4_flux_sites_usa %>% filter(q_bin== ">100") %>% pull(Diffusive_CH4_Flux_Mean), 10000, replace = TRUE))
 ch4_flux_vec_gCH4 <- ch4_flux_vec * 365 * 1e-3 * 16.04
 ch4_flux_vec_gCO2eq <- ch4_flux_vec_gCH4 * 34
 
@@ -766,7 +529,7 @@ co2_vec[9750]
 riv_ch4_summary <- data.frame(period = c("build"), flux = c("river CH4 emissions"), variation = NA, flux_unit = c("CO2-eq", "C"), annual = "yes", area = "river", mean = c(riv_ch4_flux_gCO2eq, riv_ch4_flux_gC), ci_lwr = c(riv_ch4_flux_2.5_gCO2eq, riv_ch4_flux_2.5_gC), ci_upr = c(riv_ch4_flux_97.5_gCO2eq, riv_ch4_flux_97.5_gC))
 ```
 
-## NEE
+## NEE DONE
 ```{r}
 f_age <- function(a, b, e, age){
   return(e + a * (1-exp(b*age)))
@@ -774,94 +537,8 @@ f_age <- function(a, b, e, age){
 
 # changed inputs from a = 587.74, b = -0.19, e = -324.54 to a = 263.2, b = -0.19, e = 0 to make it reach the same asymptote but start at 0
 # it doesn't seem to matter what the reference level is or what the f_age parameters are (in terms of the two options above, we get the same relationship)
-df <- read.csv("../1-input-data/bresnard_2018.csv") %>% mutate(age_func = f_age(263.2, -0.19, 0, Age)) %>% mutate(nutrient = as.factor(`NA.`))
+df <- read.csv("../1-input-data/8-besnard-data/besnard_2018.csv") %>% mutate(age_func = f_age(263.2, -0.19, 0, Age)) %>% mutate(nutrient = as.factor(`NA.`))
 
-df$nutrient <- relevel(df$nutrient, ref = "L")
-
-df_ori <- read.csv("../1-input-data/bresnard_2018.csv") %>% mutate(age_func = f_age(587.74, -0.19, -324.54, Age)) %>% mutate(nutrient = as.factor(`NA.`))
-
-nep_mod <- lm(NEP ~ MAT + Age + age_func + nutrient, data = df)
-summary(nep_mod)
-
-nep_mod2 <- lm(NEP ~ MAT + Age + age_func + nutrient, data = df_ori)
-summary(nep_mod2)
-
-nep_mod3 <- lm(NEP ~ 0 + MAT + Age + age_func + nutrient, data = df)
-summary(nep_mod3)
-
-# MAT you can get from mean(temp$Temperature)
-nep_new <- data.frame(MAT = mean(temp$Temperature), Age = seq(0, 300, by = 1), age_func = f_age(263.2, -0.19, 0, seq(0, 300, by = 1)), nutrient =as.factor("L"))
-nep_old <- data.frame(MAT = mean(temp$Temperature), Age = seq(0, 100, by = 1), age_func = f_age(587.74, -0.19, -324.54, seq(0, 100, by = 1)), nutrient =as.factor("L"))
-
-nep_predict_old <- predict(nep_mod, nep_old, interval = "prediction") %>% as.data.frame()
-nep_predict_old
-nep_predict_new <- predict(nep_mod, nep_new, interval = "prediction") %>% as.data.frame()
-nep_predict_new
-
-# why does it not go through the origin? Multiple regression model? It makes sense that it doesn't but does that mean then we shouldn't force it through the origin
-nep_predict <- predict(nep_mod, nep_new, interval = "prediction") %>% as.data.frame()
-nep_predict2 <- predict(nep_mod2, nep_old, interval = "prediction") %>% as.data.frame()
-nep_predict3 <- predict(nep_mod3, nep_new, interval = "prediction") %>% as.data.frame()
-
-y <- nep_predict$fit
-y2 <- nep_predict2$fit
-y3 <- nep_predict3$fit
-
-plot(0:100, y)
-points(0:100, y2, col = "red")
-points(0:100, y3, col = "blue")
-
-y_upp <- nep_predict$upr
-y_low <- nep_predict$lwr
-
-# the lower part of the interval is always negative
-plot(0:100, y)
-points(0:100, y_upp, col = "red")
-points(0:100, y_low, col = "blue")
-
-
-# it doesn't actually matter if you run the regression with or without the intercept you get the same answer
-
-# what if we got rid of all of the negative values (negative for longer)? or you could alter the NEP age function
-f_age <- function(a, b, e, age){
-  return(e + a * (1-exp(b*age)))
-}
-
-new_age <- f_age((587.74-324.54), -0.19, 0, 0:100)
-old_age <- f_age(587.74, -0.19, -324.54, 0:100)
-
-plot(0:100, new_age)
-points(0:100, old_age, col = "red")
-
-f_age(587.74, -0.19,-324.54, 1000)
-
-# I want to figure out a way by which B0 + B1*MAT + B2*Nutrient > 0 at every level of MAT and nutrient 
-# I think this amounts to a constrained optimization problem where B0 + B1 MAT + B2 Nutrient > 0 is true and we minimize the sum of squared residuals
-
-nep_mod4 <- lm(NEP ~ Age + age_func, data = df %>% filter(NEP >0))
-summary(nep_mod4)
-
-nep_predict4 <- predict(nep_mod4, nep_new, interval = "prediction") %>% as.data.frame()
-nep_predict4
-
-df %>% filter(MAT < 100) %>% ggplot(aes(MAT, NEP))+geom_point()+geom_smooth(method = "lm")
-df %>% ggplot(aes(nutrient, NEP))+geom_boxplot()
-
-nep_new <- data.frame(MAT = mean(temp$Temperature), Age = seq(0, 100, by = 1), age_func = f_age(263.2, -0.19, 0, seq(0, 100, by = 1)), nutrient =as.factor("L"))
-nep_predict <- predict(nep_mod, nep_new, interval = "prediction") %>% as.data.frame()
-nep_new2 <- data.frame(MAT = mean(temp$Temperature), Age = seq(0, 100, by = 1), age_func = f_age(263.2, -0.19, 0, seq(0, 100, by = 1)), nutrient =as.factor("M"))
-nep_predict2 <- predict(nep_mod, nep_new2, interval = "prediction") %>% as.data.frame()
-
-plot(0:100, nep_predict2$fit, ylim = c(-400, 400))
-points(0:100, nep_predict$fit, col = "red")
-
-plot(df$Age, df$NEP)
-points(0:300, nep_predict_new$fit, type = "l")
-points(0:300, nep_predict_new$lwr, type = "l", col = "red")
-points(0:300, nep_predict_new$upr, type = "l", col = "red")
-```
-
-```{r}
 # estimating NEP assuming that it is zero before the model predicts positive values
 nep_mod <- lm(NEP ~ MAT + Age + age_func + nutrient, data = df)
 summary(nep_mod)
@@ -898,7 +575,8 @@ res_nep_summary <- data.frame(period = c("build"), flux = c("NEP"), variation = 
 res_nep_summary
 ```
 
-## Soil CH4 emissions
+## Soil CH4 emissions DONE
+## Priority for math checking
 ```{r}
 soil <- read.csv("../1-input-data/7-gattica-data/MethaneSoilForest.csv") %>% mutate(MAP_sq = MAP^2, MAT_sq = MAT^2) %>% filter(complete.cases(.))
 
@@ -914,49 +592,18 @@ AICc(soil_mod, REML = TRUE)
 # need to get the predictors for sites
 # MAP, MAT, soilpH, BulkDens, SoilNit, Soil Sand
 
-res_cen <- res %>% st_transform(4326) %>% st_centroid()
+veazie_soil <- read.csv("../1-input-data/7-gattica-data/veazie_soil.csv")
 
-ph <- brick("../1-input-data/7-gattica-data/PHH2O1.nc", var = "PHH2O")
-glines_ph <- extract(ph[[2]], res_cen)*0.1
-
-sand <- brick("../1-input-data/7-gattica-data/SAND1.nc", var = "SAND")
-glines_sand <- extract(sand[[2]], res_cen)
-
-# it looks like they didn't multiply the tn by the scale factor because the report values > 100
-tn <- brick("../1-input-data/7-gattica-data/TN1.nc", var = "TN")
-glines_tn <- extract(tn[[2]], res_cen) #*0.01
-glines_tn
-
-# same deal with tn
-oc <- brick("../1-input-data/7-gattica-data/OC1.nc", var = "OC")
-glines_oc <- extract(oc[[2]], res_cen) #*0.01
-glines_oc
-
-# same with bulk density
-bd <- brick("../1-input-data/7-gattica-data/BD1.nc", var = "BD")
-glines_bd <- extract(bd[[2]], res_cen)
-glines_bd
-
-map <- raster("../1-input-data/7-gattica-data/wc2.1_30s_bio_12.tif")
-glines_map <- extract(map, res_cen)
-glines_map
-
-mat <- raster("../1-input-data/7-gattica-data/wc2.1_30s_bio_1.tif")
-glines_mat <- extract(mat, res_cen)
-glines_mat
-
-#MAP*MAT + soilpH + SOC + BulkDens + MAT_sq + SoilNit + MAP_sq + SoilSand + (1 + MAP*MAT + soilpH + SOC + BulkDens + MAT_sq + SoilNit + MAP_sq + SoilSand
-
-# going to have to manually scale                                                                            
-soil_data_new <- data.frame(MAP = (glines_map- mean(soil$MAP))/sd(soil$MAP),
-                            MAT = (glines_mat - mean(soil$MAT))/sd(soil$MAT), 
-                            soilpH = (glines_ph - mean(soil$soilpH))/sd(soil$soilpH), 
-                            SOC = (glines_oc - mean(soil$SOC))/sd(soil$SOC), 
-                            BulkDens = (glines_bd - mean(soil$BulkDens))/sd(soil$BulkDens), 
-                            SoilNit = (glines_tn - mean(soil$SoilNit))/sd(soil$SoilNit), 
-                            SoilSand = (glines_sand - mean(soil$SoilSand))/sd(soil$SoilSand), 
-                            MAT_sq = (glines_mat^2 - mean(soil$MAT_sq))/sd(soil$MAT_sq), 
-                            MAP_sq = (glines_map^2 - mean(soil$MAP_sq))/sd(soil$MAP_sq), 
+# going to have to manually scale                                                         
+soil_data_new <- data.frame(MAP = (veazie_soil$veazie_map- mean(soil$MAP))/sd(soil$MAP),
+                            MAT = (veazie_soil$veazie_mat - mean(soil$MAT))/sd(soil$MAT), 
+                            soilpH = (veazie_soil$veazie_ph - mean(soil$soilpH))/sd(soil$soilpH), 
+                            SOC = (veazie_soil$veazie_oc - mean(soil$SOC))/sd(soil$SOC), 
+                            BulkDens = (veazie_soil$veazie_bd - mean(soil$BulkDens))/sd(soil$BulkDens), 
+                            SoilNit = (veazie_soil$veazie_tn - mean(soil$SoilNit))/sd(soil$SoilNit), 
+                            SoilSand = (veazie_soil$veazie_sand - mean(soil$SoilSand))/sd(soil$SoilSand), 
+                            MAT_sq = (veazie_soil$veazie_mat^2 - mean(soil$MAT_sq))/sd(soil$MAT_sq), 
+                            MAP_sq = (veazie_soil$veazie_map^2 - mean(soil$MAP_sq))/sd(soil$MAP_sq), 
                             Biome = "Temperate")
 
 predict(soil_mod, soil_data_new)
@@ -982,7 +629,7 @@ res_soil_ch4_summary <- data.frame(period = c("build"), flux = c("soil CH4 emiss
 ```
 
 
-## Tree CH4 emissions
+## Tree CH4 emissions TODO
 ```{r}
 # TODO calc slope, aspect, and elevation as inputs for fvs in R not arcpro
 terrace <- st_read("../1-input-data/1-geospatial/post-removal/lake-mills_terrace.shp")
@@ -1137,14 +784,7 @@ res_tree_ch4_summary <- data.frame(period = c("build"),
 res_tree_ch4_summary
 ```
 
-```{r}
-# should I create a mixture distribution or is the jury-rigged approach ok? Even combining numbers in Covey and Megonigal is hard because it's hard to see where those original figures are coming from 
-# for now we could just use the upland and wetland figures in Pitz which is from the Smithsonian Environmental Research Center Chesapeake Bay Maryland
-
-```
-
-
-# Summary
+# Summary TODO
 ```{r}
 # The terrace delineation was done using 2014 NAIP data. The flow is now more concentrated in a smaller area meaning there is a greater area of exposed sediments. I don't think this matters because the FVS model is not that sensitive to small changes in aspect, elevation, and slope, so I am moving forward with 2021 delineations for sediment and river area
 glines_riv <- read_sf("../1-input-data/1-geospatial/post-removal/elwha-river_glines.shp")

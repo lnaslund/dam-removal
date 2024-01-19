@@ -350,12 +350,22 @@ keller <- read_csv("../1-input-data/4-exposed-sediment-emissions/Keller_NatureCo
 keller_res <- keller %>% filter(`system type` == "reservoir") %>% mutate(co2_flux = as.numeric(`CO2 flux dry sediment`) * 1e-3 * 44.01 * 365, moisture_num = as.numeric(moisture))
 
 # Had the idea of saying these emissions stop when moisture content is zero but there are still some relatively high fluxes at low sediment moisture content when we don't exclude non-reservoir systems but it looks like there is a reasonable decline with moisture content. We can also say that even if we understood about how long it takes for sediments to dry out, there are still rewetting events that may continue to create pulses of emissions.
-keller_res %>% ggplot(aes(moisture_num, co2_flux))+geom_point()
+keller_res %>% ggplot(aes(moisture_num, co2_flux))+
+  geom_point()
 
 other_sed_co2 <- read_csv("../1-input-data/4-exposed-sediment-emissions/additional_exposed_sed_flux.csv") %>% mutate(co2_flux = flux_mgC_m2_day * 1e-3 *365 * (44.01/12.01)) # convert mg C/m2/day to g CO2/m2/yr
 
 exp_sed_co2 <- other_sed_co2 %>% dplyr::select(co2_flux)  %>% bind_rows(keller_res %>% dplyr::select(co2_flux)) 
-exp_sed_co2 %>% ggplot(aes(co2_flux))+geom_histogram() + xlab("CO2 flux (g/m2/yr)")
+
+png("../2-output-data/exposed_sed_co2.png", width = 9, height = 5, units = "in", res = 300)
+exp_sed_co2 %>% ggplot(aes(co2_flux))+geom_histogram() + 
+  xlab(expression(CO[2]~flux~g~m^-2~yr^-1))+
+  theme_bw()+
+  theme(axis.text = element_text(size = 12), axis.title = element_text(size = 16))
+dev.off()
+```
+
+```{r}
 
 # find exponential decay constants that lead to different years to 0.1 g/m2/yr
 
@@ -782,11 +792,11 @@ f_age <- function(a, b, e, age){
 
 # changed inputs from a = 587.74, b = -0.19, e = -324.54 to a = 263.2, b = -0.19, e = 0 to make it reach the same asymptote but start at 0
 # it doesn't seem to matter what the reference level is or what the f_age parameters are (in terms of the two options above, we get the same relationship)
-df <- read.csv("../1-input-data/bresnard_2018.csv") %>% mutate(age_func = f_age(263.2, -0.19, 0, Age)) %>% mutate(nutrient = as.factor(`NA.`))
+df <- read.csv("../1-input-data/8-besnard-data/besnard_2018.csv") %>% mutate(age_func = f_age(263.2, -0.19, 0, Age)) %>% mutate(nutrient = as.factor(`NA.`))
 
 df$nutrient <- relevel(df$nutrient, ref = "L")
 
-df_ori <- read.csv("../1-input-data/bresnard_2018.csv") %>% mutate(age_func = f_age(587.74, -0.19, -324.54, Age)) %>% mutate(nutrient = as.factor(`NA.`))
+df_ori <- read.csv("../1-input-data/8-besnard-data/besnard_2018.csv") %>% mutate(age_func = f_age(587.74, -0.19, -324.54, Age)) %>% mutate(nutrient = as.factor(`NA.`))
 
 nep_mod <- lm(NEP ~ MAT + Age + age_func + nutrient, data = df)
 summary(nep_mod)
@@ -799,7 +809,7 @@ summary(nep_mod3)
 
 # MAT you can get from mean(temp$Temperature)
 nep_new <- data.frame(MAT = mean(temp$Temperature), Age = seq(0, 300, by = 1), age_func = f_age(263.2, -0.19, 0, seq(0, 300, by = 1)), nutrient =as.factor("L"))
-nep_old <- data.frame(MAT = mean(temp$Temperature), Age = seq(0, 100, by = 1), age_func = f_age(587.74, -0.19, -324.54, seq(0, 100, by = 1)), nutrient =as.factor("L"))
+nep_old <- data.frame(MAT = mean(temp$Temperature), Age = seq(0, 300, by = 1), age_func = f_age(587.74, -0.19, -324.54, seq(0, 300, by = 1)), nutrient =as.factor("L"))
 
 nep_predict_old <- predict(nep_mod, nep_old, interval = "prediction") %>% as.data.frame()
 nep_predict_old
@@ -815,17 +825,17 @@ y <- nep_predict$fit
 y2 <- nep_predict2$fit
 y3 <- nep_predict3$fit
 
-plot(0:100, y)
-points(0:100, y2, col = "red")
-points(0:100, y3, col = "blue")
+plot(0:300, y)
+points(0:300, y2, col = "red")
+points(0:300, y3, col = "blue")
 
 y_upp <- nep_predict$upr
 y_low <- nep_predict$lwr
 
 # the lower part of the interval is always negative
-plot(0:100, y)
-points(0:100, y_upp, col = "red")
-points(0:100, y_low, col = "blue")
+plot(0:300, y)
+points(0:300, y_upp, col = "red")
+points(0:300, y_low, col = "blue")
 
 
 # it doesn't actually matter if you run the regression with or without the intercept you get the same answer
@@ -904,7 +914,24 @@ nep_df_rates
 res_nep_summary <- data.frame(period = c("build"), flux = c("NEP"), variation = nep_df_rates$years %>% as.character(), flux_unit = c(rep("CO2-eq", 3), rep("C", 3)), annual = "yes", area = "exposed sediment area", mean = c(nep_df_rates$mean_gCO2, nep_df_rates$mean_gC), ci_lwr = c(nep_df_rates$lwr_gCO2, nep_df_rates$lwr_gC), ci_upr = c(nep_df_rates$upr_gCO2, nep_df_rates$upr_gC))
 
 res_nep_summary
+
+# emission of carbon in 5.7 years, 3X higher the sediment CO2 emissions over the same period
+integrate(function(x) as.data.frame(predict(nep_mod, newdata = data.frame(MAT = mean(temp$Temperature), Age = x, age_func = f_age(263.2, -0.19, 0, x), nutrient =as.factor("L")), interval = "prediction", level = 0.95))$fit, lower = 0, upper = 5.7)$value
 ```
+
+```{r}
+# nep_zero <- data.frame(MAT = mean(temp$Temperature), Age = seq(0, 10, by = 0.05), age_func = f_age(263.2, -0.19, 0, seq(0, 10, by = 0.05)), nutrient =as.factor("L"))
+# nep_one <- data.frame(MAT = mean(temp$Temperature), Age = seq(0, 10, by = 1), age_func = f_age(263.2, -0.19, 0, seq(0, 10, by = 1)), nutrient =as.factor("L"))
+# 
+# nep_pred <- predict(nep_mod, nep_zero, interval = "prediction") %>% as.data.frame()
+# nep_pred$num <- seq(0, 10, by =0.05)
+# 
+# nep_pred2 <- predict(nep_mod, nep_one, interval = "prediction") %>% as.data.frame()
+# nep_pred2$num <- seq(0, 10, by = 1)
+# 
+# 
+```
+
 
 ## Soil CH4 emissions
 ```{r}

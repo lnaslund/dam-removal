@@ -88,8 +88,6 @@ print(rf)
 ```{r}
 clow <- read.csv("../1-input-data/6-clow-data/res_sed_rate.csv")
 
-
-
 # 0 - 30 % slope
 # 0 - 100 $ forest
 
@@ -101,7 +99,7 @@ forest_b <- -0.437
 x <- max(clow$`Sed.Rate..mm.yr.`, na.rm = T) %>% log10()
 
 # importance of slope
-10^(sed_int + sa_b*x + slope_b * 0.30 + forest_b * 1)
+10^(sed_int + sa_b*x + slope_b * 30 + forest_b * 1)
 
 10^(sed_int + sa_b*x + slope_b * 0 + forest_b * 1)
 
@@ -114,9 +112,19 @@ x <- max(clow$`Sed.Rate..mm.yr.`, na.rm = T) %>% log10()
 
 10^(sed_int + sa_b*0 + slope_b * 0.30 + forest_b * 1)
 
-# it looks like forest also matters not just surface area 
+# it looks like forest also matters not just slope
 
-clow %>% filter(DSNUM == "1001")
+range(clow$Sed.Rate..mm.yr., na.rm = T)
+```
+
+```{r}
+clow_df <- read.csv("../1-input-data/6-clow-data/clow_all.csv") %>% mutate(sed_rate_m3_yr = sed_rate_mm_yr * 1e-3 * surface_area_m2, log_sed_rate_m3_yr = log10(sed_rate_m3_yr), log_surface_area_m2 = log10(surface_area_m2), crop_perc = Crop_Perc/100, forest_perc = Forest_Perc/100)
+
+clow.mod <- lm(log_sed_rate_m3_yr ~ log_surface_area_m2 + slope_calc + forest_perc + crop_perc, data = clow_df)
+
+summary(clow.mod)
+
+
 ```
 
 
@@ -143,7 +151,54 @@ ressed_snap <- read.csv("../1-input-data/6-clow-data/ressed_snapped.csv")
 
 res_sed_snap <- res_sed %>% left_join(ressed_snap %>% mutate(DSNUM = as.character(DSNUM)) %>% dplyr::select(-ID), by = "DSNUM")
 
+res_sed_med <- res_sed_snap %>% filter(is.na(REACHCD100)==FALSE) 
 
+nhd <- read.csv("../1-input-data/6-clow-data/nhdv2.csv")
+
+res_sed_med_nhd <- res_sed_med %>% rename("REACHCODE" = "REACHCD100") %>% left_join(nhd, by = "REACHCODE")
+
+test <- res_sed_med_nhd %>% slice(1:5)
+
+xwalk <- read.csv("../1-input-data/6-clow-data/CrosswalkTable_NHDplus_HU12.csv")
+lc <- st_read("../1-input-data/6-clow-data/CONUS_metrics_Sep2021_FGDB/CONUS_metrics_Sep2021_FGDB.gdb", layer = "LandCover_CONUS")
+wbd <- st_read("../1-input-data/6-clow-data/NHDPlusV2_WBDSnapshot_EnviroAtlas_CONUS.gdb", layer = "NHDPlusV2_WBDSnapshot_EnviroAtlas_CONUS")
+
+names(test)
+
+df_lc <- NULL
+for(i in 1:nrow(test)){
+  lpi <- test$LevelPathI[i]
+  pl <- test$Pathlength[i]
+  dsn <- test$DSNUM[i]
+  
+  comids <- nhd %>% filter(LevelPathI == lpi, Pathlength > pl) %>% pull(COMID)
+  hucs <- xwalk %>% filter(FEATUREID %in% comids)%>% mutate(huc = paste0("0", HUC_12)) %>% pull(huc) 
+  lcs <- lc %>% filter(HUC_12 %in% hucs) %>% dplyr::select(HUC_12, PFOR, PAGC)
+  areas <- wbd %>% filter(HUC_12 %in% hucs) %>% dplyr::select(HUC_12, Shape_Area)
+  
+  result <- lcs %>% left_join(areas, by = "HUC_12")
+  
+  total_area <- sum(result$Shape_Area)
+  
+  temp <- result %>% mutate(PFOR_w = PFOR * (Shape_Area/total_area), PAGC_w = PAGC * (Shape_Area/total_area)) %>% summarize(Forest_Perc = sum(PFOR_w), Crop_Perc = sum(PAGC_w)) %>% mutate(DSUM = dsn)
+  
+  df_lc <- df_lc %>% bind_rows(temp)
+}
+
+# can get upstream flowlines by filtering by the res-sed point level path ID filter with longer pathlengths
+comids <- nhd %>% filter(LevelPathI == 150018368, Pathlength > 179.259) %>% pull(COMID)
+# can find accompanying HUC12s using the COMID-HUC12 match up table 
+hucs <- xwalk %>% filter(FEATUREID %in% temp) %>% mutate(huc = paste0("0", HUC_12)) %>% pull(huc) 
+# can use enviroatlas to get percent forest and cropland you need area which means you will have to download huc12 map which you will have to do anyway for 
+lc %>% filter(HUC_12 %in% hucs)
+
+#perc * huc area/total area
+
+
+wbd %>% filter(HUC_12 %in% hucs)
+```
+
+```{r}
 names(res_sed)
 names(ressed_snap)
 
@@ -263,22 +318,137 @@ predict(sed_mod, new_sed_data, interval = "prediction")
 
 ## Exposed sediment emissions
 ```{r}
-# sample range of sediment depths for C to mineralized
-sed_depth <- runif(n, max = max_sed_depth, min = 0)
+keller <- read_csv("../1-input-data/4-exposed-sediment-emissions/Keller_NatureCommunications_2020_data.csv", skip = 6) %>% slice(-1)
 
-# sample range of possible sediment lability
-labile <- runif(n, max = max_prop_labile, min = min_prop_labile)
+# mmol/m2/day -> g CO2/m2/yr
+keller_res <- keller %>% filter(`system type` == "reservoir") %>% mutate(co2_flux = as.numeric(`CO2 flux dry sediment`) * 1e-3 * 44.01 * 365, moisture_num = as.numeric(moisture))
 
-# function to calculate dry bulk density (g m-3)
-dbd <- function(oc){
-  return(1.665 * (oc^-0.887))
+# Had the idea of saying these emissions stop when moisture content is zero but there are still some relatively high fluxes at low sediment moisture content when we don't exclude non-reservoir systems but it looks like there is a reasonable decline with moisture content. We can also say that even if we understood about how long it takes for sediments to dry out, there are still rewetting events that may continue to create pulses of emissions.
+keller_res %>% ggplot(aes(moisture_num, co2_flux))+geom_point()
+
+other_sed_co2 <- read_csv("../1-input-data/4-exposed-sediment-emissions/additional_exposed_sed_flux.csv") %>% mutate(co2_flux = flux_mgC_m2_day * 1e-3 *365 * (44.01/12.01)) # convert mg C/m2/day to g CO2/m2/yr
+
+exp_sed_co2 <- other_sed_co2 %>% dplyr::select(co2_flux)  %>% bind_rows(keller_res %>% dplyr::select(co2_flux)) 
+
+# find exponential decay constants that lead to different years to 0.1 g/m2/yr
+
+# plot with initial value = mean
+a <- mean(exp_sed_co2$co2_flux)
+
+years <- c(1/12, 1, 5, 10, 30, 100)
+rates <- (0.1/a)^(1/years)
+
+x <- seq(0, 100, by = 0.5)
+for(i in 1:length(rates)){
+  y <- a*(rates[i]^x)
+  plot(x, y, type = "l")
 }
 
-# find a way to include range of OC % may need to map function 
+integrand <- function(x){a*b^x}
 
-# check units and unit conversions (should output g)
-sed_depth * res_area * 10000 * dbd(oc) * labile
+# calculate for every possible starting CO2 value and rate
+df <- data.frame(a=double(), y = double(), b=double(), total=double())
+
+for(j in 1:nrow(exp_sed_co2)){
+  a <- exp_sed_co2$co2_flux[j]
+  
+  for(i in 1:length(years)){
+    b <-(0.1/a)^(1/years[i])
+    total <- integrate(integrand, 0, 100)[[1]]
+    y <- years[i]
+    
+    temporary <- data.frame(a = a, y = y, b = b, total = total)
+    df <- df %>% bind_rows(temporary)
+  }
+}
+
+# is it ok to calculated the CI this way because you are not sampling 10000x from a distribution but rather sampling each measurement?
+res_exp_sed_co2 <- df %>% 
+  mutate(total_c = total * (12.01/44.01)) %>% 
+  group_by(y) %>% 
+  summarize(mean_co2 = mean(total) %>% round(0), 
+            sd_co2 = sd(total)%>% round(0), 
+            ci_upper_co2 = (mean_co2 + 1.96 *(sd_co2/sqrt(nrow(exp_sed_co2))))%>% round(0), 
+            ci_lower_co2 = (mean_co2 - 1.96 *(sd_co2/sqrt(nrow(exp_sed_co2))))%>% round(0), 
+            mean_c = mean(total_c)%>% round(0), 
+            sd_c = sd(total_c)%>% round(0), 
+            ci_upper_c = (mean_c + 1.96 *(sd_c/sqrt(nrow(exp_sed_co2))))%>% round(0), 
+            ci_lower_c = (mean_c - 1.96 *(sd_c/sqrt(nrow(exp_sed_co2))))%>% round(0),
+            sed_co2 = paste0(mean_co2, " (", ci_lower_co2, " - ", ci_upper_co2, ")"),
+            sed_c = paste0(mean_c, " (", ci_lower_c, " - ", ci_upper_c, ")"))
+
+res_exp_sed_co2
+
+write.csv(res_exp_sed_co2, "../2-output-data/exp_sed_co2.csv", row.names = FALSE)
 ```
+
+## Exposed sediment CH4
+```{r}
+# check this math when you are more fresh
+sed_ch4_avg = 36 * 1e-3 * 365 # conversion to g CH4 /m2/yr
+sed_ch4_sd = 78 * 1e-3 * 365
+
+years <- c(1/12, 1, 5, 10, 30, 100)
+
+# it is a little weird that you are sampling a distribution here but values for CO2 flux, but the only reason you are doing that is because the authors for the CH4 synthesis to not report the original values
+df <- data.frame(a=double(), y = double(), b=double(), total=double(), sign = character())
+
+integrand <- function(x){a_pos*b^x}
+
+for(j in 1:10000){
+  a <- rnorm(1, sed_ch4_avg, sed_ch4_sd)
+  
+  # integration won't work if the starting value is less than the threshold value 0.01
+  if(-0.01 < a & a < 0.01){
+    next
+  }
+  
+  sign <- if_else(a > 0, "pos", "neg")
+  
+  for(i in 1:length(years)){
+    y <- years[i]
+    
+    if(sign == "neg"){
+      a_pos <- -a
+      b <-(0.01/a_pos)^(1/years[i])
+      total <- tryCatch(integrate(integrand, 0, 100)[[1]] * -1,  error = function(e){NA})
+    }
+    
+    if(sign == "pos"){
+      a_pos <- a
+       b <-(0.01/a_pos)^(1/years[i])
+       total <- tryCatch(integrate(integrand, 0, 100)[[1]], error = function(e){NA})
+    }
+    
+    temporary <- data.frame(a = a, y = y, b = b, total = total, sign = sign)
+    df <- df %>% bind_rows(temporary)
+  }
+}
+
+# need to convert to CO2 eq emissions
+# 8102.2 mg C m-2 total CH4 emissions during drying period from Kosten et al. 2018 table 1
+pore_co2_eq <- 8102.2 * 1e-3 * (16.04/12.01)* 34
+pore_c <- 8102.2 * 1e-3
+
+thresh_0.01 <- df %>% 
+  mutate(total_co2_eq = total * 34, total_c = total * (12.01/16.04)) %>% 
+  group_by(y) %>% 
+  arrange(total_co2_eq) %>% 
+  summarize(count = n(), 
+            mean_co2 = total_co2_eq[count * 0.5], 
+            lwr_co2 = total_co2_eq[count*0.025], 
+            upr_co2 = total_co2_eq[count *0.975], 
+            mean_c = total_c[count * 0.5], 
+            lwr_c = total_c[count * 0.025], 
+            upr_c = total_c[count * 0.975],
+            sed_ch4_co2_eq = paste0(round(mean_co2, 0), " (", round(lwr_co2,0), " - ", round(upr_co2, 0), ")"),
+            sed_ch4_gC = paste0(round(mean_c, 1), " (", round(lwr_c,1), " - ", round(upr_c, 1), ")"),
+            sed_ch4_co2_eq_pore = paste0(round(mean_co2 + pore_co2_eq, 0), " (", round(lwr_co2 + pore_co2_eq,0), " - ", round(upr_co2 +pore_co2_eq, 0), ")"),
+            sed_ch4_gC_pore = paste0(round(mean_c +pore_c, 1), " (", round(lwr_c+pore_c,1), " - ", round(upr_c+pore_c, 1), ")"))
+
+write.csv(thresh_0.01, "../2-output-data/exp_sed_ch4.csv", row.names = FALSE)
+```
+
 
 ## Drawdown ebullition 
 ```{r}
