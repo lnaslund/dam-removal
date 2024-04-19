@@ -16,20 +16,19 @@ library(raster)
 library(mapview)
 library(lme4)
 library(MuMIn)
+library(readxl)
+library(merTools)
+library(elevatr)
 
 # required geospatial 
 res <- st_read("../1-input-data/1-geospatial/reservoirs/veazie_res.shp")
 ws <- st_read("../1-input-data/1-geospatial/watersheds/veaziewatershed.shp") %>% st_transform(st_crs(res))
+riv <- st_read("../1-input-data/1-geospatial/post-removal/veazie_river.shp") %>% st_transform(st_crs(res))
 
-st_bbox(ws %>% st_transform(4326))
+mapview(res)+
+  mapview(riv, col.regions = "red")
 
 summary_df <- data.frame(period = character(), flux = character(), variation = character(), flux_unit = character(), annual = character(), area = character(), mean = double(), ci_lwr = double(), ci_upr = double())
-
-# https://soilgrids.org/
-# 2108.599973611574 dg/kg
-
-# I think you are going to need bulk density too
-
 ```
 
 ```{r reservoir and catchment characteristics}
@@ -93,11 +92,11 @@ max_depth <- 8.70
 print(paste0("Max Depth (m): ", max_depth))
 
 # littoral area (%) Output from g-res given from max and mean depth
-lit_area <- NA
+lit_area <- 33.599
 print(paste0("Littoral Area (%): ", lit_area))
 
 # thermocline depth (m) Output from g-res
-thermo_depth <- NA
+thermo_depth <- 0.1
 print(paste0("Thermocline depth (m): ", thermo_depth))
 
 # soil carbon
@@ -109,7 +108,7 @@ res_wind <- 5.31
 print(paste0("Reservoir wind at 50 m: ", res_wind))
 
 # water residence time (yrs) Output from g-res
-wrt <- NA
+wrt <- 0.0007
 print(paste0("Water residence time (yrs): ", wrt))
 
 # annual discharge
@@ -125,66 +124,10 @@ rad <- 3.47
 print(paste0("Global horizontal radiance: ", rad))
 
 # mean temperature per month
-temp <- data.frame(Jan = -7.9, Feb = -6.7, Mar = -1.1, Apr = 5.4, May = 11.7, June = 17.0, July = 19.9, Aug = 18.8, Sept = 14.0, Oct = 8.4, Nov = 2.5, Dec = -4.8) %>% pivot_longer(cols = Jan:Dec, names_to = "Month", values_to = "Temperature")
+temperature <- data.frame(Jan = -7.9, Feb = -6.7, Mar = -1.1, Apr = 5.4, May = 11.7, June = 17.0, July = 19.9, Aug = 18.8, Sept = 14.0, Oct = 8.4, Nov = 2.5, Dec = -4.8) %>% pivot_longer(cols = Jan:Dec, names_to = "Month", values_to = "Temperature")
 print("Temperature per month (C)")
-temp
-
-# eventually it would be cool to build this out using a web feature service but for now we could use elevator to get 30 m elevation data or download 3DEP from the National Map
-
-# res_slope <- terrain(elev, opt = "slope", unit = "degrees")
-# sed_expo_area <- st_area(expo_sed)
-# 
-# # TODO add LC calculation
-# perc_forest <- NULL
-# perc_crop <- NULL
-# 
-# river_q <- NULL
+temperature
 ```
-
-```{r}
-# library(soilDB)
-# 
-# # from Soil Grids not SSURGO or STATSGO
-# 
-# veazie_soil <- fetchSoilGrids(ws, depth_intervals = c("0-5"), variables = c("soc", "bdod"), grid = TRUE, progress = TRUE)
-# 
-# veazie_polyg <- ws %>% st_transform(crs(veazie_soil))
-# 
-# veazie_clip <- crop(veazie_soil, extent(veazie_polyg))
-# veazie_mask <- mask(veazie_clip, veazie_polyg)
-# 
-# plot(veazie_mask)
-# 
-# names(veazie_mask)
-# 
-# veazie_c <- mean(values(veazie_mask[[7]], na.rm = T))
-# veazie_bd <- mean(values(veazie_mask[[8]], na.rm = T))
-# 
-# # our estimates are definitely low and I suspect a unit conversion error but I'm not sure 
-# veazie_c * 1e-1 * 1e-3 * veazie_bd * 1e-2 * 5 * 1e4
-# 
-# 
-# # units are automatically converted but I think this is still wrong
-# # https://search.r-project.org/CRAN/refmans/soilDB/html/fetchSoilGrids.html
-# veazie_c * veazie_bd * 5 * 10
-# 
-# 100000 == 10^5
-# 
-# 1636*85.96*5*10^-5*10^-1*10^4
-# 
-# names(c_content_pared)
-# # should I be concerned this is below the range
-# range(c_content_pared$SOC_0_5, na.rm = TRUE)
-# 
-# #466
-# 
-# test_ws <- read_sf("../1-input-data/6-clow-data/test_ws/layers/globalwatershed.shp")
-# 
-# test_soil <- fetchSoilGrids(test_ws, depth_intervals = c("0-5"), variables = c("soc", "bdod"), grid = TRUE, progress = TRUE)
-# 
-# c_content %>% st_as_sf(coords = c("LON_DD", "LAT_DD"), crs = 4326) %>% dplyr::select(SOC_0_5) %>%  mapview()
-```
-
 
 # Before
 
@@ -226,100 +169,147 @@ https://code.earthengine.google.com/db5542fcc97469961bfd890123aa55df
 Can delineate catchments in US reservoirs using the StreamStats tool 
 https://streamstats.usgs.gov/ss/ 
 
-DONE
 ```{r surface emissions}
-## output from g-res: emissions in g CO2 eq by pathway
+# output from g-res: emissions in g CO2 eq by pathway
 res_co2_diff_eq <- 3
 res_ch4_diff_eq <- 79 * .89
 res_ch4_eb_eq <- 79 * 0.11
 res_ch4_degas_eq <- 0
 
-## without degassing
-# calculate emissions in g CO2 eq without degassing
-res_eq <- res_co2_diff_eq+res_ch4_diff_eq+res_ch4_eb_eq
-
-# calculate emissions in g C without degassing
-res_g <- (res_co2_diff_eq * (12.01/44.01)) + ((res_ch4_diff_eq+res_ch4_eb_eq) *(12.01/16.04) * (1/34))
-
-# calculate standard deviation in g of CO2 eq without degassing
+# output from g-res: net GHG footprint and 95% CI
 res_net_eq <- 64
 res_net_2.5_eq <- 55
 res_net_97.5_eq <- 75
 
-res_eq_2.5 <- res_eq - max(c(res_net_97.5_eq-res_net_eq, res_net_eq - res_net_2.5_eq))
-res_eq_97.5 <-  res_eq + max(c(res_net_97.5_eq-res_net_eq, res_net_eq - res_net_2.5_eq))
+res_net_interval <- max(c(res_net_97.5_eq-res_net_eq, res_net_eq - res_net_2.5_eq))
 
-res_g_interval <- max(c(res_net_97.5_eq-res_net_eq, res_net_eq - res_net_2.5_eq))*(res_co2_diff_eq/res_eq)*(12.01/44.01) + max(c(res_net_97.5_eq-res_net_eq, res_net_eq - res_net_2.5_eq))*((res_ch4_diff_eq + res_ch4_degas_eq)/res_eq)*(1/34) * (12.01/16.04)
+# calculate emissions and CI in g CO2 eq 
+res_eq <- res_co2_diff_eq+res_ch4_diff_eq+res_ch4_eb_eq
+
+res_eq_2.5 <- res_eq - res_net_interval
+res_eq_97.5 <-  res_eq + res_net_interval
+
+# calculate emissions and CI in g C 
+res_g <- (res_co2_diff_eq * (12.01/44.01)) + ((res_ch4_diff_eq+res_ch4_eb_eq) *(12.01/16.04) * (1/34))
+
+# to calculate CI in g C, I am assuming gases contribute to the CI in proportion to the CO2-eq contribution 
+res_g_interval <- res_net_interval*(res_co2_diff_eq/res_eq)*(12.01/44.01) + res_net_interval*((res_ch4_diff_eq + res_ch4_degas_eq)/res_eq)*(1/34) * (12.01/16.04)
 
 res_g_2.5 <- res_g - res_g_interval
 res_g_97.5 <- res_g + res_g_interval
 
-# got rid of the over-complicated combining of degassing an non-degassing fluxes
+# summary data frame
 res_emissions_summary <- data.frame(period = c("before"), flux = c("reservoir emissions"), variation = NA, flux_unit = c("CO2-eq", "C"), annual = "yes", area = "reservoir", mean = c(res_eq, res_g), ci_lwr = c(res_eq_2.5, res_g_2.5), ci_upr = c(res_eq_97.5, res_g_97.5))
 ```
 
-## Reservoir carbon burial TODO
-```{r carbon burial}
+## Reservoir carbon burial
+```{r carbon burial, warnings = FALSE}
 # sedimentation model
-clow_df <- read.csv("../1-input-data/6-clow-data/clow_all.csv") %>% mutate(sed_rate_m3_yr = sed_rate_mm_yr * 1e-3 * surface_area_m2, log_sed_rate_m3_yr = log10(sed_rate_m3_yr), log_surface_area_m2 = log10(surface_area_m2), crop_perc = Crop_Perc/100, forest_perc = Forest_Perc/100)
+sed_df <- read.csv("../1-input-data/6-clow-data/clow_all.csv") %>% 
+  mutate(sed_rate_m3_yr = sed_rate_mm_yr * 1e-3 * surface_area_m2, 
+         log_sed_rate_m3_yr = log10(sed_rate_m3_yr), 
+         log_surface_area_m2 = log10(surface_area_m2), 
+         crop_perc = Crop_Perc/100, 
+         forest_perc = Forest_Perc/100)
 
-clow.mod <- lm(log_sed_rate_m3_yr ~ log_surface_area_m2 + slope_calc + forest_perc + crop_perc, data = clow_df)
+sed.mod <- lm(log_sed_rate_m3_yr ~ log_surface_area_m2 + slope_calc + forest_perc + crop_perc, data = sed_df)
 
-# run predictors in the clow-predictors script 
-# decided to use the same lc as input for g-res rather than EnviroAtlas delineation method because this also let's us get barren and it's weird to have different numbers here
 veazie_sed_pred <- read.csv("../1-input-data/6-clow-data/veazie_sed_pred.csv") %>% 
-  mutate(log_surface_area_m2 = log10(st_area(res) %>% as.numeric()), crop_perc = lc %>% filter(gres_class == "Croplands") %>% pull(perc)/100, forest_perc = lc %>% filter(gres_class == "Forest") %>% pull(perc)/100) %>% 
+  mutate(log_surface_area_m2 = log10(st_area(res) %>% as.numeric()), 
+         crop_perc = lc %>% filter(gres_class == "Croplands") %>% pull(perc)/100, 
+         forest_perc = lc %>% filter(gres_class == "Forest") %>% pull(perc)/100) %>% 
   dplyr::select(-Crop_Perc, -Forest_Perc, - dam) %>% 
   rename("slope_calc" = "slope")
 
-# need to figure out how to use this prediction interval to sample sedimentation rates
-predict(clow.mod, veazie_sed_pred, interval = "prediction")
+predict(sed.mod, veazie_sed_pred, interval = "prediction")
 
-# c content model
-c_content <- read.csv("../1-input-data/6-clow-data/c_content.csv") %>% mutate(LAKE_ORIGIN_renamed = as.factor(LAKE_ORIGIN_renamed))
+veazie_sed_rate <- 10^(predict(sed.mod, veazie_sed_pred, interval = "prediction")[1])
+veazie_sed_rate_sd <- (10^(predict(sed.mod, veazie_sed_pred, interval = "prediction")[1]) - 10^(predict(sed.mod, veazie_sed_pred, interval = "prediction")[2]))/2
 
-c_content_pared <- c_content %>% dplyr::select(sediment_C_pct, SOC_0_5, Wetlands90, log_Wetlands90, Barren30, KFactor, log_WaterBody_Area_m2, log_Lake_Area_m2_EPA, LAKE_ORIGIN_renamed) %>% mutate(wetland_si = log10(Wetlands90 + 1))
+# sediment c content model
+c_content <- read.csv("../1-input-data/6-clow-data/c_content.csv") %>% 
+  mutate(LAKE_ORIGIN_renamed = as.factor(LAKE_ORIGIN_renamed)) %>% 
+  dplyr::select(sediment_C_pct, SOC_0_5, Wetlands90, log_Wetlands90, Barren30, KFactor, 
+                log_WaterBody_Area_m2, log_Lake_Area_m2_EPA, LAKE_ORIGIN_renamed) %>% mutate(wetland_si = log10(Wetlands90 + 1))
 
-# I think this is the correct model 
-c.mod <- lm(sediment_C_pct ~ SOC_0_5 + wetland_si + Barren30 + KFactor + log_Lake_Area_m2_EPA + LAKE_ORIGIN_renamed, data = c_content_pared)
+c.mod <- lm(sediment_C_pct ~ SOC_0_5 + wetland_si + Barren30 + KFactor + log_Lake_Area_m2_EPA + LAKE_ORIGIN_renamed, data = c_content)
 
-# this is with kf not kw
-veazie_c_pred <- read.csv("../1-input-data/6-clow-data/veazie_soil.csv") %>% rename("SOC_0_5" = "soc", "KFactor" = "kf") %>% dplyr::select(-kw) %>% mutate(wetland_si = log10(lc %>% filter(gres_class == "Wetlands") %>% pull(perc)/100 + 1), Barren30 = lc %>% filter(gres_class == "Bare Areas") %>% pull(perc)/100, log_Lake_Area_m2_EPA = log10(as.numeric(res_area)), LAKE_ORIGIN_renamed = "RESERVOIR")
+
+veazie_c_pred <- read.csv("../1-input-data/6-clow-data/veazie_soil.csv") %>% 
+  rename("SOC_0_5" = "soc", "KFactor" = "kf") %>% 
+  dplyr::select(-kw) %>% # using kf not kw
+  mutate(wetland_si = log10(lc %>% filter(gres_class == "Wetlands") %>% pull(perc)/100 + 1), 
+         Barren30 = lc %>% filter(gres_class == "Bare Areas") %>% pull(perc)/100, 
+         log_Lake_Area_m2_EPA = log10(as.numeric(res_area)), 
+         LAKE_ORIGIN_renamed = "RESERVOIR")
 
 predict(c.mod, veazie_c_pred, interval = "prediction")
 
-```
+veazie_c_cont <- predict(c.mod, veazie_c_pred, interval = "prediction")[1] * 0.01
+veazie_c_cont_sd <- ((predict(c.mod, veazie_c_pred, interval = "prediction")[1] - predict(c.mod, veazie_c_pred, interval = "prediction")[2])/2)*0.01
 
-```{r}
-# spot checked that the log areas are correct but there are two different ones and who knows which they used
+b = (veazie_c_cont_sd)^2/veazie_c_cont
+a = (veazie_c_cont)^2/(veazie_c_cont_sd)^2
+  
+# dry bulk density
+oc_dbd <- read.csv("../1-input-data/6-clow-data/oc_dbd.csv", header = F) %>% rename("OC" = "V1", "DBD" = "V2")
 
-range(c_content$sediment_C_pct, na.rm = T)
+oc_dbd.mod <- lm(log(DBD)~log(OC), data = oc_dbd)
 
+# burial efficiency
+be <- read.csv("../1-input-data/6-clow-data/sed-rate_burial-efficiency.csv", header = FALSE) %>% rename("log_sed_rate_mm_yr" = "V1", "oc_be" = "V2")
 
+be.mod <- lm(oc_be ~ log_sed_rate_mm_yr, data = be)
 
-c.mod <- lm(sediment_C_pct ~ SOC_0_5 + test_wetlands + Barren30 + KFactor + log_WaterBody_Area_m2 + wb_type, data = c_content %>% mutate(test_wetlands = log10(Wetlands90 + 1)))
+veazie_burial <- c()
 
+for(i in 1:10000){
+  print(i)
+  
+  # sample sedimentation rate and OC content
+  temp_sed_rate <- rnorm(1, veazie_sed_rate, veazie_sed_rate_sd)
+  temp_oc <- rgamma(1, shape = a, scale = b)
+  
+  # get dbd
+  temp_oc_df <- data.frame(OC = temp_oc * 100)
+  
+  temp_dbd_distr <- exp(predict(oc_dbd.mod, temp_oc_df, interval = "prediction")[1]) * 1e6
+  temp_dbd_distr_sd <- exp(predict(oc_dbd.mod, temp_oc_df, interval = "prediction")[1]) * 1e6 - exp(predict(oc_dbd.mod, temp_oc_df, interval = "prediction")[2]) * 1e6
+  
+  temp_dbd <- rnorm(1, temp_dbd_distr, temp_dbd_distr_sd)
+  
+  # get burial efficiency
+  temp_be_df <- data.frame(log_sed_rate_mm_yr = log10(temp_sed_rate * (1/as.numeric(res_area)) * 1e3))
+  
+  temp_be_distr <- predict(be.mod, temp_be_df, interval = "prediction")[1] * 0.01
+  temp_be_distr_sd <- ((predict(be.mod, temp_be_df, interval = "prediction")[1] * 0.01)-predict(be.mod, temp_be_df, interval = "prediction")[2] * 0.01)/2
+  
+  d = (temp_be_distr_sd)^2/temp_be_distr
+  c = (temp_be_distr)^2/(temp_be_distr_sd)^2
+  
+  temp_be <- rgamma(1, shape = c, scale = d)
+  
+  temp <- temp_sed_rate * temp_dbd * temp_oc * temp_be * (1/as.numeric(res_area))  
+  
+  veazie_burial <- c(veazie_burial, temp)
+}
 
-options(scipen = 13)
-summary(c.mod)
+veazie_burial <- sort(veazie_burial)
 
-range(c_content$Wetlands90)
-
-res_burial_summary <- data.frame(period = c("before"), flux = c("reservoir burial"), variation = NA, flux_unit = c("CO2-eq", "C"), annual = "yes", area = "reservoir", mean = c(-res_burial_co2eq, -res_burial), ci_lwr = c(-res_burial_co2eq_2.5, -res_burial_2.5), ci_upr = c(-res_burial_co2eq_97.5, -res_burial_97.5))
+res_burial_summary <- data.frame(period = c("before"), flux = c("reservoir burial"), variation = NA, flux_unit = c("CO2-eq", "C"), annual = "yes", area = "reservoir", mean = c(-(veazie_burial[5000] * (44.01/12.01)), -veazie_burial[5000]), ci_lwr = c(-(veazie_burial[9750] * (44.01/12.01)), -veazie_burial[9750]), ci_upr = c(-(veazie_burial[250] * (44.01/12.01)), -veazie_burial[250]))
 ```
 
 # Burp
 
-## Exposed sediment CO2 emissions DONE
-```{r}
-# double check when you are fresh that these should be the same as the glines output
+## Exposed sediment CO2 emissions 
+```{r exposed sed co2}
 res_exp_sed_co2 <- read.csv("../2-output-data/exp_sed_co2.csv")
 
 res_sed_co2_summary <- data.frame(period = c("burp"), flux = c("exposed sediment CO2"), variation = res_exp_sed_co2$y %>% as.character(), flux_unit = c(rep("CO2-eq", 6), rep("C", 6)), annual = "no", area = "exposed sediment area", mean = c(res_exp_sed_co2$mean_co2, res_exp_sed_co2$mean_c), ci_lwr = c(res_exp_sed_co2$ci_lower_co2, res_exp_sed_co2$ci_lower_c), ci_upr = c(res_exp_sed_co2$ci_upper_co2, res_exp_sed_co2$ci_upper_c))
 ```
 
-## Exposed sediment CH4 emissions DONE
-```{r}
+## Exposed sediment CH4 emissions 
+```{r exposed sed ch4}
 thresh_0.01 <- read.csv("../2-output-data/exp_sed_ch4.csv")
 
 pore_co2_eq <- 8102.2 * 1e-3 * (16.04/12.01)* 34
@@ -328,37 +318,27 @@ pore_c <- 8102.2 * 1e-3
 res_sed_ch4_summary <- data.frame(period = c("burp"), flux = c("exposed sediment CH4"), variation = c(rep(paste0("no_pore_", thresh_0.01$y), 2), rep(paste0("pore_", thresh_0.01$y), 2)), flux_unit = rep(c(rep("CO2-eq", 6), rep("C", 6)), 2), annual = "no", area = "exposed sediment area", mean = c(thresh_0.01$mean_co2,  thresh_0.01$mean_c, thresh_0.01$mean_co2 + pore_co2_eq, thresh_0.01$mean_c + pore_c), ci_lwr = c(thresh_0.01$lwr_co2,  thresh_0.01$lwr_c, thresh_0.01$lwr_co2 + pore_co2_eq, thresh_0.01$lwr_c + pore_c), ci_upr = c(thresh_0.01$upr_co2, thresh_0.01$upr_c, thresh_0.01$upr_co2 + pore_co2_eq, thresh_0.01$upr_c + pore_c))
 ```
 
-## Drawdown ebullition DONE
-```{r}
+## Drawdown ebullition 
+```{r drawdown eb}
 res_ch4_eb_eq_2.5 <- res_ch4_eb_eq - max((res_net_eq - res_net_2.5_eq), (res_net_97.5_eq - res_net_eq))
 res_ch4_eb_eq_97.5 <- res_ch4_eb_eq + max((res_net_eq - res_net_2.5_eq), (res_net_97.5_eq - res_net_eq))
 
 drawdown_eb_prop <- c(0, 5, 10, 25, 100)
-round(res_ch4_eb_eq * drawdown_eb_prop,0)
-round(res_ch4_eb_eq_2.5 * drawdown_eb_prop,0)
-round(res_ch4_eb_eq_97.5 * drawdown_eb_prop,0)
 
 res_ch4_eb_g <- res_ch4_eb_eq * (1/34) * (12.01/16.04)
 res_ch4_eb_g_2.5 <- res_ch4_eb_eq_2.5 * (1/34) * (12.01/16.04)
 res_ch4_eb_g_97.5 <- res_ch4_eb_eq_97.5 * (1/34) * (12.01/16.04)
 
-round(res_ch4_eb_g * drawdown_eb_prop,1)
-round(res_ch4_eb_g_2.5 * drawdown_eb_prop,1)
-round(res_ch4_eb_g_97.5 * drawdown_eb_prop,1)
-
 res_drawdown_eb_summary <- data.frame(period = c("burp"), flux = c("drawdown ebullition"), variation = drawdown_eb_prop %>% as.character(), flux_unit = c(rep("CO2-eq",5), rep("C", 5)), annual = "no", area = "reservoir", mean = c(res_ch4_eb_eq * drawdown_eb_prop, res_ch4_eb_g * drawdown_eb_prop) , ci_lwr = c(res_ch4_eb_eq_2.5 * drawdown_eb_prop, res_ch4_eb_g_2.5 * drawdown_eb_prop) , ci_upr = c(res_ch4_eb_eq_97.5 * drawdown_eb_prop, res_ch4_eb_g_97.5 * drawdown_eb_prop))
 ```
 
-## Eroded sediment emissions TODO
-```{r}
+## Eroded sediment emissions 
+```{r eroded sed}
 # Collins et al. write that a combination of the CR Environmental Report and post-removal survey suggest that the combined volume of mobilized sediment from Veazie and Great Works dam was 15,000 m3 or smaller
-# Fit a uniform distribution between 0 and 15,000 m3
-res_erode_g_max <- 15000
-res_erode_g_min <- 0
+# Fit a uniform distribution between 0 and 15,000 m3 
 
-# parameters for g distribution of % C
-b = (c_content_sd)^2/c_content
-a = (c_content)^2/(c_content_sd)^2
+b = (veazie_c_cont_sd)^2/veazie_c_cont
+a = (veazie_c_cont)^2/(veazie_c_cont_sd)^2
 
 # assumming between 0 and 100% oxidized
 min_ox_trans = 0 
@@ -366,33 +346,36 @@ max_ox_trans = 1
 
 eroded_vec <- c()
 for(i in 1:10000){
-  temporary <- (runif(1, min = res_erode_g_min, max = res_erode_g_max) * rgamma(1, shape=a, scale = b) * runif(1, min = min_ox_trans, max = max_ox_trans))/(res_area * 1e6)
-  eroded_vec <- c(eroded_vec, temporary)
+  print(i)
+  
+  # sample OC content
+  temp_oc <- rgamma(1, shape = a, scale = b)
+  
+  # get dbd
+  temp_oc_df <- data.frame(OC = temp_oc * 100)
+  
+  temp_dbd_distr <- exp(predict(oc_dbd.mod, temp_oc_df, interval = "prediction")[1]) * 1e6
+  temp_dbd_distr_sd <- exp(predict(oc_dbd.mod, temp_oc_df, interval = "prediction")[1]) * 1e6 - exp(predict(oc_dbd.mod, temp_oc_df, interval = "prediction")[2]) * 1e6
+  
+  temp_dbd <- rnorm(1, temp_dbd_distr, temp_dbd_distr_sd)
+  
+  # parameters for g of sediment
+  res_erode_g_max <- 15000 * temp_dbd
+  res_erode_g_min <- 0
+  
+  temp <- (runif(1, min = res_erode_g_min, max = res_erode_g_max) * temp_oc * runif(1, min = min_ox_trans, max = max_ox_trans))/(res_area * 1e6)
+  eroded_vec <- c(eroded_vec, temp)
 }
 
-res_eroded_97.5 <- sort(eroded_vec)[9750]
-res_eroded <- sort(eroded_vec)[5000]
-res_eroded_2.5 <- sort(eroded_vec)[250]
+eroded_vec <- sort(eroded_vec)
 
-res_eroded_co2eq_97.5 <- res_eroded_97.5 * (44.01/12.01)
-res_eroded_co2eq <- res_eroded * (44.01/12.01)
-res_eroded_co2eq_2.5 <- res_eroded_2.5 * (44.01/12.01)
-
-# these are per m2
-print(paste0("eroded sediment emissions in g C m-2: ", round(res_eroded,3), " (", round(res_eroded_2.5, 3), " - ", round(res_eroded_97.5, 3), ")")) 
-
-print(paste0("eroded sediment emissions in g CO2eq m-2: ", round(res_eroded_co2eq,3), " (", round(res_eroded_co2eq_2.5, 3), " - ", round(res_eroded_co2eq_97.5, 3), ")")) 
-
-res_erode_summary <- data.frame(period = c("burp"), flux = c("eroded sediment emissions"), variation = NA, flux_unit = c("CO2-eq", "C"), annual = "no", area = "reservoir", mean = c(res_eroded_co2eq, res_eroded), ci_lwr = c(res_eroded_co2eq_2.5, res_eroded_2.5), ci_upr = c(res_eroded_co2eq_97.5, res_eroded_97.5))
+res_erode_summary <- data.frame(period = c("burp"), flux = c("eroded sediment emissions"), variation = NA, flux_unit = c("CO2-eq", "C"), annual = "no", area = "reservoir", mean = c(eroded_vec[5000] * (44.01/12.01), eroded_vec[5000]), ci_lwr = c(eroded_vec[250] * (44.01/12.01), eroded_vec[250]), ci_upr = c(eroded_vec[9750] * (44.01/12.01), eroded_vec[9750]))
 ```
-
 
 # Build
 
-## River surface CO2 emissions DONE
-```{r}
-# Nate suggested writing a function that takes parameters of a gamma distribution as arguments and calculates those parameters that I have. Use optim or mle2 to optimize estimates to be as close to empirical as possible
-
+## River surface CO2 emissions 
+```{r river co2 emissions}
 # Discharge is in the >100 m3/s bin
 # Values are reported as g C m-2 d-
 
@@ -431,29 +414,11 @@ plot(x, y)
 
 riv_co2_vec <- sort(rgamma(10000, shape = shape_optimized, scale = scale_optimized)) *365
 
-riv_co2_97.5_gC <- riv_co2_vec[9750]
-riv_co2_gC <- riv_co2_vec[5000]
-riv_co2_2.5_gC <- riv_co2_vec[250]
-
-riv_co2_2.5_gC
-riv_co2_gC
-riv_co2_97.5_gC
-
-riv_co2_vec_gco2 <- riv_co2_vec * (44.01/12.01)
-
-riv_co2_97.5_gco2 <- riv_co2_vec_gco2[9750]
-riv_co2_gco2 <- riv_co2_vec_gco2[5000]
-riv_co2_2.5_gco2 <- riv_co2_vec_gco2[250]
-
-riv_co2_97.5_gco2
-riv_co2_gco2
-riv_co2_2.5_gco2
-
-riv_co2_summary <- data.frame(period = c("build"), flux = c("river CO2 emissions"), variation = NA, flux_unit = c("CO2-eq", "C"), annual = "yes", area = "river", mean = c(riv_co2_gco2, riv_co2_gC), ci_lwr = c(riv_co2_2.5_gco2, riv_co2_2.5_gC), ci_upr = c(riv_co2_97.5_gco2, riv_co2_97.5_gC))
+riv_co2_summary <- data.frame(period = c("build"), flux = c("river CO2 emissions"), variation = NA, flux_unit = c("CO2-eq", "C"), annual = "yes", area = "river", mean = c(riv_co2_vec[5000] * (44.01/12.01), riv_co2_vec[5000]), ci_lwr = c(riv_co2_vec[250] * (44.01/12.01), riv_co2_vec[250]), ci_upr = c(riv_co2_vec[9750] * (44.01/12.01), riv_co2_vec[9750]))
 ```
 
-## River surface CH4 emissions DONE these seem, really high
-```{r}
+## River surface CH4 emissions 
+```{r river ch4 emissions}
 ch4_conc <- read.csv("../1-input-data/5-ch4-fluxes/GRiMe_concentrations_v2.csv") 
 ch4_flux <- read.csv("../1-input-data/5-ch4-fluxes/GRiMe_fluxes_v2.csv")
 ch4_flux_sites <- read.csv("../1-input-data/5-ch4-fluxes/GRiMe_sites_v2.csv")
@@ -478,9 +443,6 @@ mapview(ch4_flux_sites_usa)
 ch4_flux_sites_usa %>% ggplot(aes(Q, Diffusive_CH4_Flux_Mean))+geom_point()
 ch4_flux_sites_usa %>% filter(Q < 500 & Diffusive_CH4_Flux_Mean<45) %>% ggplot(aes(Q, Diffusive_CH4_Flux_Mean))+geom_point()
 
-
-# TODO: figure out how many obs are in each bin, sample appropriate bin report number, decide what to do RE ebullition, and compare CO2 values to the ones derived from Hotchkiss et al. 2015
-
 ch4_flux_sites_usa <- ch4_flux_sites_usa %>% mutate(q_bin = case_when(
   (Q>=0 & Q<0.01) ~ "0-0.01",
   (Q>0.01 & Q<0.1) ~ "0.01-0.1",
@@ -501,49 +463,28 @@ ch4_flux_vec <- sort(sample(ch4_flux_sites_usa %>% filter(q_bin== ">100") %>% pu
 ch4_flux_vec_gCH4 <- ch4_flux_vec * 365 * 1e-3 * 16.04
 ch4_flux_vec_gCO2eq <- ch4_flux_vec_gCH4 * 34
 
-# could we just calculate the quantiles
-# quantile(ch4_flux_sites_usa %>% filter(q_bin== "10-100") %>% pull(Diffusive_CH4_Flux_Mean) * 365 * 1e-3 * 16.04, c(0.025, 0.5, 0.975))
-
-riv_ch4_flux_97.5_gC <- ch4_flux_vec_gCH4[9750] * (12.01 / 16.04)
-riv_ch4_flux_gC <- ch4_flux_vec_gCH4[5000] * (12.01 / 16.04)
-riv_ch4_flux_2.5_gC <- ch4_flux_vec_gCH4[250] * (12.01 / 16.04)
-
-riv_ch4_flux_97.5_gC
-riv_ch4_flux_gC
-riv_ch4_flux_2.5_gC
-
-riv_ch4_flux_97.5_gCO2eq <- ch4_flux_vec_gCO2eq[9750]
-riv_ch4_flux_gCO2eq <- ch4_flux_vec_gCO2eq[5000]
-riv_ch4_flux_2.5_gCO2eq <- ch4_flux_vec_gCO2eq[250]
-
-riv_ch4_flux_97.5_gCO2eq
-riv_ch4_flux_gCO2eq
-riv_ch4_flux_2.5_gCO2eq
-
 # CO2 flux
 co2_vec <- sort(sample(ch4_flux_sites_usa %>% filter(is.na(CO2_Flux_Mean)==FALSE)  %>% filter(q_bin== "10-100") %>% pull(CO2_Flux_Mean), 10000, replace = TRUE))* 365 * 1e-3 * 44.01
 co2_vec[250]
 co2_vec[5000]
 co2_vec[9750]
 
-riv_ch4_summary <- data.frame(period = c("build"), flux = c("river CH4 emissions"), variation = NA, flux_unit = c("CO2-eq", "C"), annual = "yes", area = "river", mean = c(riv_ch4_flux_gCO2eq, riv_ch4_flux_gC), ci_lwr = c(riv_ch4_flux_2.5_gCO2eq, riv_ch4_flux_2.5_gC), ci_upr = c(riv_ch4_flux_97.5_gCO2eq, riv_ch4_flux_97.5_gC))
+riv_ch4_summary <- data.frame(period = c("build"), flux = c("river CH4 emissions"), variation = NA, flux_unit = c("CO2-eq", "C"), annual = "yes", area = "river", mean = c(ch4_flux_vec_gCO2eq[5000], ch4_flux_vec_gCH4[5000] * (12.01 / 16.04)), ci_lwr = c(ch4_flux_vec_gCO2eq[250], ch4_flux_vec_gCH4[250] * (12.01 / 16.04)), ci_upr = c(ch4_flux_vec_gCO2eq[9750], ch4_flux_vec_gCH4[9750] * (12.01 / 16.04)))
 ```
 
-## NEE DONE
-```{r}
+## NEP 
+```{r nee}
 f_age <- function(a, b, e, age){
   return(e + a * (1-exp(b*age)))
 }
 
-# changed inputs from a = 587.74, b = -0.19, e = -324.54 to a = 263.2, b = -0.19, e = 0 to make it reach the same asymptote but start at 0
-# it doesn't seem to matter what the reference level is or what the f_age parameters are (in terms of the two options above, we get the same relationship)
 df <- read.csv("../1-input-data/8-besnard-data/besnard_2018.csv") %>% mutate(age_func = f_age(263.2, -0.19, 0, Age)) %>% mutate(nutrient = as.factor(`NA.`))
 
 # estimating NEP assuming that it is zero before the model predicts positive values
 nep_mod <- lm(NEP ~ MAT + Age + age_func + nutrient, data = df)
 summary(nep_mod)
 
-nep_new <- data.frame(MAT = mean(temp$Temperature), Age = seq(0, 100, by = 1), age_func = f_age(263.2, -0.19, 0, seq(0, 100, by = 1)), nutrient =as.factor("L"))
+nep_new <- data.frame(MAT = mean(temperature$Temperature), Age = seq(0, 100, by = 1), age_func = f_age(263.2, -0.19, 0, seq(0, 100, by = 1)), nutrient =as.factor("L"))
 nep_pred <- predict(nep_mod, nep_new, interval = "prediction") %>% as.data.frame()
 
 # becomes 0 a little before 5.7 years in so going to call it 6
@@ -553,11 +494,11 @@ nep_df <- data.frame(years = double(), mean_gC = double(), lwr_gC = double(), up
 year_vec <- c(25,50,100)
 for(i in 1:length(year_vec)){
   yr <- year_vec[i]
-  mean_gC <- integrate(function(x) as.data.frame(predict(nep_mod, newdata = data.frame(MAT = mean(temp$Temperature), Age = x, age_func = f_age(263.2, -0.19, 0, x), nutrient =as.factor("L")), interval = "prediction", level = 0.95))$fit, lower = 6, upper = yr)$value
-  lwr_gC <- -(integrate(function(x) -(as.data.frame(predict(nep_mod, newdata = data.frame(MAT = mean(temp$Temperature), Age = x, age_func = f_age(263.2, -0.19, 0, x), nutrient =as.factor("L")), interval = "prediction", level = 0.95))$lwr), lower = 6, upper = yr))$value
-  upr_gC <- integrate(function(x) as.data.frame(predict(nep_mod, newdata = data.frame(MAT = mean(temp$Temperature), Age = x, age_func = f_age(263.2, -0.19, 0, x), nutrient =as.factor("L")), interval = "prediction", level = 0.95))$upr, lower = 6, upper = yr)$value
+  mean_gC <- integrate(function(x) as.data.frame(predict(nep_mod, newdata = data.frame(MAT = mean(temperature$Temperature), Age = x, age_func = f_age(263.2, -0.19, 0, x), nutrient =as.factor("L")), interval = "prediction", level = 0.95))$fit, lower = 6, upper = yr)$value
+  lwr_gC <- -(integrate(function(x) -(as.data.frame(predict(nep_mod, newdata = data.frame(MAT = mean(temperature$Temperature), Age = x, age_func = f_age(263.2, -0.19, 0, x), nutrient =as.factor("L")), interval = "prediction", level = 0.95))$lwr), lower = 6, upper = yr))$value
+  upr_gC <- integrate(function(x) as.data.frame(predict(nep_mod, newdata = data.frame(MAT = mean(temperature$Temperature), Age = x, age_func = f_age(263.2, -0.19, 0, x), nutrient =as.factor("L")), interval = "prediction", level = 0.95))$upr, lower = 6, upper = yr)$value
   
-  temporary <- data.frame(years = yr, mean_gC = -mean_gC, lwr_gC = -lwr_gC, upr_gC = -upr_gC)
+  temporary <- data.frame(years = yr, mean_gC = -mean_gC, lwr_gC = -upr_gC, upr_gC = -lwr_gC)
   
   nep_df <- nep_df %>% bind_rows(temporary)
 }
@@ -575,9 +516,8 @@ res_nep_summary <- data.frame(period = c("build"), flux = c("NEP"), variation = 
 res_nep_summary
 ```
 
-## Soil CH4 emissions DONE
-## Priority for math checking
-```{r}
+## Soil CH4 emissions 
+```{r soil ch4}
 soil <- read.csv("../1-input-data/7-gattica-data/MethaneSoilForest.csv") %>% mutate(MAP_sq = MAP^2, MAT_sq = MAT^2) %>% filter(complete.cases(.))
 
 soil_scale <- soil %>% mutate(across(c(MAP:soilpH, MAP_sq, MAT_sq), scale))
@@ -606,9 +546,6 @@ soil_data_new <- data.frame(MAP = (veazie_soil$veazie_map- mean(soil$MAP))/sd(so
                             MAP_sq = (veazie_soil$veazie_map^2 - mean(soil$MAP_sq))/sd(soil$MAP_sq), 
                             Biome = "Temperate")
 
-predict(soil_mod, soil_data_new)
-
-library(merTools)
 
 # returns values in kg Ch4 /ha/yr
 soil_ch4_out <- predictInterval(soil_mod, soil_data_new, n.sims = 10000, level = 0.95) %>% as.data.frame()
@@ -621,357 +558,269 @@ soil_ch4_out <- soil_ch4_out %>% mutate(soil_c = fit * 0.1 * (12.01/16.04),
                         soil_co2_eq_97.5 = upr * 0.1 * 34)  
   
 soil_ch4_out
-# pivot_longer(cols = c(fit:soil_co2_eq_97.5), 
-  #              values_to = "value",
-  #              names_to = "name")
 
 res_soil_ch4_summary <- data.frame(period = c("build"), flux = c("soil CH4 emissions"), variation = NA, flux_unit = c("CO2-eq", "C"), annual = "yes", area = "exposed sediment area", mean = c(soil_ch4_out$soil_co2_eq, soil_ch4_out$soil_c), ci_lwr = c(soil_ch4_out$soil_co2_eq_2.5, soil_ch4_out$soil_c_2.5), ci_upr = c(soil_ch4_out$soil_co2_eq_97.5, soil_ch4_out$soil_c_97.5))
 ```
 
+## Tree CH4 emissions 
+```{r fvs inputs}
+veazie_dem <- elevatr::get_elev_raster(res, z=14, expand = 2000)
+veazie_masked <- terra::mask(veazie_dem, res)
 
-## Tree CH4 emissions TODO
-```{r}
-# TODO calc slope, aspect, and elevation as inputs for fvs in R not arcpro
-terrace <- st_read("../1-input-data/1-geospatial/post-removal/lake-mills_terrace.shp")
-valley_wall <- st_read("../1-input-data/1-geospatial/post-removal/lake-mills_valley-wall.shp")
+elev <- mean(getValues(veazie_masked), na.rm = T) * 3.28084
+elev
 
-# dtm <- raster("../1-input-data/1-geospatial/post-removal/lake-mills_post-removal_dtm.tif")
+veazie_slope <- terrain(veazie_dem, opt = "slope")
+veazie_slope_masked <- terra::mask(veazie_slope, res)
 
-terrace_slope <- read.csv("../1-input-data/1-geospatial/post-removal/lake-mills_terrace_slope.csv") %>% dplyr::select(stand_id, MEAN) %>% rename("slope" = "MEAN")
-terrace_elevation <- read.csv("../1-input-data/1-geospatial/post-removal/lake-mills_terrace_elevation.csv") %>% dplyr::select(stand_id, MEAN) %>% rename("elevation" = "MEAN")
-terrace_aspect <- read.csv("../1-input-data/1-geospatial/post-removal/lake-mills_terrace_aspect.csv") %>% dplyr::select(stand_id, MEAN) %>% rename("aspect" = "MEAN")
+plot(veazie_slope_masked)
 
-# coordinates for FVS input
-terrace_coords <- terrace %>% st_transform(4326) %>% st_centroid() %>% st_coordinates() %>% as.data.frame()
-terrace_coords$stand_id <- terrace_slope$stand_id
+range(getValues(veazie_slope_masked), na.rm = T)
+range(getValues(veazie_slope), na.rm = T)
 
-# terrace inputs
-terrace_inputs <- terrace_slope %>% left_join(terrace_elevation, by = "stand_id") %>% left_join(terrace_aspect, by = "stand_id") %>% left_join(terrace_coords, by = "stand_id")
+slope <- mean(getValues(veazie_slope_masked), na.rm = T)
+slope
 
-valley_wall_slope <- read.csv("../1-input-data/1-geospatial/post-removal/lake-mills_valley-wall_slope.csv") %>% dplyr::select(stand_id, MEAN) %>% rename("slope" = "MEAN")
-valley_wall_aspect <- read.csv("../1-input-data/1-geospatial/post-removal/lake-mills_valley-wall_aspect.csv") %>% dplyr::select(stand_id, MEAN) %>% rename("aspect" = "MEAN")
-valley_wall_elevation <- read.csv("../1-input-data/1-geospatial/post-removal/lake-mills_valley-wall_elevation.csv") %>% dplyr::select(stand_id, MEAN) %>% rename("elevation" = "MEAN")
+veazie_aspect <- terrain(veazie_dem, opt = "aspect")
+veazie_aspect_masked <- terra::mask(veazie_aspect, res)
 
-valley_wall_coords <- valley_wall %>% st_transform(4326) %>% st_centroid() %>% st_coordinates() %>% as.data.frame()
-valley_wall_coords$stand_id <- valley_wall_slope$stand_id
+aspect <- mean(getValues(veazie_aspect_masked), na.rm = T)
+aspect
 
-valley_wall_inputs <- valley_wall_slope %>% left_join(valley_wall_elevation, by = "stand_id") %>% left_join(valley_wall_aspect, by = "stand_id")%>% left_join(valley_wall_coords, by = "stand_id")
-
-# write.csv(valley_wall_inputs, "../1-input-data/2-fvs/lake-mills_valley-wall.csv")
-
-trees_k09 <- read.csv("../1-input-data/2-fvs/lake-mills-output_k09.csv")
-trees_k15 <- read.csv("../1-input-data/2-fvs/lake-mills-output_k15.csv")
-
-# DBH in inches Ht in ft convert to m2
-tree_surface_area_k09 <- trees_k09 %>% 
-  mutate(surface_area = (DBH/12)*pi *EstHt *0.092903, surface_area_3ft = (DBH/12)*pi * 3 *0.092903) %>% 
-  group_by(StandID, Year) %>% summarize(total_surface_area = sum(surface_area), total_surface_area_3ft = sum(surface_area_3ft)) %>% mutate(habitat = if_else(str_detect(StandID, "lmt"), "wetland", "upland"))
-
-tree_surface_area_k15 <- trees_k15 %>% 
-  mutate(surface_area = (DBH/12)*pi *EstHt * 0.092903, surface_area_3ft = (DBH/12)*pi * 3* 0.092903) %>% 
-  group_by(StandID, Year) %>% summarize(total_surface_area = sum(surface_area), total_surface_area_3ft = sum(surface_area_3ft))%>% mutate(habitat = if_else(str_detect(StandID, "lmt"), "wetland", "upland"))
-
-# ug CH4/m2/hr
-upland_tree_ch4 <- 68.8 * 8760 *1e-6
-upland_tree_ch4_sd <- 53.6 * 8760 *1e-6
-
-wetland_tree_ch4 <- 567.9 * 8760 *1e-6
-wetland_tree_ch4_sd <- 523.5 * 8760 *1e-6
-
-tree_plots <- tree_surface_area_k09 %>% dplyr::select(StandID, habitat) %>% distinct()
-tree_plots$area <- c(st_area(terrace) %>% as.numeric(), st_area(valley_wall) %>% as.numeric())
-tree_plots
-
-# report area-weighted average rate 
-# tree_ch4_df <- NULL
-# 
-# for(i in 1:10000){
-#   tree_plots$ch4_rate <- c(rnorm(7, wetland_tree_ch4, wetland_tree_ch4_sd), rnorm(3, upland_tree_ch4, upland_tree_ch4_sd))
-#   
-#   tree_sa <- sample(c(1, 2), size = 1, replace = TRUE)
-#   
-#   if(tree_sa == 1){
-#     temporary <- tree_surface_area_k09 %>% 
-#       left_join(tree_plots, by = c("StandID", "habitat")) %>% 
-#       mutate(ch4_all = total_surface_area * ch4_rate, 
-#              ch4_3ft = total_surface_area_3ft * ch4_rate) %>% 
-#       group_by(StandID) %>% 
-#       summarize(ch4_all_avg = mean(ch4_all), ch4_3ft_avg = mean(ch4_3ft)) %>% 
-#       ungroup() %>% 
-#       left_join(tree_plots %>% dplyr::select(-ch4_rate), by = c("StandID")) %>% 
-#       mutate(ch4_all_rate = ch4_all_avg/area, ch4_3ft_rate = ch4_3ft_avg/area) %>% 
-#       summarize(mean_tree_ch4_all = mean(ch4_all_rate), 
-#                 mean_tree_ch4_3ft = mean(ch4_3ft_rate), 
-#                 mean_tree_ch4_all_co2 = mean_tree_ch4_all * 34, 
-#                 mean_tree_ch4_3ft_co2 = mean_tree_ch4_3ft * 34)
-#       
-#   }
-#   
-#   if(tree_sa == 2){
-#     temporary <- tree_surface_area_k15 %>% 
-#       left_join(tree_plots, by = c("StandID", "habitat")) %>% 
-#       mutate(ch4_all = total_surface_area * ch4_rate, 
-#              ch4_3ft = total_surface_area_3ft * ch4_rate) %>% 
-#       group_by(StandID) %>% 
-#       summarize(ch4_all_avg = mean(ch4_all), ch4_3ft_avg = mean(ch4_3ft)) %>% 
-#       ungroup() %>% 
-#       left_join(tree_plots %>% dplyr::select(-ch4_rate), by = c("StandID")) %>% 
-#       mutate(ch4_all_rate = ch4_all_avg/area, ch4_3ft_rate = ch4_3ft_avg/area) %>% 
-#       summarize(mean_tree_ch4_all = mean(ch4_all_rate), 
-#                 mean_tree_ch4_3ft = mean(ch4_3ft_rate), 
-#                 mean_tree_ch4_all_co2 = mean_tree_ch4_all * 34, 
-#                 mean_tree_ch4_3ft_co2 = mean_tree_ch4_3ft * 34)
-#     
-#   }
-#   
-#   tree_ch4_df <- tree_ch4_df %>% bind_rows(temporary)
-# }
-# 
-# 
-# write.csv(tree_ch4_df, "../2-output-data/glines_tree_ch4_emissions.csv")
-
-tree_ch4_df <- read.csv("../2-output-data/glines_tree_ch4_emissions.csv")
-
-ch4_all <- tree_ch4_df$mean_tree_ch4_all %>% sort()
-ch4_3ft <- tree_ch4_df$mean_tree_ch4_3ft %>% sort()
-
-ch4_all_co2 <- tree_ch4_df$mean_tree_ch4_all_co2 %>% sort()
-ch4_3ft_co2 <- tree_ch4_df$mean_tree_ch4_3ft_co2 %>% sort()
-
-tree_ch4_97.5 <- ch4_all[9750] * (12.01/16.04)
-tree_ch4 <- ch4_all[5000] * (12.01/16.04)
-tree_ch4_2.5 <- ch4_all[250] * (12.01/16.04)
-
-tree_ch4_3ft_97.5 <- ch4_3ft[9750]* (12.01/16.04)
-tree_ch4_3ft <- ch4_3ft[5000]* (12.01/16.04)
-tree_ch4_3ft_2.5 <- ch4_3ft[250]* (12.01/16.04)
-
-tree_ch4_co2_97.5 <- ch4_all_co2[9750]
-tree_ch4_co2 <- ch4_all_co2[5000]
-tree_ch4_co2_2.5 <- ch4_all_co2[250]
-
-tree_ch4_3ft_co2_97.5 <- ch4_3ft_co2[9750]
-tree_ch4_3ft_co2 <- ch4_3ft_co2[5000]
-tree_ch4_3ft_co2_2.5 <- ch4_3ft_co2[250]
-
-
-tree_ch4
-tree_ch4_2.5
-tree_ch4_97.5
-
-tree_ch4_co2
-tree_ch4_co2_2.5
-tree_ch4_co2_97.5
-
-tree_ch4_3ft
-tree_ch4_3ft_2.5
-tree_ch4_3ft_97.5
-
-tree_ch4_3ft_co2
-tree_ch4_3ft_co2_2.5
-tree_ch4_3ft_co2_97.5
-
-res_tree_ch4_summary <- data.frame(period = c("build"), 
-                                   flux = c("tree CH4 emissions"), 
-                                   variation = c("offset by canopy", "offset by canopy", "whole trunk", "whole trunk", "three feet", "three feet"), 
-                                   flux_unit = rep(c("CO2-eq", "C"), 3), 
-                                   annual = "yes", 
-                                   area = "exposed sediment area", 
-                                   mean = c(0, 0, tree_ch4_co2, tree_ch4, tree_ch4_3ft_co2, tree_ch4_3ft), 
-                                   ci_lwr = c(0, 0,tree_ch4_co2_2.5,  tree_ch4_2.5, tree_ch4_3ft_co2_2.5, tree_ch4_3ft_2.5), 
-                                   ci_upr = c(0, 0, tree_ch4_co2_97.5, tree_ch4_97.5, tree_ch4_3ft_co2_97.5, tree_ch4_3ft_97.5))
-
-res_tree_ch4_summary
+res %>% st_transform(crs = 4326) %>% st_centroid() %>% st_coordinates()
 ```
 
-# Summary TODO
-```{r}
-# The terrace delineation was done using 2014 NAIP data. The flow is now more concentrated in a smaller area meaning there is a greater area of exposed sediments. I don't think this matters because the FVS model is not that sensitive to small changes in aspect, elevation, and slope, so I am moving forward with 2021 delineations for sediment and river area
-glines_riv <- read_sf("../1-input-data/1-geospatial/post-removal/elwha-river_glines.shp")
-names(glines_riv)
+```{r tree ch4 angio, warnings = FALSE}
+trees_k09_rm <- read_excel("../1-input-data/2-fvs/veazie-output-redmaple_k09.xlsx")
+trees_k11_rm <- read_excel("../1-input-data/2-fvs/veazie-output-redmaple_k11.xlsx")
+trees_k09_hem <- read_excel("../1-input-data/2-fvs/veazie-output-hemlock_k09.xlsx")
+trees_k11_hem <- read_excel("../1-input-data/2-fvs/veazie-output-hemlock_k11.xlsx")
 
-glines_riv_area <- (glines_riv %>% filter(Type == "main") %>% st_area()) - (glines_riv %>% filter(Type != "main") %>% st_area() %>% sum()) 
+# confirmed that TPA gives you the right number of trees
+# trees_k11_hem %>% group_by(Year) %>% summarize(trees = sum(TPA))
+
+# DBH in inches Ht in ft convert to m2
+sa_k09_rm <- trees_k09_rm %>% 
+  mutate(surface_area = (DBH/12)*pi *EstHt *0.092903 * TPA, surface_area_3m = (DBH/12)*pi * 9.84 *0.092903 * TPA) %>% 
+  group_by(StandID, Year) %>% summarize(total_surface_area = sum(surface_area), total_surface_area_3m = sum(surface_area_3m)) %>% 
+  mutate(habitat = "wetland", tree_type = "angiosperm") %>% ungroup()
+
+sa_k11_rm <- trees_k11_rm %>% 
+  mutate(surface_area = (DBH/12)*pi *EstHt *0.092903 * TPA, surface_area_3m = (DBH/12)*pi * 9.84 *0.092903 * TPA) %>% 
+  group_by(StandID, Year) %>% summarize(total_surface_area = sum(surface_area), total_surface_area_3m = sum(surface_area_3m)) %>% 
+  mutate(habitat = "wetland", tree_type = "angiosperm") %>% ungroup()
+
+sa_k09_hem <- trees_k09_hem %>% 
+  mutate(surface_area = (DBH/12)*pi *EstHt *0.092903 *TPA, surface_area_3m = (DBH/12)*pi * 9.84 *0.092903 * TPA) %>% 
+  group_by(StandID, Year) %>% summarize(total_surface_area = sum(surface_area), total_surface_area_3m = sum(surface_area_3m)) %>% 
+  mutate(habitat = "wetland", tree_type = "gymnosperm") %>% ungroup()
+
+sa_k11_hem <- trees_k11_hem %>% 
+  mutate(surface_area = (DBH/12)*pi *EstHt *0.092903 *TPA, surface_area_3m = (DBH/12)*pi * 9.84 *0.092903 * TPA) %>% 
+  group_by(StandID, Year) %>% summarize(total_surface_area = sum(surface_area), total_surface_area_3m = sum(surface_area_3m)) %>% 
+  mutate(habitat = "wetland", tree_type = "gymnosperm") %>% ungroup()
+
+# Pitz et al. 2018
+# ug CH4/m2/hr -> g/m2/yr
+angio_wet_tree_ch4 <- 567.9 * 8760 *1e-6
+angio_wet_tree_ch4_sd <- 523.5 * 8760 *1e-6
+
+# m2 in an acre
+plot_area <- 4046.86
+
+angio_ch4_df <- NULL
+
+for(i in 1:10000){
+  print(i)
+
+  ch4_rate <- rnorm(1, angio_wet_tree_ch4, angio_wet_tree_ch4_sd)
+  tree_sa <- sample(c(1, 2), size = 1, replace = TRUE)
+
+  if(tree_sa == 1){
+    temporary <- sa_k09_rm %>%
+      mutate(ch4_all = total_surface_area * ch4_rate,
+             ch4_3m = total_surface_area_3m * ch4_rate) %>%
+      mutate(ch4_all_rate = ch4_all/plot_area, ch4_3m_rate = ch4_3m/plot_area) %>%
+      summarize(mean_ch4_all = mean(ch4_all_rate),
+        mean_ch4_3m = mean(ch4_3m_rate),
+        ch4_all_rate_co2 = mean_ch4_all * 34,
+        ch4_3m_rate_co2 = mean_ch4_3m * 34)
+  }
+
+  if(tree_sa == 2){
+      temporary <- sa_k11_rm %>%
+      mutate(ch4_all = total_surface_area * ch4_rate,
+             ch4_3m = total_surface_area_3m * ch4_rate) %>%
+      mutate(ch4_all_rate = ch4_all/plot_area, ch4_3m_rate = ch4_3m/plot_area) %>%
+      summarize(mean_ch4_all = mean(ch4_all_rate),
+        mean_ch4_3m = mean(ch4_3m_rate),
+        ch4_all_rate_co2 = mean_ch4_all * 34,
+        ch4_3m_rate_co2 = mean_ch4_3m * 34)
+  }
+
+  angio_ch4_df <- angio_ch4_df %>% bind_rows(temporary)
+}
+
+
+write.csv(angio_ch4_df, "../2-output-data/angio_ch4_emissions_3m.csv")
+```
+
+```{r tree ch4 gymno, warnings = FALSE}
+# Machacova study of Scots pine is the only gymnosperm other than the bald cypress knees use the wet stem estimate
+# use web plot digitizer to get IQR and then estimate SD using IQR/1.35. This is an underestimate of the SD because mean is higher than median
+
+gymno_wet_tree_ch4 <- 0.166 * 8760 * 1e-6
+gymno_wet_tree_ch4_sd <- ((0.225-0.042)/1.35)* 8760 * 1e-6
+
+gymno_ch4_df <- NULL
+
+for(i in 1:10000){
+  print(i)
+  ch4_rate <- rnorm(1, gymno_wet_tree_ch4, gymno_wet_tree_ch4_sd)
+  tree_sa <- sample(c(1, 2), size = 1, replace = TRUE)
+
+  if(tree_sa == 1){
+       temporary <- sa_k09_hem %>%
+      mutate(ch4_all = total_surface_area * ch4_rate,
+             ch4_3m = total_surface_area_3m * ch4_rate) %>%
+      mutate(ch4_all_rate = ch4_all/plot_area, ch4_3m_rate = ch4_3m/plot_area) %>%
+      summarize(mean_ch4_all = mean(ch4_all_rate),
+        mean_ch4_3m = mean(ch4_3m_rate),
+        ch4_all_rate_co2 = mean_ch4_all * 34,
+        ch4_3m_rate_co2 = mean_ch4_3m * 34)
+
+  }
+
+  if(tree_sa == 2){
+       temporary <- sa_k11_hem %>%
+      mutate(ch4_all = total_surface_area * ch4_rate,
+             ch4_3m = total_surface_area_3m * ch4_rate) %>%
+      mutate(ch4_all_rate = ch4_all/plot_area, ch4_3m_rate = ch4_3m/plot_area) %>%
+      summarize(mean_ch4_all = mean(ch4_all_rate),
+        mean_ch4_3m = mean(ch4_3m_rate),
+        ch4_all_rate_co2 = mean_ch4_all * 34,
+        ch4_3m_rate_co2 = mean_ch4_3m * 34)
+  }
+
+  gymno_ch4_df <- gymno_ch4_df %>% bind_rows(temporary)
+}
+
+
+write.csv(gymno_ch4_df, "../2-output-data/gymno_ch4_emissions_3m.csv")
+```
+
+```{r angio summary}
+angio_ch4_df <- read.csv("../2-output-data/angio_ch4_emissions_3m.csv")
+
+angio_ch4_all_mean <- (angio_ch4_df$mean_ch4_all %>% sort())[5000] * (12.01/16.04)
+angio_ch4_all_2.5 <- (angio_ch4_df$mean_ch4_all %>% sort())[250] * (12.01/16.04)
+angio_ch4_all_97.5 <- (angio_ch4_df$mean_ch4_all %>% sort())[9750] * (12.01/16.04)
+
+angio_ch4_3m_mean <- (angio_ch4_df$mean_ch4_3m %>% sort())[5000] * (12.01/16.04)
+angio_ch4_3m_2.5 <- (angio_ch4_df$mean_ch4_3m %>% sort())[250] * (12.01/16.04)
+angio_ch4_3m_97.5 <- (angio_ch4_df$mean_ch4_3m %>% sort())[9750] * (12.01/16.04)
+
+angio_ch4_all_mean_co2 <- (angio_ch4_df$ch4_all_rate_co2 %>% sort())[5000] * (12.01/16.04)
+angio_ch4_all_2.5_co2 <- (angio_ch4_df$ch4_all_rate_co2 %>% sort())[250] * (12.01/16.04)
+angio_ch4_all_97.5_co2 <- (angio_ch4_df$ch4_all_rate_co2 %>% sort())[9750] * (12.01/16.04)
+
+angio_ch4_3m_mean_co2 <- (angio_ch4_df$ch4_3m_rate_co2 %>% sort())[5000] * (12.01/16.04)
+angio_ch4_3m_2.5_co2 <- (angio_ch4_df$ch4_3m_rate_co2 %>% sort())[250] * (12.01/16.04)
+angio_ch4_3m_97.5_co2 <- (angio_ch4_df$ch4_3m_rate_co2 %>% sort())[9750] * (12.01/16.04)
+```
+
+```{r gymno summary}
+gymno_ch4_df <- read.csv("../2-output-data/gymno_ch4_emissions_3m.csv")
+
+gymno_ch4_all_mean <- (gymno_ch4_df$mean_ch4_all %>% sort())[5000] * (12.01/16.04)
+gymno_ch4_all_2.5 <- (gymno_ch4_df$mean_ch4_all %>% sort())[250] * (12.01/16.04)
+gymno_ch4_all_97.5 <- (gymno_ch4_df$mean_ch4_all %>% sort())[9750] * (12.01/16.04)
+
+gymno_ch4_3m_mean <- (gymno_ch4_df$mean_ch4_3m %>% sort())[5000] * (12.01/16.04)
+gymno_ch4_3m_2.5 <- (gymno_ch4_df$mean_ch4_3m %>% sort())[250] * (12.01/16.04)
+gymno_ch4_3m_97.5 <- (gymno_ch4_df$mean_ch4_3m %>% sort())[9750] * (12.01/16.04)
+
+gymno_ch4_all_mean_co2 <- (gymno_ch4_df$ch4_all_rate_co2 %>% sort())[5000] * (12.01/16.04)
+gymno_ch4_all_2.5_co2 <- (gymno_ch4_df$ch4_all_rate_co2 %>% sort())[250] * (12.01/16.04)
+gymno_ch4_all_97.5_co2 <- (gymno_ch4_df$ch4_all_rate_co2 %>% sort())[9750] * (12.01/16.04)
+
+gymno_ch4_3m_mean_co2 <- (gymno_ch4_df$ch4_3m_rate_co2 %>% sort())[5000] * (12.01/16.04)
+gymno_ch4_3m_2.5_co2 <- (gymno_ch4_df$ch4_3m_rate_co2 %>% sort())[250] * (12.01/16.04)
+gymno_ch4_3m_97.5_co2 <- (gymno_ch4_df$ch4_3m_rate_co2 %>% sort())[9750] * (12.01/16.04)
+```
+
+```{r tree ch4 summary}
+res_tree_ch4_summary <- data.frame(period = c("build"),
+                                   flux = c("tree CH4 emissions"),
+                                   variation = c("offset by canopy angio", 
+                                                 "offset by canopy angio", 
+                                                 "whole trunk angio", 
+                                                 "whole trunk angio", 
+                                                 "three meters angio", 
+                                                 "three meters angio", 
+                                                 "offset by canopy gymno", 
+                                                 "offset by canopy gymno", 
+                                                 "whole trunk gymno", 
+                                                 "whole trunk gymno", 
+                                                 "three meters gymno", 
+                                                 "three meters gymno"),
+                                   flux_unit = rep(c("CO2-eq", "C"), 6),
+                                   annual = "yes",
+                                   area = "exposed sediment area",
+                                   mean = c(0, 
+                                            0, 
+                                            angio_ch4_all_mean_co2, 
+                                            angio_ch4_all_mean, 
+                                            angio_ch4_3m_mean_co2, 
+                                            angio_ch4_3m_mean,
+                                            0, 
+                                            0, 
+                                            gymno_ch4_all_mean_co2, 
+                                            gymno_ch4_all_mean, 
+                                            gymno_ch4_3m_mean_co2, 
+                                            gymno_ch4_3m_mean),
+                                   ci_lwr = c(0, 
+                                            0, 
+                                            angio_ch4_all_2.5_co2, 
+                                            angio_ch4_all_2.5, 
+                                            angio_ch4_3m_2.5_co2, 
+                                            angio_ch4_3m_2.5,
+                                            0, 
+                                            0, 
+                                            gymno_ch4_all_2.5_co2, 
+                                            gymno_ch4_all_2.5, 
+                                            gymno_ch4_3m_2.5_co2, 
+                                            gymno_ch4_3m_2.5),
+                                   ci_upr = c(0, 
+                                            0, 
+                                            angio_ch4_all_97.5_co2, 
+                                            angio_ch4_all_97.5, 
+                                            angio_ch4_3m_97.5_co2, 
+                                            angio_ch4_3m_97.5,
+                                            0, 
+                                            0, 
+                                            gymno_ch4_all_97.5_co2, 
+                                            gymno_ch4_all_97.5, 
+                                            gymno_ch4_3m_97.5_co2, 
+                                            gymno_ch4_3m_97.5))
+
+res_tree_ch4_summary
+
+```
+
+# Summary
+```{r create summary dfs}
+res_area <- st_area(res) %>% as.numeric()
+riv_area <- st_area(riv) %>% as.numeric()
 
 area_df <- data.frame(area = c("reservoir", "exposed sediment area", "river"), 
-                      area_m2 = c(res_area * 1e6, (res_area * 1e6)- as.numeric(glines_riv_area), as.numeric(glines_riv_area)))
+                      area_m2 = c(res_area, (res_area - riv_area), riv_area))
 
 # negative values are for uptake or burial positive values are for emissions
-# how to show the multiple scenarios e.g., drawdown ebullition (only the most extreme or is there a way to layer on the plot)
 
 summary_df <- bind_rows(res_emissions_summary, res_burial_summary, res_sed_co2_summary, res_sed_ch4_summary, res_drawdown_eb_summary, res_erode_summary, riv_co2_summary, riv_ch4_summary, res_nep_summary, res_soil_ch4_summary, res_tree_ch4_summary) %>% left_join(area_df, by = "area") %>% mutate(mean_area = mean * area_m2, ci_lwr_area = ci_lwr * area_m2, ci_upr_area = ci_upr * area_m2) %>% mutate(flux_fct = fct_relevel(flux, c("reservoir emissions", "reservoir burial", "exposed sediment CO2", "exposed sediment CH4", "drawdown ebullition", "eroded sediment emissions", "river CO2 emissions", "river CH4 emissions", "NEP", "soil CH4 emissions", "tree CH4 emissions")))
 
-best_case_df <- bind_rows(res_emissions_summary, 
-                          res_burial_summary, 
-                          res_sed_co2_summary %>% filter(variation == "0.0833333333333333"),
-                          res_sed_ch4_summary %>% filter(variation == "no_pore_0.0833333333333333"), 
-                          res_drawdown_eb_summary %>% filter(variation == "0"), 
-                          res_erode_summary, 
-                          riv_co2_summary, 
-                          riv_ch4_summary, 
-                          res_nep_summary %>% filter(variation == "100"), 
-                          res_soil_ch4_summary,
-                          res_tree_ch4_summary %>% filter(variation == "offset by canopy")) %>% left_join(area_df, by = "area") %>% mutate(mean_area = mean * area_m2, ci_lwr_area = ci_lwr * area_m2, ci_upr_area = ci_upr * area_m2) %>% mutate(flux_fct = fct_relevel(flux, c("reservoir emissions", "reservoir burial", "exposed sediment CO2", "exposed sediment CH4", "drawdown ebullition", "eroded sediment emissions", "river CO2 emissions", "river CH4 emissions", "NEP", "soil CH4 emissions", "tree CH4 emissions")))
 
-worst_case_df <- bind_rows(res_emissions_summary, 
-                          res_burial_summary, 
-                          res_sed_co2_summary %>% filter(variation == "100"),
-                          res_sed_ch4_summary %>% filter(variation == "pore_100"), 
-                          res_drawdown_eb_summary %>% filter(variation == "100"), 
-                          res_erode_summary, 
-                          riv_co2_summary, 
-                          riv_ch4_summary, 
-                          res_nep_summary %>% filter(variation == "100"), 
-                          res_soil_ch4_summary,
-                          res_tree_ch4_summary %>% filter(variation == "whole trunk")) %>% left_join(area_df, by = "area") %>% mutate(mean_area = mean * area_m2, ci_lwr_area = ci_lwr * area_m2, ci_upr_area = ci_upr * area_m2) %>% mutate(flux_fct = fct_relevel(flux, c("reservoir emissions", "reservoir burial", "exposed sediment CO2", "exposed sediment CH4", "drawdown ebullition", "eroded sediment emissions", "river CO2 emissions", "river CH4 emissions", "NEP", "soil CH4 emissions", "tree CH4 emissions")))
-
-
-middle_case_df <-bind_rows(res_emissions_summary, 
-                          res_burial_summary, 
-                          res_sed_co2_summary %>% filter(variation == "10"),
-                          res_sed_ch4_summary %>% filter(variation == "pore_10"), 
-                          res_drawdown_eb_summary %>% filter(variation == "10"), 
-                          res_erode_summary, 
-                          riv_co2_summary, 
-                          riv_ch4_summary, 
-                          res_nep_summary %>% filter(variation == "100"), 
-                          res_soil_ch4_summary,
-                          res_tree_ch4_summary %>% filter(variation == "three feet")) %>% left_join(area_df, by = "area") %>% mutate(mean_area = mean * area_m2, ci_lwr_area = ci_lwr * area_m2, ci_upr_area = ci_upr * area_m2) %>% mutate(flux_fct = fct_relevel(flux, c("reservoir emissions", "reservoir burial", "exposed sediment CO2", "exposed sediment CH4", "drawdown ebullition", "eroded sediment emissions", "river CO2 emissions", "river CH4 emissions", "NEP", "soil CH4 emissions", "tree CH4 emissions")))
-  
-
-unique(res_tree_ch4_summary$variation)
-
-png("../2-output-data/co2eq_draft1.png", width = 8, height = 5, units = "in", res = 300)
-summary_df %>% filter(flux_unit == "CO2-eq") %>% ggplot(aes(flux_fct, mean))+geom_col(aes(fill = period)) + geom_errorbar(aes(x = flux_fct, ymin = ci_lwr, ymax = ci_upr)) + theme(axis.text.x = element_text(angle = 90)) + labs(y = "g CO2-eq/m2/yr", x = "")
-dev.off()
-```
-
-```{r}
-# colors: "#86BBD8", "#588157", "#848484"
-png("../2-output-data/co2eq_draft2.png", width = 9, height = 5, units = "in", res = 300)
-best_case_df %>% 
-  filter(flux_unit == "CO2-eq", flux_fct %in% c("reservoir emissions", "reservoir burial", "soil CH4 emissions", "NEP", "tree CH4 emissions", "river CH4 emissions", "river CO2 emissions")) %>% 
-  ggplot(aes(flux_fct, mean_area))+
-  geom_point(aes(color = period), size = 2) + 
-  geom_errorbar(aes(x = flux_fct, ymin = ci_lwr_area, ymax = ci_upr_area, color = period), size = 1) + 
-  theme_bw()+ 
-  ylab(expression(g~CO[2-eq]~yr^-1))+
-  geom_hline(yintercept = 0, linetype ="dashed", "black")+
-  scale_color_manual(values = c("#86BBD8", "#588157"))+
-  scale_x_discrete(labels = c(expression(reservoir~CO[2-eq]), "burial", expression(river~CO[2]), expression(river~CH[4]), "NEP",  expression(soil~CH[4]), expression(tree~CH[4])))+
-  theme(axis.text.x = element_text(vjust = 0, hjust  = 0.5,  size = 12, color = "black"), axis.text.y = element_text(size = 12, color = "black"), axis.title.x = element_blank(), axis.title.y = element_text(size =14), legend.title = element_text(size = 14), legend.text = element_text(size = 12))
-dev.off()
-
-png("../2-output-data/co2eq_draft3.png", width = 8, height = 5, units = "in", res = 300)
-best_case_df %>% 
-  filter(flux_unit == "CO2-eq", flux_fct %in% c("reservoir emissions", "river CH4 emissions", "river CO2 emissions")) %>% 
-  ggplot(aes(flux_fct, mean_area))+
-  geom_point(aes(color = period), size = 2) + 
-  geom_errorbar(aes(x = flux_fct, ymin = ci_lwr_area, ymax = ci_upr_area, color = period), size = 1) + 
-  theme_bw()+ 
-  ylab(expression(g~CO[2-eq]~yr^-1))+
-  geom_hline(yintercept = 0, linetype ="dashed", "black")+
-  scale_color_manual(values = c("#86BBD8", "#588157"))+
-  scale_x_discrete(labels = c(expression(reservoir~CO[2-eq]), expression(river~CO[2]), expression(river~CH[4])))+
-  theme(axis.text.x = element_text(vjust = 0, hjust  = 0.5,  size = 12, color = "black"), axis.text.y = element_text(size = 12, color = "black"), axis.title.x = element_blank(), axis.title.y = element_text(size =14), legend.title = element_text(size = 14), legend.text = element_text(size = 12))
-dev.off()
-
-png("../2-output-data/co2eq_draft4.png", width = 10, height = 5, units = "in", res = 300)
-best_case_df %>% 
-  filter(flux_unit == "CO2-eq") %>% 
-  ggplot(aes(flux_fct, mean_area))+
-  geom_point(aes(color = period), size = 2) + 
-  geom_errorbar(aes(x = flux_fct, ymin = ci_lwr_area, ymax = ci_upr_area, color = period), size = 1) + 
-  theme_bw()+
-  ylab(expression(g~CO[2-eq]~yr^-1))+
-  geom_hline(yintercept = 0, linetype ="dashed", "black")+
-  scale_color_manual(values = c("#86BBD8", "#588157", "#848484"))+
-  scale_x_discrete(labels = c(expression(reservoir~CO[2-eq]), "burial", expression(exposed~sediment~CO[2]), expression(exposed~sediment~CH[4]), "drawdown ebullition", expression(eroded~sediment~CO[2]), expression(river~CO[2]), expression(river~CH[4]), "NEP", expression(soil~CH[4]), expression(tree~CH[4])))+
-  theme(axis.text.x = element_text(angle = 90, vjust = 0, hjust  = 1,  size = 12, color = "black"), axis.text.y = element_text(size = 12, color = "black"), axis.title.x = element_blank(), axis.title.y = element_text(size =14), legend.title = element_text(size = 14), legend.text = element_text(size = 12))
-dev.off()
-
-png("../2-output-data/co2eq_draft5.png", width = 10, height = 5, units = "in", res = 300)
-worst_case_df %>% 
-  filter(flux_unit == "CO2-eq") %>% 
-  ggplot(aes(flux_fct, mean_area))+
-  geom_point(aes(color = period), size = 2) + 
-  geom_errorbar(aes(x = flux_fct, ymin = ci_lwr_area, ymax = ci_upr_area, color = period), size = 1) + 
-  theme_bw()+
-  ylab(expression(g~CO[2-eq]~yr^-1))+
-  geom_hline(yintercept = 0, linetype ="dashed", "black")+
-  scale_color_manual(values = c("#86BBD8", "#588157", "#848484"))+
-  scale_x_discrete(labels = c(expression(reservoir~CO[2-eq]), "burial", expression(exposed~sediment~CO[2]), expression(exposed~sediment~CH[4]), "drawdown ebullition", expression(eroded~sediment~CO[2]), expression(river~CO[2]), expression(river~CH[4]), "NEP", expression(soil~CH[4]), expression(tree~CH[4])))+
-  theme(axis.text.x = element_text(angle = 90, vjust = 0, hjust  = 1,  size = 12, color = "black"), axis.text.y = element_text(size = 12, color = "black"), axis.title.x = element_blank(), axis.title.y = element_text(size =14), legend.title = element_text(size = 14), legend.text = element_text(size = 12))
-dev.off()
-
-
-png("../2-output-data/co2eq_draft6.png", width = 10, height = 5, units = "in", res = 300)
-summary_df %>% 
-  filter(flux == "exposed sediment CO2", flux_unit == "CO2-eq") %>% 
-  mutate(variation = replace(variation, variation == "0.0833333333333333", "0.083") %>% fct_relevel(c("0.083", "1", "5", "10", "30", "100"))) %>% 
-  ggplot(aes(variation, mean_area)) + 
-  geom_point(color = "#848484", size = 2 )+
-  geom_errorbar(aes(x = variation, ymin = ci_lwr_area, ymax = ci_upr_area), color = "#848484", size = 1) + 
-  theme_bw()+
-  ylab(expression(Exposed~sediment~CO[2]~emissions~g~CO[2-eq]))+
-  xlab("Years to near zero emissions")+
-  theme(axis.text.x = element_text(size = 12, color = "black"), axis.text.y = element_text(size = 12, color = "black"), axis.title = element_text(size =14), legend.title = element_text(size = 14), legend.text = element_text(size = 12))
-dev.off()
-
-png("../2-output-data/co2eq_draft7.png", width = 10, height = 7, units = "in", res = 300)
-summary_df %>% 
-  filter(flux_unit == "CO2-eq") %>% 
-  mutate(variation = case_when(variation == "0.0833333333333333" ~ "0.083",
-                               variation == "pore_0.0833333333333333" ~ "pore_0.083", 
-                               variation == "no_pore_0.0833333333333333" ~"no_pore_0.083", 
-                               TRUE ~ variation), flux_var = paste(flux, variation) %>% fct_relevel(c("reservoir burial NA", "reservoir emissions NA"))) %>% 
-  ggplot(aes(flux_var, mean_area))+
-  geom_point(aes(color = period), size = 2 )+
-  scale_color_manual(values = c("#86BBD8", "#588157", "#848484"))+
-  geom_errorbar(aes(x = flux_var, ymin = ci_lwr_area, ymax = ci_upr_area, color = period), size = 1) + 
-  theme_bw()+
-  theme(axis.text.x = element_text(angle = 90, vjust = 0, hjust  = 1,  size = 12, color = "black"), axis.text.y = element_text(size = 12, color = "black"), axis.title.x = element_blank(), axis.title.y = element_text(size =14), legend.title = element_text(size = 14), legend.text = element_text(size = 12))+
-  ylab(expression(g~CO[2-eq]~yr^-1))+
-  geom_hline(yintercept = 0, linetype ="dashed", "black")
-dev.off()
-
-unique(summary_df$flux)
-
-png("../2-output-data/co2eq_draft8.png", width = 8, height = 5, units = "in", res = 300)
-summary_df %>% 
-  filter(flux_unit == "CO2-eq", flux %in% c("exposed sediment CO2", "exposed sediment CH4")) %>% 
-  mutate(variation = case_when(variation == "0.0833333333333333" ~ "0.083",
-                               variation == "pore_0.0833333333333333" ~ "pore_0.083", 
-                               variation == "no_pore_0.0833333333333333" ~"no_pore_0.083", 
-                               TRUE ~ variation) %>% fct_relevel(c("0.083", "1", "5", "10", "30", "100", "no_pore_0.083", "no_pore_1", "no_pore_5", "no_pore_10", "no_pore_30", "no_pore_100", "pore_0.083", "pore_1", "pore_5", "pore_10", "pore_30", "pore_100"))) %>% 
-  ggplot(aes(variation, mean_area))+
-  geom_point(aes(color = flux), size = 2 )+
-  geom_errorbar(aes(x = variation, ymin = ci_lwr_area, ymax = ci_upr_area, color = flux), size = 1) + 
-  theme_bw()+
-  theme(axis.text.x = element_text(angle = 90, vjust = 0, hjust  = 1,  size = 12, color = "black"), axis.text.y = element_text(size = 12, color = "black"), axis.title.x = element_blank(), axis.title.y = element_text(size =14), legend.title = element_text(size = 14), legend.text = element_text(size = 12))+
-  ylab(expression(g~CO[2-eq]~yr^-1))+
-  geom_hline(yintercept = 0, linetype ="dashed", "black")
-dev.off()
-
-png("../2-output-data/co2eq_draft9.png", width = 10, height = 5, units = "in", res = 300)
-middle_case_df %>% 
-  filter(flux_unit == "CO2-eq") %>% 
-  ggplot(aes(flux_fct, mean_area))+
-  geom_point(aes(color = period), size = 2) + 
-  geom_errorbar(aes(x = flux_fct, ymin = ci_lwr_area, ymax = ci_upr_area, color = period), size = 1) + 
-  theme_bw()+
-  ylab(expression(g~CO[2-eq]~yr^-1))+
-  geom_hline(yintercept = 0, linetype ="dashed", "black")+
-  scale_color_manual(values = c("#86BBD8", "#588157", "#848484"))+
-  scale_x_discrete(labels = c(expression(reservoir~CO[2-eq]), "burial", expression(exposed~sediment~CO[2]), expression(exposed~sediment~CH[4]), "drawdown ebullition", expression(eroded~sediment~CO[2]), expression(river~CO[2]), expression(river~CH[4]), "NEP", expression(soil~CH[4]), expression(tree~CH[4])))+
-  theme(axis.text.x = element_text(angle = 90, vjust = 0, hjust  = 1,  size = 12, color = "black"), axis.text.y = element_text(size = 12, color = "black"), axis.title.x = element_blank(), axis.title.y = element_text(size =14), legend.title = element_text(size = 14), legend.text = element_text(size = 12))
-dev.off()
-
-middle_case_df %>% filter(period %in% c("before", "build"), flux_unit == "CO2-eq") %>% group_by(period) %>% summarize(sum_flux = sum(mean_area) %>% formatC(format = "e", digits = 2))
-
-middle_case_df %>% filter(period %in% c("burp", "build"), flux_unit == "CO2-eq") %>% group_by(period) %>% summarize(sum_flux = sum(mean_area)) %>% ungroup() %>% pivot_wider(names_from = "period", values_from = "sum_flux") %>% mutate(burp/build)
-
-middle_case_df %>% filter(period %in% c("burp", "build"), flux_unit == "CO2-eq") %>% group_by(period) %>% summarize(sum_flux = sum(ci_upr_area)) %>% ungroup() %>% pivot_wider(names_from = "period", values_from = "sum_flux") %>% mutate(burp/build)
-
-middle_case_df %>% filter(period %in% c("before", "build"), flux_unit == "CO2-eq") %>% group_by(period) %>% summarize(sum_flux = sum(mean_area))
+write.csv(summary_df, "../2-output-data/veazie_summary_nep.csv", row.names = FALSE)
 ```
 
