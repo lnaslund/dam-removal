@@ -44,7 +44,7 @@ print(paste0("Population in the catchment: ", ws_pop))
 wwtp <- "primary"
 print(paste0("Wastewater treatment: ", wwtp))
 
-# land cover
+# land cover (proportion)
 glines_lc <- read.csv("../1-input-data/3-gres/glines_lc.csv") %>% 
   mutate(gres_class = case_when(
     Legend == "Open Water" ~ "Water Bodies", 
@@ -96,11 +96,11 @@ print(paste0("Littoral Area (%): ", lit_area))
 thermo_depth <- 3.3
 print(paste0("Thermocline depth (m): ", thermo_depth))
 
-# soil carbon
+# soil carbon (kg C/m2)
 soil_carbon <- 7.18
 print(paste0("Soil carbon under impounded area (kgC/m2): ", soil_carbon))
 
-# reservoir wind
+# reservoir wind (m/s)
 res_wind <- 4.46
 print(paste0("Reservoir wind at 50 m: ", res_wind))
 
@@ -108,7 +108,7 @@ print(paste0("Reservoir wind at 50 m: ", res_wind))
 wrt <- 0.0287
 print(paste0("Water residence time (yrs): ", wrt))
 
-# annual discharge
+# annual discharge (m3/s)
 q_annual <- 38.71
 print(paste0("Annual Discharge (m3/s): ", q_annual))
 
@@ -116,11 +116,11 @@ print(paste0("Annual Discharge (m3/s): ", q_annual))
 p_conc <- 5.4
 print(paste0("P Concentration (ug/L): ", p_conc))
 
-# global horizontal radiance
+# global horizontal radiance (kWh/m2/day)
 rad <- 3.4
 print(paste0("Global horizontal radiance: ", rad))
 
-# mean temperature per month
+# mean temperature per month (C)
 temp <- data.frame(Jan = 2, Feb = 3.6, Mar = 5.1, Apr = 7.3, May = 10.3, June = 13.2, July = 15.5, Aug = 16.0, Sept = 13.3, Oct = 9.1, Nov = 4.6, Dec = 2.4) %>% pivot_longer(cols = Jan:Dec, names_to = "Month", values_to = "Temperature")
 print("Temperature per month (C)")
 temp
@@ -217,15 +217,15 @@ res_emissions_summary <- data.frame(period = c("before"), flux = c("reservoir em
 ```{r carbon burial}
 # Means are from table 3 in Stratton et al. 2019, SD for volume from USBR 2011 and SD for bulk density and C content from Wing 2014
 # I am assuming that in USBR 2011, when they say uncertainty they mean the 95% CI
-sediment_volume <- 1.51e7
-sediment_volume_sd <- (2700000 *0.764555)/1.96 # conversion from cubic yards to cubic meters
+sediment_volume <- 1.51e7 # m3
+sediment_volume_sd <- (2700000 *0.764555)/1.96 # conversion from yd3 to m3
 
 # calculated bulk density from table 3 Stratton et al. 2019 which reports both volume and mass of sediment
 bulk_density <- 2.03e13/1.51e7 #g m-3
-bulk_density_sd <- 0.29 * 1e6
+bulk_density_sd <- 0.29 * 1e6 #g cm-3 to g m-3
 
-c_content <- (302 * 1e9)/2.03e13
-c_content_sd <- 0.83 *1e-2
+c_content <- (320 * 1e9)/2.03e13 # Gg to g / g
+c_content_sd <- 0.83 *1e-2 # % to proportion
 
 # calculate parameters for a gamma distribution because C content can't be negative
 b = (c_content_sd)^2/c_content
@@ -265,7 +265,7 @@ dev.off()
 ```
 
 ```{r sed co2 emissions}
-# find exponential decay constants that lead 0.1 g/m2/yr in different number of yearsc
+# find exponential decay constants that lead 0.1 g/m2/yr in different number of years
 # plot with initial value = mean measured value
 a <- mean(exp_sed_co2$co2_flux)
 
@@ -280,46 +280,44 @@ for(i in 1:length(rates)){
 
 # commented out because this takes forever to run
 
-# integrand <- function(x){a*b^x}
-# 
-# # calculate for every possible starting CO2 value and rate
-# df <- data.frame(a=double(), y = double(), b=double(), total=double())
-# 
-# for(j in 1:nrow(exp_sed_co2)){
-#   a <- exp_sed_co2$co2_flux[j]
-#   
-#   for(i in 1:length(years)){
-#     b <-(0.1/a)^(1/years[i])
-#     total <- integrate(integrand, 0, 100)[[1]]
-#     y <- years[i]
-#     
-#     temporary <- data.frame(a = a, y = y, b = b, total = total)
-#     df <- df %>% bind_rows(temporary)
-#   }
-# }
-# 
-# # check this CI calculation with seth 
-# res_exp_sed_co2 <- df %>% 
-#   mutate(total_c = total * (12.01/44.01)) %>% 
-#   group_by(y) %>% 
-#   summarize(mean_co2 = mean(total) %>% round(0), 
-#             sd_co2 = sd(total)%>% round(0), 
-#             ci_upper_co2 = (mean_co2 + 1.96 *(sd_co2/sqrt(nrow(exp_sed_co2))))%>% round(0), 
-#             ci_lower_co2 = (mean_co2 - 1.96 *(sd_co2/sqrt(nrow(exp_sed_co2))))%>% round(0), 
-#             mean_c = mean(total_c)%>% round(0), 
-#             sd_c = sd(total_c)%>% round(0), 
-#             ci_upper_c = (mean_c + 1.96 *(sd_c/sqrt(nrow(exp_sed_co2))))%>% round(0), 
-#             ci_lower_c = (mean_c - 1.96 *(sd_c/sqrt(nrow(exp_sed_co2))))%>% round(0),
-#             sed_co2 = paste0(mean_co2, " (", ci_lower_co2, " - ", ci_upper_co2, ")"),
-#             sed_c = paste0(mean_c, " (", ci_lower_c, " - ", ci_upper_c, ")"))
-# 
-# res_exp_sed_co2
-# 
-# write.csv(res_exp_sed_co2, "../2-output-data/glines_exp_sed_co2.csv", row.names = FALSE)
+integrand <- function(x){a*b^x}
 
-res_exp_sed_co2 <- read.csv("../2-output-data/glines_exp_sed_co2.csv")
+# calculate for every possible starting CO2 value and rate
+df <- data.frame(a=double(), y = double(), b=double(), total=double())
 
-res_sed_co2_summary <- data.frame(period = c("burp"), flux = c("exposed sediment CO2"), variation = res_exp_sed_co2$y %>% as.character(), flux_unit = c(rep("CO2-eq", 6), rep("C", 6)), annual = "no", area = "exposed sediment area", mean = c(res_exp_sed_co2$mean_co2, res_exp_sed_co2$mean_c), ci_lwr = c(res_exp_sed_co2$ci_lower_co2, res_exp_sed_co2$ci_lower_c), ci_upr = c(res_exp_sed_co2$ci_upper_co2, res_exp_sed_co2$ci_upper_c))
+for(j in 1:10000){
+  print(j)
+  a <- sample(exp_sed_co2$co2_flux, 1, replace = T)
+
+  for(i in 1:length(years)){
+    b <-(0.1/a)^(1/years[i])
+    total <- integrate(integrand, 0, 100)[[1]]
+    y <- years[i]
+
+    temporary <- data.frame(a = a, y = y, b = b, total = total)
+    df <- df %>% bind_rows(temporary)
+  }
+}
+
+res_exp_sed_co2 <- df %>%
+  mutate(total_co2_eq = total, total_c = total * (12.01/44.01)) %>%
+  group_by(y) %>%
+  arrange(total_co2_eq) %>%
+  summarize(count = n(),
+            mean_co2 = total_co2_eq[count * 0.5],
+            lwr_co2 = total_co2_eq[count*0.025],
+            upr_co2 = total_co2_eq[count *0.975],
+            mean_c = total_c[count * 0.5],
+            lwr_c = total_c[count * 0.025],
+            upr_c = total_c[count * 0.975],
+            sed_co2_eq = paste0(round(mean_co2, 0), " (", round(lwr_co2,0), " - ", round(upr_co2, 0), ")"),
+            sed_gC = paste0(round(mean_c, 1), " (", round(lwr_c,1), " - ", round(upr_c, 1), ")"))
+
+write.csv(res_exp_sed_co2, "../2-output-data/exp_sed_co2_sampled.csv", row.names = FALSE)
+
+res_exp_sed_co2 <- read.csv("../2-output-data/exp_sed_co2_sampled.csv")
+
+res_sed_co2_summary <- data.frame(period = "burp", flux = "exposed sediment CO2", variation = rep(c(res_exp_sed_co2$y %>% as.character()), 2), flux_unit = c(rep("CO2-eq", 6), rep("C", 6)), annual = "no", area = "exposed sediment area", mean = c(res_exp_sed_co2$mean_co2, res_exp_sed_co2$mean_c), ci_lwr = c(res_exp_sed_co2$lwr_co2, res_exp_sed_co2$lwr_c), ci_upr = c(res_exp_sed_co2$upr_co2, res_exp_sed_co2$upr_c))
 ```
 
 ## Exposed sediment CH4 emissions
@@ -368,25 +366,25 @@ for(j in 1:10000){
 pore_co2_eq <- 8102.2 * 1e-3 * (16.04/12.01)* 34
 pore_c <- 8102.2 * 1e-3
 
-# thresh_0.01 <- df %>% 
-#   mutate(total_co2_eq = total * 34, total_c = total * (12.01/16.04)) %>% 
-#   group_by(y) %>% 
-#   arrange(total_co2_eq) %>% 
-#   summarize(count = n(), 
-#             mean_co2 = total_co2_eq[count * 0.5], 
-#             lwr_co2 = total_co2_eq[count*0.025], 
-#             upr_co2 = total_co2_eq[count *0.975], 
-#             mean_c = total_c[count * 0.5], 
-#             lwr_c = total_c[count * 0.025], 
-#             upr_c = total_c[count * 0.975],
-#             sed_ch4_co2_eq = paste0(round(mean_co2, 0), " (", round(lwr_co2,0), " - ", round(upr_co2, 0), ")"),
-#             sed_ch4_gC = paste0(round(mean_c, 1), " (", round(lwr_c,1), " - ", round(upr_c, 1), ")"),
-#             sed_ch4_co2_eq_pore = paste0(round(mean_co2 + pore_co2_eq, 0), " (", round(lwr_co2 + pore_co2_eq,0), " - ", round(upr_co2 +pore_co2_eq, 0), ")"),
-#             sed_ch4_gC_pore = paste0(round(mean_c +pore_c, 1), " (", round(lwr_c+pore_c,1), " - ", round(upr_c+pore_c, 1), ")"))
-# 
-# write.csv(thresh_0.01, "../2-output-data/glines_exp_sed_ch4.csv", row.names = FALSE)
+thresh_0.01 <- df %>%
+  mutate(total_co2_eq = total * 34, total_c = total * (12.01/16.04)) %>%
+  group_by(y) %>%
+  arrange(total_co2_eq) %>%
+  summarize(count = n(),
+            mean_co2 = total_co2_eq[count * 0.5],
+            lwr_co2 = total_co2_eq[count*0.025],
+            upr_co2 = total_co2_eq[count *0.975],
+            mean_c = total_c[count * 0.5],
+            lwr_c = total_c[count * 0.025],
+            upr_c = total_c[count * 0.975],
+            sed_ch4_co2_eq = paste0(round(mean_co2, 0), " (", round(lwr_co2,0), " - ", round(upr_co2, 0), ")"),
+            sed_ch4_gC = paste0(round(mean_c, 1), " (", round(lwr_c,1), " - ", round(upr_c, 1), ")"),
+            sed_ch4_co2_eq_pore = paste0(round(mean_co2 + pore_co2_eq, 0), " (", round(lwr_co2 + pore_co2_eq,0), " - ", round(upr_co2 +pore_co2_eq, 0), ")"),
+            sed_ch4_gC_pore = paste0(round(mean_c +pore_c, 1), " (", round(lwr_c+pore_c,1), " - ", round(upr_c+pore_c, 1), ")"))
 
-thresh_0.01 <- read.csv("../2-output-data/exp_sed_ch4.csv")
+write.csv(thresh_0.01, "../2-output-data/glines_exp_sed_ch4.csv", row.names = FALSE)
+
+thresh_0.01 <- read.csv("../2-output-data/glines_exp_sed_ch4.csv")
 
 res_sed_ch4_summary <- data.frame(period = c("burp"), flux = c("exposed sediment CH4"), variation = c(rep(paste0("no_pore_", thresh_0.01$y), 2), rep(paste0("pore_", thresh_0.01$y), 2)), flux_unit = rep(c(rep("CO2-eq", 6), rep("C", 6)), 2), annual = "no", area = "exposed sediment area", mean = c(thresh_0.01$mean_co2,  thresh_0.01$mean_c, thresh_0.01$mean_co2 + pore_co2_eq, thresh_0.01$mean_c + pore_c), ci_lwr = c(thresh_0.01$lwr_co2,  thresh_0.01$lwr_c, thresh_0.01$lwr_co2 + pore_co2_eq, thresh_0.01$lwr_c + pore_c), ci_upr = c(thresh_0.01$upr_co2, thresh_0.01$upr_c, thresh_0.01$upr_co2 + pore_co2_eq, thresh_0.01$upr_c + pore_c))
 ```
@@ -481,7 +479,7 @@ gamma_params_diff <- function(params, quantiles_target) {
   sum((quantiles_observed - quantiles_target)^2)
 }
 
-# Target quantiles
+# Target quantiles of CO2 emissions from Hotchkiss et al. 2015 for rivers with Q 10-100 m3 s-1
 quantiles_target <- c(1.58, 2.50, 4.36)
 
 # Initial guess for shape and scale parameters
@@ -659,7 +657,7 @@ soil_data_new <- data.frame(MAP = (glines_soil$glines_map- mean(soil$MAP))/sd(so
 # returns values in kg Ch4 /ha/yr
 soil_ch4_out <- predictInterval(soil_mod, soil_data_new, n.sims = 10000, level = 0.95) %>% as.data.frame()
 
-soil_ch4_out <- soil_ch4_out %>% mutate(soil_c = fit * 0.1 * (12.01/16.04), 
+soil_ch4_out <- soil_ch4_out %>% mutate(soil_c = fit * 0.1 * (12.01/16.04), # 0.1 is conversion factor from kg/ha to g/m2
                         soil_c_2.5 = lwr * 0.1 * (12.01/16.04), 
                         soil_c_97.5 = upr * 0.1 * (12.01/16.04), 
                         soil_co2_eq = fit * 0.1 * 34, 

@@ -224,7 +224,8 @@ veazie_sed_pred <- read.csv("../1-input-data/6-clow-data/veazie_sed_pred.csv") %
 predict(sed.mod, veazie_sed_pred, interval = "prediction")
 
 veazie_sed_rate <- 10^(predict(sed.mod, veazie_sed_pred, interval = "prediction")[1])
-veazie_sed_rate_sd <- (10^(predict(sed.mod, veazie_sed_pred, interval = "prediction")[1]) - 10^(predict(sed.mod, veazie_sed_pred, interval = "prediction")[2]))/2
+veazie_sed_rate_sd <- (10^(predict(sed.mod, veazie_sed_pred, interval = "prediction")[1]) - 10^(predict(sed.mod, veazie_sed_pred, interval = "prediction")[2]))/1.96
+
 
 # sediment c content model
 c_content <- read.csv("../1-input-data/6-clow-data/c_content.csv") %>% 
@@ -246,7 +247,7 @@ veazie_c_pred <- read.csv("../1-input-data/6-clow-data/veazie_soil.csv") %>%
 predict(c.mod, veazie_c_pred, interval = "prediction")
 
 veazie_c_cont <- predict(c.mod, veazie_c_pred, interval = "prediction")[1] * 0.01
-veazie_c_cont_sd <- ((predict(c.mod, veazie_c_pred, interval = "prediction")[1] - predict(c.mod, veazie_c_pred, interval = "prediction")[2])/2)*0.01
+veazie_c_cont_sd <- ((predict(c.mod, veazie_c_pred, interval = "prediction")[1] - predict(c.mod, veazie_c_pred, interval = "prediction")[2])/1.96)*0.01
 
 b = (veazie_c_cont_sd)^2/veazie_c_cont
 a = (veazie_c_cont)^2/(veazie_c_cont_sd)^2
@@ -258,7 +259,7 @@ oc_dbd.mod <- lm(log(DBD)~log(OC), data = oc_dbd)
 
 # burial efficiency
 be <- read.csv("../1-input-data/6-clow-data/sed-rate_burial-efficiency.csv", header = FALSE) %>% rename("log_sed_rate_mm_yr" = "V1", "oc_be" = "V2")
-
+'
 be.mod <- lm(oc_be ~ log_sed_rate_mm_yr, data = be)
 
 veazie_burial <- c()
@@ -274,7 +275,7 @@ for(i in 1:10000){
   temp_oc_df <- data.frame(OC = temp_oc * 100)
   
   temp_dbd_distr <- exp(predict(oc_dbd.mod, temp_oc_df, interval = "prediction")[1]) * 1e6
-  temp_dbd_distr_sd <- exp(predict(oc_dbd.mod, temp_oc_df, interval = "prediction")[1]) * 1e6 - exp(predict(oc_dbd.mod, temp_oc_df, interval = "prediction")[2]) * 1e6
+  temp_dbd_distr_sd <- (exp(predict(oc_dbd.mod, temp_oc_df, interval = "prediction")[1]) * 1e6 - exp(predict(oc_dbd.mod, temp_oc_df, interval = "prediction")[2]) * 1e6)/1.96 
   
   temp_dbd <- rnorm(1, temp_dbd_distr, temp_dbd_distr_sd)
   
@@ -282,7 +283,7 @@ for(i in 1:10000){
   temp_be_df <- data.frame(log_sed_rate_mm_yr = log10(temp_sed_rate * (1/as.numeric(res_area)) * 1e3))
   
   temp_be_distr <- predict(be.mod, temp_be_df, interval = "prediction")[1] * 0.01
-  temp_be_distr_sd <- ((predict(be.mod, temp_be_df, interval = "prediction")[1] * 0.01)-predict(be.mod, temp_be_df, interval = "prediction")[2] * 0.01)/2
+  temp_be_distr_sd <- ((predict(be.mod, temp_be_df, interval = "prediction")[1] * 0.01)-predict(be.mod, temp_be_df, interval = "prediction")[2] * 0.01)/1.96
   
   d = (temp_be_distr_sd)^2/temp_be_distr
   c = (temp_be_distr)^2/(temp_be_distr_sd)^2
@@ -292,25 +293,28 @@ for(i in 1:10000){
   temp <- temp_sed_rate * temp_dbd * temp_oc * temp_be * (1/as.numeric(res_area))  
   
   veazie_burial <- c(veazie_burial, temp)
+
 }
 
-veazie_burial <- sort(veazie_burial)
+veazie_burial <- sort(veazie_burial) # sort removes NAs, by assigning prediction interval to a normal distribution, generating some few negative values of sedimentation rate, sort here functionally truncates the distribution at 0.  
 
 res_burial_summary <- data.frame(period = c("before"), flux = c("reservoir burial"), variation = NA, flux_unit = c("CO2-eq", "C"), annual = "yes", area = "reservoir", mean = c(-(veazie_burial[5000] * (44.01/12.01)), -veazie_burial[5000]), ci_lwr = c(-(veazie_burial[9750] * (44.01/12.01)), -veazie_burial[9750]), ci_upr = c(-(veazie_burial[250] * (44.01/12.01)), -veazie_burial[250]))
+
+res_burial_summary
 ```
 
 # Burp
 
 ## Exposed sediment CO2 emissions 
 ```{r exposed sed co2}
-res_exp_sed_co2 <- read.csv("../2-output-data/exp_sed_co2.csv")
+res_exp_sed_co2 <- read.csv("../2-output-data/exp_sed_co2_sampled.csv")
 
-res_sed_co2_summary <- data.frame(period = c("burp"), flux = c("exposed sediment CO2"), variation = res_exp_sed_co2$y %>% as.character(), flux_unit = c(rep("CO2-eq", 6), rep("C", 6)), annual = "no", area = "exposed sediment area", mean = c(res_exp_sed_co2$mean_co2, res_exp_sed_co2$mean_c), ci_lwr = c(res_exp_sed_co2$ci_lower_co2, res_exp_sed_co2$ci_lower_c), ci_upr = c(res_exp_sed_co2$ci_upper_co2, res_exp_sed_co2$ci_upper_c))
+res_sed_co2_summary <- data.frame(period = c("burp"), flux = c("exposed sediment CO2"), variation = res_exp_sed_co2$y %>% as.character(), flux_unit = c(rep("CO2-eq", 6), rep("C", 6)), annual = "no", area = "exposed sediment area", mean = c(res_exp_sed_co2$mean_co2, res_exp_sed_co2$mean_c), ci_lwr = c(res_exp_sed_co2$lwr_co2, res_exp_sed_co2$lwr_c), ci_upr = c(res_exp_sed_co2$upr_co2, res_exp_sed_co2$upr_c))
 ```
 
 ## Exposed sediment CH4 emissions 
 ```{r exposed sed ch4}
-thresh_0.01 <- read.csv("../2-output-data/exp_sed_ch4.csv")
+thresh_0.01 <- read.csv("../2-output-data/glines_exp_sed_ch4.csv")
 
 pore_co2_eq <- 8102.2 * 1e-3 * (16.04/12.01)* 34
 pore_c <- 8102.2 * 1e-3
@@ -355,7 +359,7 @@ for(i in 1:10000){
   temp_oc_df <- data.frame(OC = temp_oc * 100)
   
   temp_dbd_distr <- exp(predict(oc_dbd.mod, temp_oc_df, interval = "prediction")[1]) * 1e6
-  temp_dbd_distr_sd <- exp(predict(oc_dbd.mod, temp_oc_df, interval = "prediction")[1]) * 1e6 - exp(predict(oc_dbd.mod, temp_oc_df, interval = "prediction")[2]) * 1e6
+  temp_dbd_distr_sd <- (exp(predict(oc_dbd.mod, temp_oc_df, interval = "prediction")[1]) * 1e6 - exp(predict(oc_dbd.mod, temp_oc_df, interval = "prediction")[2]) * 1e6)/1.96 
   
   temp_dbd <- rnorm(1, temp_dbd_distr, temp_dbd_distr_sd)
   
