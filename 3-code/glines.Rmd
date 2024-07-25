@@ -76,9 +76,9 @@ long <- -123.6
 lat <- 48.002
 print(paste0("Coordinates: ", lat, ",", long))
 
-# reservoir area (km2)
-res_area <- 1.51 
-print(paste0("Reservoir Area (km2): ", res_area %>% round(1)))
+# reservoir area (km2) from Stratton & Grant 2019
+res_area <- 1.51 *1e6 # convert to m2
+print(paste0("Reservoir Area (km2): ", res_area * 1e-6))
 
 # mean depth (m)
 mean_depth <- 23.2
@@ -121,11 +121,9 @@ rad <- 3.4
 print(paste0("Global horizontal radiance: ", rad))
 
 # mean temperature per month (C)
-temp <- data.frame(Jan = 2, Feb = 3.6, Mar = 5.1, Apr = 7.3, May = 10.3, June = 13.2, July = 15.5, Aug = 16.0, Sept = 13.3, Oct = 9.1, Nov = 4.6, Dec = 2.4) %>% pivot_longer(cols = Jan:Dec, names_to = "Month", values_to = "Temperature")
+temperature <- data.frame(Jan = 2, Feb = 3.6, Mar = 5.1, Apr = 7.3, May = 10.3, June = 13.2, July = 15.5, Aug = 16.0, Sept = 13.3, Oct = 9.1, Nov = 4.6, Dec = 2.4) %>% pivot_longer(cols = Jan:Dec, names_to = "Month", values_to = "Temperature")
 print("Temperature per month (C)")
-temp
-
-res_area <- 1.51 # km2 from Stratton & Grant 2019
+temperature
 ```
 
 # Before
@@ -175,7 +173,7 @@ res_ch4_diff_eq <- 44 * 0.6
 res_ch4_eb_eq <- 44 * 0.23
 res_ch4_degas_eq <- 44 * 0.17
 
-# calculate total emissions in CO2 eq with degassing
+# calculate total emissions in CO2 eq/m2/yr with degassing
 res_degas_eq <- res_ch4_diff_eq + res_ch4_eb_eq +res_ch4_degas_eq + res_co2_diff_eq
 
 # G-res only reports a 95% CI for the net GHG footprint which accounts for landscape GHG emissions before dam construction
@@ -188,14 +186,14 @@ res_degas_net_97.5 <- 377
 # I believe due to rounding, the upper and lower intervals are not symmetric, so I selected the larger one to calculate post-impoundment emissions 95% CI
 res_degas_eq_interval <- max(c((res_degas_net-res_degas_net_2.5),(res_degas_net_97.5-res_degas_net)))
 
-# calculate emissions in g C with degassing
+# calculate emissions in g C/m2/yr with degassing
 res_degas_g <- (res_co2_diff_eq * (12.01/44.01)) + 
   ((res_ch4_diff_eq+res_ch4_eb_eq+res_ch4_degas_eq) *(12.01/16.04) * (1/34))
 
 res_degas_g_interval <- (res_degas_eq_interval * (res_co2_diff_eq/res_degas_eq) * (12.01/44.01)) + 
   ((res_degas_eq_interval * ((res_ch4_diff_eq+res_ch4_eb_eq+res_ch4_degas_eq)/res_degas_eq) * (1/34) *(12.01/16.04)))
 
-# calculate emissions in g CO2 eq without degassing
+# calculate emissions in g CO2 eq/m2/yr without degassing
 res_eq <- res_co2_diff_eq+res_ch4_diff_eq+res_ch4_eb_eq
 
 res_net_eq <- 360
@@ -204,7 +202,7 @@ res_net_97.5_eq <- 369
 
 res_eq_interval <- max(c((res_net_eq - res_net_2.5_eq),(res_net_97.5_eq-res_net_eq)))
 
-# calculate emissions in g C without degassing
+# calculate emissions in g C/m2/yr without degassing
 res_g <- (res_co2_diff_eq * (12.01/44.01)) + ((res_ch4_diff_eq+res_ch4_eb_eq) *(12.01/16.04) * (1/34))
 
 res_g_interval <- (res_eq_interval * (res_co2_diff_eq/res_eq) * (12.01/44.01)) + 
@@ -234,7 +232,7 @@ a = (c_content)^2/(c_content_sd)^2
 # 83 is the  number of years between when the reservoir was created until the survey was taken to generate volume estimates
 burial_vec <- c()
 for(i in 1:10000){
-  temporary <- (rnorm(1, sediment_volume, sediment_volume_sd) * rnorm(1, bulk_density, bulk_density_sd) * rgamma(1, shape=a, scale = b))/(res_area * 1e6 * 83)
+  temporary <- (rnorm(1, sediment_volume, sediment_volume_sd) * rnorm(1, bulk_density, bulk_density_sd) * rgamma(1, shape=a, scale = b))/(res_area * 83)
   burial_vec <- c(burial_vec, temporary)
 }
 
@@ -266,7 +264,8 @@ dev.off()
 
 ```{r sed co2 emissions}
 # find exponential decay constants that lead 0.1 g/m2/yr in different number of years
-# plot with initial value = mean measured value
+# plot with initial value = mean measured value, this is only for visualization purposes
+# the below loop 
 a <- mean(exp_sed_co2$co2_flux)
 
 years <- c(1/12, 1, 5, 10, 30, 100)
@@ -278,14 +277,12 @@ for(i in 1:length(rates)){
   plot(x, y, type = "l")
 }
 
-# commented out because this takes forever to run
-
 integrand <- function(x){a*b^x}
 
 # calculate for every possible starting CO2 value and rate
 df <- data.frame(a=double(), y = double(), b=double(), total=double())
 
-for(j in 1:10000){
+for(j in 1:10000){ 
   print(j)
   a <- sample(exp_sed_co2$co2_flux, 1, replace = T)
 
@@ -419,7 +416,7 @@ max_ox_trans = 1
 
 eroded_vec <- c()
 for(i in 1:10000){
-  temporary <- (rnorm(1, res_erode_g, res_erode_g_sd) * rgamma(1, shape=a, scale = b) * runif(1, min = min_ox_trans, max = max_ox_trans))/(res_area * 1e6)
+  temporary <- (rnorm(1, res_erode_g, res_erode_g_sd) * rgamma(1, shape=a, scale = b) * runif(1, min = min_ox_trans, max = max_ox_trans))/(res_area)
   eroded_vec <- c(eroded_vec, temporary)
 }
 
@@ -440,11 +437,11 @@ a = (c_content)^2/(c_content_sd)^2
 
 # assumming between 0 and 100% oxidized
 min_ox_trans = 0 
-max_ox_trans = 0.9
+max_ox_trans = 1
 
 eroded_vec_alt <- c()
 for(i in 1:10000){
-  temporary <- (rnorm(1, res_erode_g, res_erode_g_sd_alt) * rgamma(1, shape=a, scale = b) * runif(1, min = min_ox_trans, max = max_ox_trans))/(res_area * 1e6)
+  temporary <- (rnorm(1, res_erode_g, res_erode_g_sd_alt) * rgamma(1, shape=a, scale = b) * runif(1, min = min_ox_trans, max = max_ox_trans))/(res_area)
   eroded_vec_alt <- c(eroded_vec_alt, temporary)
 }
 
@@ -452,14 +449,7 @@ eroded_vec_alt <- sort(eroded_vec_alt)
 
 res_erode_summary_alt <- data.frame(period = c("burp"), flux = c("eroded sediment emissions"), variation = NA, flux_unit = c("CO2-eq", "C"), annual = "no", area = "reservoir", mean = c(eroded_vec_alt[5000] * (44.01/12.01), eroded_vec_alt[5000]), ci_lwr = c(eroded_vec_alt[250] * (44.01/12.01), eroded_vec_alt[250]), ci_upr = c(eroded_vec_alt[9750] * (44.01/12.01), eroded_vec_alt[9750]))
 
-res_erode_summary_alt %>% mutate(mean_area = 1510000.0 * mean, ci_lwr_area = ci_lwr * 1510000.0, ci_upr_area = ci_upr * 1510000.0, rng = ci_upr_area - ci_lwr_area)
-
-# reducing the sd of the g of sediment reduced the uncertainty by 1%
-1-(816940320855/827901492385)
-
-# reducing the range of % eroded by 10% reduced total uncertainty by almost 10%
-1-(748695198243/827901492385)
-
+res_erode_summary_alt
 ```
 
 
@@ -552,7 +542,7 @@ ch4_flux_sites_usa %>% filter(is.na(Diffusive_CH4_Flux_Mean)==FALSE) %>% group_b
 ch4_flux_sites_usa %>% filter(is.na(Eb_CH4_Flux_Mean)==FALSE) %>% group_by(q_bin) %>% summarize(count = n())
 
 ch4_flux_vec <- sort(sample(ch4_flux_sites_usa %>% filter(q_bin== "10-100") %>% pull(Diffusive_CH4_Flux_Mean), 10000, replace = TRUE))
-ch4_flux_vec_gCH4 <- ch4_flux_vec * 365 * 1e-3 * 16.04
+ch4_flux_vec_gCH4 <- ch4_flux_vec * 365 * 1e-3 * 16.04 # mmol/m2/d -> g CH4/m2/yr
 ch4_flux_vec_gCO2eq <- ch4_flux_vec_gCH4 * 34
 
 
@@ -570,7 +560,7 @@ co2_vec[250]
 co2_vec[5000]
 co2_vec[9750]
 
-riv_ch4_summary <- data.frame(period = c("build"), flux = c("river CH4 emissions"), variation = NA, flux_unit = c("CO2-eq", "C"), annual = "yes", area = "river", mean = c(ch4_flux_vec_gCO2eq[5000], ch4_flux_vec_gCH4[5000] * (12.01 / 16.04)), ci_lwr = c(ch4_flux_vec_gCO2eq[250], ch4_flux_vec_gCH4[250] * (12.01 / 16.04)), ci_upr = c(ch4_flux_vec_gCO2eq[9750], ch4_flux_vec_gCH4[9750] * (12.01 / 16.04)))
+riv_ch4_summary <- data.frame(period = c("build"), flux = c("river CH4 emissions"), variation = NA, flux_unit = c("CO2-eq", "C"), annual = "yes", area = "river", mean = c(riv_ch4_flux_gCO2eq, riv_ch4_flux_gC), ci_lwr = c(riv_ch4_flux_2.5_gCO2eq, riv_ch4_flux_2.5_gC), ci_upr = c(riv_ch4_flux_97.5_gCO2eq, riv_ch4_flux_97.5_gC))
 ```
 
 ## NEE
@@ -579,13 +569,14 @@ f_age <- function(a, b, e, age){
   return(e + a * (1-exp(b*age)))
 }
 
+# g C/m2/yr
 df <- read.csv("../1-input-data/8-besnard-data/besnard_2018.csv") %>% mutate(age_func = f_age(263.2, -0.19, 0, Age)) %>% mutate(nutrient = as.factor(`NA.`))
 
 # estimating NEP assuming that it is zero before the model predicts positive values
 nep_mod <- lm(NEP ~ MAT + Age + age_func + nutrient, data = df)
 summary(nep_mod)
 
-nep_new <- data.frame(MAT = mean(temp$Temperature), Age = seq(0, 100, by = 1), age_func = f_age(263.2, -0.19, 0, seq(0, 100, by = 1)), nutrient =as.factor("L"))
+nep_new <- data.frame(MAT = mean(temperature$Temperature), Age = seq(0, 100, by = 1), age_func = f_age(263.2, -0.19, 0, seq(0, 100, by = 1)), nutrient =as.factor("L"))
 
 nep_pred <- predict(nep_mod, nep_new, interval = "prediction") %>% as.data.frame()
 
@@ -596,9 +587,9 @@ nep_df <- data.frame(years = double(), mean_gC = double(), lwr_gC = double(), up
 year_vec <- c(25,50,100)
 for(i in 1:length(year_vec)){
   yr <- year_vec[i]
-  mean_gC <- integrate(function(x) as.data.frame(predict(nep_mod, newdata = data.frame(MAT = mean(temp$Temperature), Age = x, age_func = f_age(263.2, -0.19, 0, x), nutrient =as.factor("L")), interval = "prediction", level = 0.95))$fit, lower = 6, upper = yr)$value
-  lwr_gC <- -(integrate(function(x) -(as.data.frame(predict(nep_mod, newdata = data.frame(MAT = mean(temp$Temperature), Age = x, age_func = f_age(263.2, -0.19, 0, x), nutrient =as.factor("L")), interval = "prediction", level = 0.95))$lwr), lower = 6, upper = yr))$value
-  upr_gC <- integrate(function(x) as.data.frame(predict(nep_mod, newdata = data.frame(MAT = mean(temp$Temperature), Age = x, age_func = f_age(263.2, -0.19, 0, x), nutrient =as.factor("L")), interval = "prediction", level = 0.95))$upr, lower = 6, upper = yr)$value
+  mean_gC <- integrate(function(x) as.data.frame(predict(nep_mod, newdata = data.frame(MAT = mean(temperature$Temperature), Age = x, age_func = f_age(263.2, -0.19, 0, x), nutrient =as.factor("L")), interval = "prediction", level = 0.95))$fit, lower = 6, upper = yr)$value
+  lwr_gC <- -(integrate(function(x) -(as.data.frame(predict(nep_mod, newdata = data.frame(MAT = mean(temperature$Temperature), Age = x, age_func = f_age(263.2, -0.19, 0, x), nutrient =as.factor("L")), interval = "prediction", level = 0.95))$lwr), lower = 6, upper = yr))$value
+  upr_gC <- integrate(function(x) as.data.frame(predict(nep_mod, newdata = data.frame(MAT = mean(temperature$Temperature), Age = x, age_func = f_age(263.2, -0.19, 0, x), nutrient =as.factor("L")), interval = "prediction", level = 0.95))$upr, lower = 6, upper = yr)$value
   
   temporary <- data.frame(years = yr, mean_gC = -mean_gC, lwr_gC = -upr_gC, upr_gC = -lwr_gC) # switching these numbers so the emissions are in up_gC (because NEP signs are flipped from convention I'm using)
   
@@ -618,7 +609,7 @@ res_nep_summary <- data.frame(period = c("build"), flux = c("NEP"), variation = 
 res_nep_summary
 
 # emission of carbon in 5.7 years, 3X higher the sediment CO2 emissions over the same period
-integrate(function(x) as.data.frame(predict(nep_mod, newdata = data.frame(MAT = mean(temp$Temperature), Age = x, age_func = f_age(263.2, -0.19, 0, x), nutrient =as.factor("L")), interval = "prediction", level = 0.95))$fit, lower = 0, upper = 5.7)$value
+integrate(function(x) as.data.frame(predict(nep_mod, newdata = data.frame(MAT = mean(temperature$Temperature), Age = x, age_func = f_age(263.2, -0.19, 0, x), nutrient =as.factor("L")), interval = "prediction", level = 0.95))$fit, lower = 0, upper = 5.7)$value
 ```
 
 ## Soil CH4 emissions
@@ -739,7 +730,7 @@ tree_surface_area_k15 <- trees_k15 %>%
 
 #I think this might already be accounting for areas without trees because this is surface area per m2 ground area
 
-# ug CH4/m2/hr
+# ug CH4/m2/hr -> g CH4/m2/yr
 upland_tree_ch4 <- 68.8 * 8760 *1e-6
 upland_tree_ch4_sd <- 53.6 * 8760 *1e-6
 
@@ -800,6 +791,8 @@ res_tree_ch4_summary <- data.frame(period = c("build"),
                                    mean = c(0, 0, ch4_all_co2[5000], ch4_all[5000] * (12.01/16.04), ch4_3m_co2[5000], ch4_3m[5000]* (12.01/16.04)), 
                                    ci_lwr = c(0, 0, ch4_all_co2[250], ch4_all[250] * (12.01/16.04), ch4_3m_co2[250], ch4_3m[250]* (12.01/16.04)), 
                                    ci_upr = c(0, 0, ch4_all_co2[9750], ch4_all[9750] * (12.01/16.04), ch4_3m_co2[9750], ch4_3m[9750]* (12.01/16.04)))
+res_tree_ch4_summary
+
 ```
 
 
@@ -811,11 +804,11 @@ glines_riv <- read_sf("../1-input-data/1-geospatial/post-removal/elwha-river_gli
 glines_riv_area <- (glines_riv %>% filter(Type == "main") %>% st_area()) - (glines_riv %>% filter(Type != "main") %>% st_area() %>% sum()) 
 
 area_df <- data.frame(area = c("reservoir", "exposed sediment area", "river"), 
-                      area_m2 = c(res_area * 1e6, (res_area * 1e6)- as.numeric(glines_riv_area), as.numeric(glines_riv_area)))
+                      area_m2 = c(res_area, res_area - as.numeric(glines_riv_area), as.numeric(glines_riv_area)))
 
 # negative values are for uptake or burial positive values are for emissions
 
 summary_df <- bind_rows(res_emissions_summary, res_burial_summary, res_sed_co2_summary, res_sed_ch4_summary, res_drawdown_eb_summary, res_erode_summary, riv_co2_summary, riv_ch4_summary, res_nep_summary, res_soil_ch4_summary, res_tree_ch4_summary) %>% left_join(area_df, by = "area") %>% mutate(mean_area = mean * area_m2, ci_lwr_area = ci_lwr * area_m2, ci_upr_area = ci_upr * area_m2) %>% mutate(flux_fct = fct_relevel(flux, c("reservoir emissions", "reservoir burial", "exposed sediment CO2", "exposed sediment CH4", "drawdown ebullition", "eroded sediment emissions", "river CO2 emissions", "river CH4 emissions", "NEP", "soil CH4 emissions", "tree CH4 emissions")))
 
-write.csv(summary_df, "../2-output-data/glines_summary_nep.csv", row.names = FALSE)
+write.csv(summary_df, "../2-output-data/glines_summary_20240725.csv", row.names = FALSE)
 ```

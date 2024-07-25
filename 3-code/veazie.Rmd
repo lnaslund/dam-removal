@@ -348,7 +348,7 @@ res_drawdown_eb_summary <- data.frame(period = c("burp"), flux = c("drawdown ebu
 b = (veazie_c_cont_sd)^2/veazie_c_cont
 a = (veazie_c_cont)^2/(veazie_c_cont_sd)^2
 
-# assumming between 0 and 100% oxidized
+# assuming between 0 and 100% oxidized
 min_ox_trans = 0 
 max_ox_trans = 1
 
@@ -371,13 +371,15 @@ for(i in 1:10000){
   res_erode_g_max <- 15000 * temp_dbd
   res_erode_g_min <- 0
   
-  temp <- (runif(1, min = res_erode_g_min, max = res_erode_g_max) * temp_oc * runif(1, min = min_ox_trans, max = max_ox_trans))/(res_area * 1e6) # why is this multiplied by 10^6
+  temp <- (runif(1, min = res_erode_g_min, max = res_erode_g_max) * temp_oc * runif(1, min = min_ox_trans, max = max_ox_trans))/(res_area) # deleted 10^6
   eroded_vec <- c(eroded_vec, temp)
 }
 
 eroded_vec <- sort(eroded_vec)
 
 res_erode_summary <- data.frame(period = c("burp"), flux = c("eroded sediment emissions"), variation = NA, flux_unit = c("CO2-eq", "C"), annual = "no", area = "reservoir", mean = c(eroded_vec[5000] * (44.01/12.01), eroded_vec[5000]), ci_lwr = c(eroded_vec[250] * (44.01/12.01), eroded_vec[250]), ci_upr = c(eroded_vec[9750] * (44.01/12.01), eroded_vec[9750]))
+
+res_erode_summary
 ```
 
 # Build
