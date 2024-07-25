@@ -1,11 +1,11 @@
 ---
-title: "veazie"
+title: "simkins"
 author: "L. Naslund"
-date: "2024-01-08"
+date: "2024-07-18"
 output: html_document
 ---
 
-The Veazie Dam was the further downstream of two dams removed on the Penobscot River in coastal central Maine.
+The Simkins Dam was the further upstream of two dams removed on the Patapsco River in Maryland.
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
 
@@ -21,9 +21,9 @@ library(merTools)
 library(elevatr)
 
 # required geospatial 
-res <- st_read("../1-input-data/1-geospatial/reservoirs/veazie_res.shp")
-ws <- st_read("../1-input-data/1-geospatial/watersheds/veaziewatershed.shp") %>% st_transform(st_crs(res))
-riv <- st_read("../1-input-data/1-geospatial/post-removal/veazie_river.shp") %>% st_transform(st_crs(res))
+res <- st_read("../1-input-data/1-geospatial/reservoirs/simkins_res.shp")
+ws <- st_read("../1-input-data/1-geospatial/watersheds/simkinswatershed.shp") %>% st_transform(st_crs(res)) 
+riv <- st_read("../1-input-data/1-geospatial/post-removal/simkins_riv.shp") %>% st_transform(st_crs(res))  
 
 mapview(res)+
   mapview(riv, col.regions = "red")
@@ -33,13 +33,13 @@ summary_df <- data.frame(period = character(), flux = character(), variation = c
 
 ```{r reservoir and catchment characteristics}
 ## g-res required inputs
-# catchment area (km2)
+# catchment area (km2) 
 sf_use_s2(FALSE)
 ws_area <- st_area(ws)
 print(paste0("Catchment area (km2): ", round(ws_area * 1e-6, 2)))
 
-# gres required inputs
-ws_pop <- 79672
+# gres required inputs 
+ws_pop <- 186078
 print(paste0("Population in the catchment: ", ws_pop))
 
 # community wastewater treatment
@@ -47,7 +47,7 @@ wwtp <- "secondary"
 print(paste0("Wastewater treatment: ", wwtp))
 
 # land cover
-veazie_lc <- read.csv("../1-input-data/3-gres/veazie_lc.csv") %>% 
+simkins_lc <- read.csv("../1-input-data/3-gres/simkins_lc.csv") %>% 
   mutate(gres_class = case_when(
     Legend == "Open Water" ~ "Water Bodies", 
     Legend == "Perennial Snow/Ice" ~ "Permanent Snow/Ice",
@@ -62,12 +62,13 @@ veazie_lc <- read.csv("../1-input-data/3-gres/veazie_lc.csv") %>%
     Legend == "Shrub/Scrub" ~ "Grassland/Shrubland", 
     Legend == "Herbaceuous" ~ "Grassland/Shrubland", 
     Legend == "Hay/Pasture" ~ "Croplands", 
+    Legend == "Cultivated Crops" ~ "Croplands",
     Legend == "Woody Wetlands" ~ "Wetlands", 
     Legend == "Emergent Herbaceuous Wetlands" ~ "Wetlands",
   ))
 
 print("Catchment landcover:")
-lc <- veazie_lc %>% group_by(gres_class) %>% summarize(perc = sum(percent) %>% round(1)) 
+lc <- simkins_lc %>% group_by(gres_class) %>% summarize(perc = sum(percent) %>% round(1)) 
 print(lc)
 
 # country
@@ -75,59 +76,60 @@ country <- "United States"
 print(paste0("Country: ", country))
 
 # coordinates
-long <- -68.7011
-lat <- 44.8322
+long <- -76.7683
+lat <- 39.2527
 print(paste0("Coordinates: ", lat, ",", long))
 
-# reservoir area (km2)
+# reservoir area (km2) 
 res_area <- st_area(res) 
 print(paste0("Reservoir Area (km2): ", res_area * 1e-6 ))
 
-# mean depth (m)
-mean_depth <- 4.42
+# mean depth (m) 
+mean_depth <- 0.92
 print(paste0("Mean Depth (m): ", mean_depth))
 
-# max depth (m)
-max_depth <- 8.70
+# max depth (m) 
+max_depth <- 2.7
 print(paste0("Max Depth (m): ", max_depth))
 
-# littoral area (%) Output from g-res given from max and mean depth
-lit_area <- 33.599
+# littoral area (%) manually entered b/c g-res defines as <3 m 
+lit_area <- 100
 print(paste0("Littoral Area (%): ", lit_area))
 
-# thermocline depth (m) Output from g-res
-thermo_depth <- 0.1
+# thermocline depth (m) Output from g-res 
+thermo_depth <- 0.2
 print(paste0("Thermocline depth (m): ", thermo_depth))
 
-# soil carbon
-soil_carbon <- 5.11
+# soil carbon 
+soil_carbon <- 4.36
 print(paste0("Soil carbon under impounded area (kgC/m2): ", soil_carbon))
 
-# reservoir wind
-res_wind <- 5.31
+# reservoir wind 
+res_wind <- 4.23
 print(paste0("Reservoir wind at 50 m: ", res_wind))
 
-# water residence time (yrs) Output from g-res
-wrt <- 0.0007
+# water residence time (yrs) Output from g-res 
+wrt <- 0.0002
 print(paste0("Water residence time (yrs): ", wrt))
 
-# annual discharge
-q_annual <- 345
+# annual discharge 
+q_annual <- 7
 print(paste0("Annual Discharge (m3/s): ", q_annual))
 
-# p concentration (ug/L) Output from Cronan et al. 2012
-p_conc <- 3
+# p concentration (ug/L) Output from MD DNR
+p_conc <- 50
 print(paste0("P Concentration (ug/L): ", p_conc))
 
-# global horizontal radiance
-rad <- 3.47
+# global horizontal radiance 
+rad <- 3.85
 print(paste0("Global horizontal radiance: ", rad))
 
-# mean temperature per month
-temperature <- data.frame(Jan = -7.9, Feb = -6.7, Mar = -1.1, Apr = 5.4, May = 11.7, June = 17.0, July = 19.9, Aug = 18.8, Sept = 14.0, Oct = 8.4, Nov = 2.5, Dec = -4.8) %>% pivot_longer(cols = Jan:Dec, names_to = "Month", values_to = "Temperature")
+# mean temperature per month 
+temperature <- data.frame(Jan = 0.1, Feb = 1.5, Mar = 6.1, Apr = 11.7, May = 17.4, June = 22.2, July = 24.8, Aug = 23.9, Sept = 19.9, Oct = 13.6, Nov = 7.9, Dec = 2.4) %>% pivot_longer(cols = Jan:Dec, names_to = "Month", values_to = "Temperature")
 print("Temperature per month (C)")
 temperature
 ```
+
 
 # Before
 
@@ -170,27 +172,27 @@ Can delineate catchments in US reservoirs using the StreamStats tool
 https://streamstats.usgs.gov/ss/ 
 
 ```{r surface emissions}
-# output from g-res: emissions in g CO2 eq by pathway
-res_co2_diff_eq <- 3
-res_ch4_diff_eq <- 79 * .89
-res_ch4_eb_eq <- 79 * 0.11
+# output from g-res: emissions in g CO2 eq/m2/yr by pathway
+res_co2_diff_eq <- 74
+res_ch4_diff_eq <- 402 * .49
+res_ch4_eb_eq <- 402 * 0.51
 res_ch4_degas_eq <- 0
 
-# output from g-res: net GHG footprint and 95% CI
-res_net_eq <- 64
-res_net_2.5_eq <- 55
-res_net_97.5_eq <- 75
+# output from g-res: net GHG footprint and 95% CI in g CO2 eq/m2/yr
+res_net_eq <- 806
+res_net_2.5_eq <- 753
+res_net_97.5_eq <- 867
 
 res_net_interval <- max(c(res_net_97.5_eq-res_net_eq, res_net_eq - res_net_2.5_eq))
 
-# calculate emissions and CI in g CO2 eq 
+# calculate emissions and CI in g CO2 eq/m2/yr 
 res_eq <- res_co2_diff_eq+res_ch4_diff_eq+res_ch4_eb_eq
 
 res_eq_2.5 <- res_eq - res_net_interval
 res_eq_97.5 <-  res_eq + res_net_interval
 
-# calculate emissions and CI in g C 
-res_g <- (res_co2_diff_eq * (12.01/44.01)) + ((res_ch4_diff_eq+res_ch4_eb_eq +res_ch4_degas_eq) *(12.01/16.04) * (1/34))
+# calculate emissions and CI in g C/m2/yr
+res_g <- (res_co2_diff_eq * (12.01/44.01)) + ((res_ch4_diff_eq+res_ch4_eb_eq + res_ch4_degas_eq) *(12.01/16.04) * (1/34))
 
 # to calculate CI in g C, I am assuming gases contribute to the CI in proportion to the CO2-eq contribution 
 res_g_interval <- res_net_interval*(res_co2_diff_eq/res_eq)*(12.01/44.01) + res_net_interval*((res_ch4_diff_eq + res_ch4_eb_eq + res_ch4_degas_eq)/res_eq)*(1/34) * (12.01/16.04)
@@ -220,16 +222,16 @@ sed.mod <- lm(log_sed_rate_m3_yr ~ log_surface_area_m2 + slope_calc + forest_per
 
 summary(sed.mod)
 
-veazie_sed_pred <- read.csv("../1-input-data/6-clow-data/veazie_clow.csv") %>% 
+simkins_sed_pred <- read.csv("../1-input-data/6-clow-data/simkins_clow.csv") %>% 
   mutate(log_surface_area_m2 = log10(res_area %>% as.numeric()), 
          crop_perc = crops/100, 
          forest_perc = forest/100) %>% 
   rename("slope_calc" = "slope")
 
-predict(sed.mod, veazie_sed_pred, interval = "prediction")
+predict(sed.mod, simkins_sed_pred, interval = "prediction")
 
-veazie_sed_rate <- 10^(predict(sed.mod, veazie_sed_pred, interval = "prediction")[1])
-veazie_sed_rate_sd <- (10^(predict(sed.mod, veazie_sed_pred, interval = "prediction")[1]) - 10^(predict(sed.mod, veazie_sed_pred, interval = "prediction")[2]))/1.96
+simkins_sed_rate <- 10^(predict(sed.mod, simkins_sed_pred, interval = "prediction")[1])
+simkins_sed_rate_sd <- (10^(predict(sed.mod, simkins_sed_pred, interval = "prediction")[1]) - 10^(predict(sed.mod, simkins_sed_pred, interval = "prediction")[2]))/1.96
 
 
 # sediment c content model
@@ -240,47 +242,43 @@ c_content <- read.csv("../1-input-data/6-clow-data/c_content.csv") %>%
 
 c.mod <- lm(sediment_C_pct ~ SOC_0_5 + wetland_si + Barren30 + KFactor + log_Lake_Area_m2_EPA + LAKE_ORIGIN_renamed, data = c_content)
 
-veazie_c_pred <- veazie_sed_pred %>% 
+simkins_c_pred <- simkins_sed_pred %>% 
   rename("SOC_0_5" = "om", "KFactor" = "k_factor") %>% 
   mutate(wetland_si = log10((wetland/100)+1), 
          Barren30 = barren/100, 
          log_Lake_Area_m2_EPA = log10(res_area), 
          LAKE_ORIGIN_renamed = "RESERVOIR")
 
-predict(c.mod, veazie_c_pred, interval = "prediction")
+predict(c.mod, simkins_c_pred, interval = "prediction")
 
-veazie_c_cont <- predict(c.mod, veazie_c_pred, interval = "prediction")[1] * 0.01 # covert % to proportion
-veazie_c_cont_sd <- ((predict(c.mod, veazie_c_pred, interval = "prediction")[1] - predict(c.mod, veazie_c_pred, interval = "prediction")[2])/1.96)*0.01
+simkins_c_cont <- predict(c.mod, simkins_c_pred, interval = "prediction")[1] * 0.01 # covert % to proportion
+simkins_c_cont_sd <- ((predict(c.mod, simkins_c_pred, interval = "prediction")[1] - predict(c.mod, simkins_c_pred, interval = "prediction")[2])/1.96)*0.01
 
-b = (veazie_c_cont_sd)^2/veazie_c_cont
-a = (veazie_c_cont)^2/(veazie_c_cont_sd)^2
+b = (simkins_c_cont_sd)^2/simkins_c_cont
+a = (simkins_c_cont)^2/(simkins_c_cont_sd)^2
   
 # dry bulk density
-oc_dbd <- read.csv("../1-input-data/6-clow-data/oc_dbd.csv", header = F) %>% rename("OC" = "V1", "DBD" = "V2")
-
-oc_dbd.mod <- lm(log(DBD)~log(OC), data = oc_dbd)
+# simkins has a dry bulk density measured so don't need to use Dean and Gorham
+# Collins et al. 2017 cited mean 1.43 g/cm3 and range of 1.29-1.53. 
+simkins_dbd <- 1.43 * 1e6 #g/m3
+simkins_dbd_sd <- (max((1.53-1.43), (1.43-1.29))/1.96) * 1e6 # g/m3
 
 # burial efficiency
 be <- read.csv("../1-input-data/6-clow-data/sed-rate_burial-efficiency.csv", header = FALSE) %>% rename("log_sed_rate_mm_yr" = "V1", "oc_be" = "V2")
 
 be.mod <- lm(oc_be ~ log_sed_rate_mm_yr, data = be)
 
-veazie_burial <- c()
+simkins_burial <- c()
 
 for(i in 1:10000){
   print(i)
   
   # sample sedimentation rate and OC content
-  temp_sed_rate <- rnorm(1, veazie_sed_rate, veazie_sed_rate_sd)
+  temp_sed_rate <- rnorm(1, simkins_sed_rate, simkins_sed_rate_sd)
   temp_oc <- rgamma(1, shape = a, scale = b)
   
   # get dbd
-  temp_oc_df <- data.frame(OC = temp_oc * 100)
-  
-  temp_dbd_distr <- exp(predict(oc_dbd.mod, temp_oc_df, interval = "prediction")[1]) * 1e6
-  temp_dbd_distr_sd <- (exp(predict(oc_dbd.mod, temp_oc_df, interval = "prediction")[1]) * 1e6 - exp(predict(oc_dbd.mod, temp_oc_df, interval = "prediction")[2]) * 1e6)/1.96 
-  
-  temp_dbd <- rnorm(1, temp_dbd_distr, temp_dbd_distr_sd)
+  temp_dbd <- rnorm(1, simkins_dbd, simkins_dbd_sd)
   
   # get burial efficiency
   temp_be_df <- data.frame(log_sed_rate_mm_yr = log10(temp_sed_rate * (1/as.numeric(res_area)) * 1e3))
@@ -295,14 +293,14 @@ for(i in 1:10000){
   
   temp <- temp_sed_rate * temp_dbd * temp_oc * temp_be * (1/as.numeric(res_area))  
   
-  veazie_burial <- c(veazie_burial, temp)
+  simkins_burial <- c(simkins_burial, temp)
 
 }
 
-veazie_burial <- sort(veazie_burial) # sort removes NAs, by assigning prediction interval to a normal distribution, generating some few negative values of sedimentation rate, sort here functionally truncates the distribution at 0.  
-vec_length <- length(veazie_burial)
+simkins_burial <- sort(simkins_burial) # sort removes NAs, by assigning prediction interval to a normal distribution, generating some few negative values of sedimentation rate, sort here functionally truncates the distribution at 0.  
+vec_length <- length(simkins_burial)
 
-res_burial_summary <- data.frame(period = c("before"), flux = c("reservoir burial"), variation = NA, flux_unit = c("CO2-eq", "C"), annual = "yes", area = "reservoir", mean = c(-(veazie_burial[round(vec_length * 0.5)] * (44.01/12.01)), -veazie_burial[round(vec_length * 0.5)]), ci_lwr = c(-(veazie_burial[round(vec_length * 0.975)] * (44.01/12.01)), -veazie_burial[round(vec_length * 0.975)]), ci_upr = c(-(veazie_burial[round(vec_length * 0.025)] * (44.01/12.01)), -veazie_burial[round(vec_length * 0.025)]))
+res_burial_summary <- data.frame(period = c("before"), flux = c("reservoir burial"), variation = NA, flux_unit = c("CO2-eq", "C"), annual = "yes", area = "reservoir", mean = c(-(simkins_burial[round(vec_length * 0.5)] * (44.01/12.01)), -simkins_burial[round(vec_length * 0.5)]), ci_lwr = c(-(simkins_burial[round(vec_length * 0.975)] * (44.01/12.01)), -simkins_burial[round(vec_length * 0.975)]), ci_upr = c(-(simkins_burial[round(vec_length * 0.025)] * (44.01/12.01)), -simkins_burial[round(vec_length * 0.025)]))
 
 res_burial_summary
 ```
@@ -345,8 +343,8 @@ res_drawdown_eb_summary <- data.frame(period = c("burp"), flux = c("drawdown ebu
 # Collins et al. write that a combination of the CR Environmental Report and post-removal survey suggest that the combined volume of mobilized sediment from Veazie and Great Works dam was 15,000 m3 or smaller
 # Fit a uniform distribution between 0 and 15,000 m3 
 
-b = (veazie_c_cont_sd)^2/veazie_c_cont
-a = (veazie_c_cont)^2/(veazie_c_cont_sd)^2
+b = (simkins_c_cont_sd)^2/simkins_c_cont
+a = (simkins_c_cont)^2/(simkins_c_cont_sd)^2
 
 # assumming between 0 and 100% oxidized
 min_ox_trans = 0 
@@ -359,19 +357,13 @@ for(i in 1:10000){
   # sample OC content
   temp_oc <- rgamma(1, shape = a, scale = b)
   
-  # get dbd
-  temp_oc_df <- data.frame(OC = temp_oc * 100)
-  
-  temp_dbd_distr <- exp(predict(oc_dbd.mod, temp_oc_df, interval = "prediction")[1]) * 1e6
-  temp_dbd_distr_sd <- (exp(predict(oc_dbd.mod, temp_oc_df, interval = "prediction")[1]) * 1e6 - exp(predict(oc_dbd.mod, temp_oc_df, interval = "prediction")[2]) * 1e6)/1.96 
-  
-  temp_dbd <- rnorm(1, temp_dbd_distr, temp_dbd_distr_sd)
+  temp_dbd <- rnorm(1, simkins_dbd, simkins_dbd_sd)
   
   # parameters for g of sediment
-  res_erode_g_max <- 15000 * temp_dbd
-  res_erode_g_min <- 0
+  res_erode_g_mean <- 56350 * temp_dbd # g
+  res_erode_g_sd <- (31000 * 1e6)/1.96
   
-  temp <- (runif(1, min = res_erode_g_min, max = res_erode_g_max) * temp_oc * runif(1, min = min_ox_trans, max = max_ox_trans))/(res_area * 1e6) # why is this multiplied by 10^6
+  temp <- (rnorm(1, mean = res_erode_g_mean, sd = res_erode_g_sd) * temp_oc * runif(1, min = min_ox_trans, max = max_ox_trans))/(res_area)
   eroded_vec <- c(eroded_vec, temp)
 }
 
@@ -818,6 +810,7 @@ res_tree_ch4_summary
 
 # Summary
 ```{r create summary dfs}
+res_area <- st_area(res) %>% as.numeric()
 riv_area <- st_area(riv) %>% as.numeric()
 
 area_df <- data.frame(area = c("reservoir", "exposed sediment area", "river"), 
@@ -830,4 +823,3 @@ summary_df <- bind_rows(res_emissions_summary, res_burial_summary, res_sed_co2_s
 
 write.csv(summary_df, "../2-output-data/veazie_summary_nep.csv", row.names = FALSE)
 ```
-

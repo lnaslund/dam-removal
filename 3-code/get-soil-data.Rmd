@@ -1,0 +1,146 @@
+---
+title: "get-soil-data"
+author: "L. Naslund"
+date: "2024-07-25"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+library(tidyverse)
+library(sf)
+library(mapview)
+library(nhdplusTools)
+library(readxl)
+```
+
+
+```{r}
+# This script snaps points in RESSED to the nearest NHDPlus V2 flowline and then uses a look up function which accesses a cloud repository of watershed attributes calculated by Wieczorek et al. 2018 https://www.sciencebase.gov/catalog/item/5669a79ee4b08895842a1d47
+res_sed <- read.csv("../1-input-data/6-clow-data/res_sed_rate.csv") %>% 
+  filter(is.na(Long_DD)==FALSE & is.na(Lat_DD)==FALSE)%>% 
+  st_as_sf(coords=c("Long_DD", "Lat_DD"), crs = 4326) %>% 
+  filter(NAME != "JESSE POND") # observation with clearly erroneous coordinates
+
+
+# Snap RESSED points to NHD
+comid_df <- NULL
+for(i in 1:nrow(res_sed)){
+  print(i)
+  tryCatch({snap_pt <- discover_nhdplus_id(res_sed %>% slice(i))}, 
+           error = function(e){e})
+  if(inherits(snap_pt, "error") | identical(snap_pt, integer(0))){
+    temp_df <- data.frame(DSNUM = res_sed %>% slice(i) %>% pull(DSNUM), comid = NA)
+  }
+  else{
+    temp_df <- data.frame(DSNUM = res_sed %>% slice(i) %>% pull(DSNUM), comid = discover_nhdplus_id(res_sed %>% slice(i)))
+  }
+  comid_df <- comid_df %>% bind_rows(temp_df)
+}
+
+# Download basin characteristics
+# The latest data in RESSED is from 1993, so using the oldest NLCD (2001) in the Wieczorek database
+
+# ACC_NLCD01_41: divergence routed, accumulated percent of deciduous forest
+# ACC_NLCD01_42: divergence routed, accumulated percent of evergreen forest
+# ACC_NLCD01_43: divergence routed, accumulated percent of mixed forest
+# ACC_NLCD01_82: divergence routed, accumulated percent of cultivated crops
+# ACC_BASIN_SLOPE: divergence routed accumulated average slope
+
+char_df <- get_catchment_characteristics(c("ACC_NLCD01_82", "ACC_NLCD01_41", "ACC_NLCD01_42", "ACC_NLCD01_43", "ACC_BASIN_SLOPE", "ACC_BASIN_AREA", "CAT_BASIN_AREA", "CAT_BASIN_SLOPE","CAT_NLCD01_82", "CAT_NLCD01_41", "CAT_NLCD01_42", "CAT_NLCD01_43"), comid_df$comid) %>% 
+  pivot_wider(id_cols = comid, names_from = characteristic_id, values_from = characteristic_value)
+
+res_char <- res_sed %>% 
+  left_join(comid_df, by = "DSNUM") %>% 
+  left_join(char_df, by = "comid") %>% 
+  mutate(crops = ACC_NLCD01_82, 
+         forest = ACC_NLCD01_41 + ACC_NLCD01_42 + ACC_NLCD01_43, 
+         slope = atan(ACC_BASIN_SLOPE*0.01)*(180/pi), 
+         area = ACC_BASIN_AREA, 
+         cat_area = CAT_BASIN_AREA, 
+         cat_crops = CAT_NLCD01_82, 
+         cat_forest = CAT_NLCD01_41 + CAT_NLCD01_42 + CAT_NLCD01_43, 
+         cat_slope = atan(CAT_BASIN_SLOPE*0.01)*(180/pi))
+
+# Deal with poor alignment between NHD snapped reaches and coordinates in ressed
+# For 743 reservoirs, the database reported areas are smaller than the reach catchment the point location is snapped to. For those reservoirs, just assign catchment statistics to the reservoir rather than the basin accumulated statistics.
+# For another 962 reservoirs, there is less than 50% abs difference in the database reported area and the basin accumulated area. For these reservoirs, assign basin accumulated statistics. 
+# There are another 127 remaining reservoirs, with either the absolute deviation between reach catchment or basin accumulated area. For these reservoirs, assign the statistics to whichever area type has the lower deviation.
+# The remaining <5% of data is discarded. 
+temp <- res_char %>% 
+  mutate(area_db = as.numeric(DRAIN_SQMILE) *2.59, 
+         area_diff_db = area-area_db, 
+         area_diff_perc_db = (area_diff_db*100)/area_db, 
+         area_diff_cat = cat_area-area_db, 
+         area_diff_perc_cat = (area_diff_cat*100)/area_db, 
+         abs_db = abs(area_diff_db),
+         abs_cat = abs(area_diff_cat),
+         abs_perc_db = abs(area_diff_perc_db), 
+         abs_perc_cat = abs(area_diff_perc_cat)) %>% 
+  arrange(desc(area_diff_db))%>% 
+  select(DSNUM, NAME, comid, area_db, area, cat_area, area_diff_db, area_diff_perc_db, area_diff_cat, area_diff_perc_cat, abs_perc_db, abs_perc_cat, abs_db, abs_cat)
+
+# identifying problem reservoirs
+problems <- temp %>% filter(area_db > cat_area & abs_perc_db > 50 & abs_cat > 10 & abs_db > 10) %>% pull(DSNUM)
+
+# for cat_bigger_db = yes, assign cat values
+# for cat_bigger_db = no & perc_less_50 = yes, assign acc values
+# for cat_bigger_db = no & perc_less_50 = no, assign which ever has the smaller absolute deviation
+keep <- temp %>% filter(!(DSNUM %in% problems)) %>% 
+  mutate(cat_bigger_db = if_else(cat_area > area_db, "yes", "no"), 
+         perc_less_50 = if_else(abs_perc_db < 50, "yes", "no"), 
+         which_10 =if_else(abs_cat < abs_db, "cat", "db")) %>% 
+  mutate(val = case_when(
+    cat_bigger_db == "yes" ~ "cat", 
+    (cat_bigger_db == "no" & perc_less_50 == "yes") ~ "db",
+    (cat_bigger_db == "no" & perc_less_50 == "no") ~ which_10
+))
+
+results <- keep %>% 
+  st_drop_geometry() %>% 
+  select(DSNUM, NAME, comid, val) %>% 
+  left_join(res_char, by = c("DSNUM", "NAME", "comid")) %>% 
+  mutate(slope_calc = if_else(val == "cat", cat_slope, slope), 
+         forest_calc = if_else(val == "cat", cat_forest, forest),
+         crops_calc = if_else(val == "cat", cat_crops, crops)) %>% 
+  select(DSNUM, NAME, Lat:`Sed.Rate..mm.yr.`, slope_calc, forest_calc, crops_calc)
+
+write.csv(results, "../1-input-data/6-clow-data/clow_predictors.csv", row.names = FALSE)
+```
+
+```{r Veazie}
+veazie_pt <- st_read("../1-input-data/1-geospatial/watersheds/veaziewatershedpoint.shp")
+
+veazie_start <- discover_nhdplus_id(veazie_pt)
+
+veazie_df <- get_catchment_characteristics(c("ACC_NLCD01_82", "ACC_NLCD01_41", "ACC_NLCD01_42", "ACC_NLCD01_43", "ACC_BASIN_SLOPE", "ACC_KFACT", "ACC_OM", "ACC_NLCD01_31", "ACC_NLCD01_90", "ACC_NLCD01_95", "ACC_BDAVE"), veazie_start) %>% 
+  pivot_wider(id_cols = comid, names_from = characteristic_id, values_from = characteristic_value) %>% 
+  mutate(crops = ACC_NLCD01_82, 
+         forest = ACC_NLCD01_41 + ACC_NLCD01_42 + ACC_NLCD01_43, 
+         slope = atan(ACC_BASIN_SLOPE*0.01)*(180/pi),
+         om = ACC_BDAVE * 5 * 1e4 * ACC_OM * 1e-2,
+         k_factor = ACC_KFACT,
+         barren = ACC_NLCD01_31,
+         wetland = ACC_NLCD01_90 + ACC_NLCD01_95) %>% 
+  select(crops:wetland)
+  
+write.csv(veazie_df, "../1-input-data/6-clow-data/veazie_clow.csv")
+```
+
+```{r simkins}
+simkins_pt <- st_read("../1-input-data/1-geospatial/watersheds/simkinswatershedpoint.shp")
+
+simkins_start <- discover_nhdplus_id(simkins_pt)
+
+simkins_df <- get_catchment_characteristics(c("ACC_NLCD01_82", "ACC_NLCD01_41", "ACC_NLCD01_42", "ACC_NLCD01_43", "ACC_BASIN_SLOPE", "ACC_KFACT", "ACC_OM", "ACC_NLCD01_31", "ACC_NLCD01_90", "ACC_NLCD01_95", "ACC_BDAVE"), simkins_start) %>% 
+  pivot_wider(id_cols = comid, names_from = characteristic_id, values_from = characteristic_value) %>% 
+  mutate(crops = ACC_NLCD01_82, 
+         forest = ACC_NLCD01_41 + ACC_NLCD01_42 + ACC_NLCD01_43, 
+         slope = atan(ACC_BASIN_SLOPE*0.01)*(180/pi),
+         om = ACC_BDAVE * 5 * 1e4 * ACC_OM * 1e-2,
+         k_factor = ACC_KFACT,
+         barren = ACC_NLCD01_31,
+         wetland = ACC_NLCD01_90 + ACC_NLCD01_95) %>% 
+  select(crops:wetland)
+  
+write.csv(simkins_df, "../1-input-data/6-clow-data/simkins_clow.csv")
+```
