@@ -1,0 +1,516 @@
+---
+title: "dams_synthesis_with-simpkins"
+author: "L. Naslund"
+date: "2024-08-05"
+output: html_document
+---
+
+```{r set up}
+library(tidyverse)
+library(cowplot)
+
+veazie <- read.csv("../2-output-data/veazie_summary_20240725.csv") %>% mutate(dam = "Veazie")
+glines <- read.csv("../2-output-data/glines_summary_20240725.csv") %>% mutate(dam = "Glines Canyon")
+simkins <- read.csv("../2-output-data/simkins_summary_2024-07-25.csv") %>% mutate(dam = "Simkins")
+
+all_res_sk <- all_res <- veazie %>% 
+  bind_rows(glines) %>% 
+  bind_rows(simkins) %>% 
+  mutate(
+    mean_area_mg = mean_area * 1e-6,
+    ci_lwr_area_mg = ci_lwr_area * 1e-6,
+    ci_upr_area_mg = ci_upr_area * 1e-6
+  )
+
+gen_theme <- function(g){
+  return(g +  theme_bw()+
+  theme(axis.text.x = element_text(size = 16, color = "black"), axis.text.y = element_text(size = 16, color = "black"), axis.title.x = element_blank(), axis.title.y = element_text(size =20), legend.title = element_blank(), legend.text = element_text(size = 16)))
+}
+
+before_after_df_sk <- all_res_sk %>% filter(
+  period %in% c("before", "build"),
+  variation %in% c(NA, "with degassing", "100", "three meters", "three meters angio")
+) %>%
+  mutate(
+    flux = case_when(
+      flux == "reservoir emissions" ~ "emissions",
+      flux == "reservoir burial" ~ "burial",
+      flux == "river CO2 emissions" ~ "river CO2",
+      flux == "river CH4 emissions" ~ "river CH4",
+      flux == "NEP" ~ "NEP",
+      flux == "soil CH4 emissions" ~ "soil CH4",
+      flux == "tree CH4 emissions" ~ "tree CH4"
+    )
+  ) %>%
+  mutate(flux_fct = as.factor(flux) %>% fct_relevel(
+    c(
+      "emissions",
+      "burial",
+      "river CO2",
+      "river CH4",
+      "NEP",
+      "soil CH4",
+      "tree CH4"
+    )
+  )) %>%
+  mutate(
+    period_fct = case_when(period == "before" ~ "before",
+                           period == "build" ~ "after") %>% fct_relevel("before", "after")
+  ) 
+```
+
+```{r calculate burp scenarios}
+veazie_scenarios <- all_res_sk %>% 
+  filter(dam == "Veazie", period == "burp", flux_unit == "CO2-eq")%>% 
+  mutate(flux_var = paste(flux, variation)) %>% 
+  filter(flux_var %in% c("exposed sediment CO2 0.083333333", "exposed sediment CH4 no_pore_0.0833333333333333", "drawdown ebullition 0", 
+                         "exposed sediment CO2 5", "exposed sediment CH4 pore_5", "drawdown ebullition 10",  
+                         "exposed sediment CO2 30", "exposed sediment CH4 pore_30", "drawdown ebullition 100", "eroded sediment emissions NA"))
+
+veazie_scenarios_rw <- veazie_scenarios %>% slice(10)
+
+veazie_scenarios <- veazie_scenarios %>% bind_rows(veazie_scenarios_rw) %>% bind_rows(veazie_scenarios_rw) %>% 
+  mutate(scenario = rep(c("least", "moderate", "most"), 4))
+
+veazie_scenarios_summary <- veazie_scenarios %>% group_by(scenario) %>% summarize(net_mg = sum(mean_area_mg), net_mg_lwr = sum(ci_lwr_area_mg), net_mg_upr = sum(ci_upr_area_mg))
+
+glines_scenarios <- all_res_sk %>% 
+  filter(dam == "Glines Canyon", period == "burp", flux_unit == "CO2-eq")%>% 
+  mutate(flux_var = paste(flux, variation)) %>% 
+  filter(flux_var %in% c("exposed sediment CO2 0.0833333333333333", "exposed sediment CH4 no_pore_0.0833333333333333", "drawdown ebullition 0", 
+                         "exposed sediment CO2 5", "exposed sediment CH4 pore_5", "drawdown ebullition 10",  
+                         "exposed sediment CO2 30", "exposed sediment CH4 pore_30", "drawdown ebullition 100", "eroded sediment emissions NA"))
+
+glines_scenarios_rw <- glines_scenarios %>% slice(10)
+
+glines_scenarios <- glines_scenarios %>% bind_rows(glines_scenarios_rw) %>% bind_rows(glines_scenarios_rw) %>% 
+  mutate(scenario = rep(c("least", "moderate", "most"), 4))
+
+glines_scenarios_summary <- glines_scenarios %>% group_by(scenario) %>% summarize(net_mg = sum(mean_area_mg), net_mg_lwr = sum(ci_lwr_area_mg), net_mg_upr = sum(ci_upr_area_mg))
+
+simkins_scenarios <- all_res_sk %>% 
+  filter(dam == "Simkins", period == "burp", flux_unit == "CO2-eq")%>% 
+  mutate(flux_var = paste(flux, variation)) %>% 
+  filter(flux_var %in% c("exposed sediment CO2 0.0833333333333333", "exposed sediment CH4 no_pore_0.0833333333333333", "drawdown ebullition 0", 
+                         "exposed sediment CO2 5", "exposed sediment CH4 pore_5", "drawdown ebullition 10",  
+                         "exposed sediment CO2 30", "exposed sediment CH4 pore_30", "drawdown ebullition 100", "eroded sediment emissions NA"))
+
+simkins_scenarios_rw <- simkins_scenarios %>% slice(10)
+
+simkins_scenarios <- simkins_scenarios %>% bind_rows(simkins_scenarios_rw) %>% bind_rows(simkins_scenarios_rw) %>% 
+  mutate(scenario = rep(c("least", "moderate", "most"), 4))
+
+simkins_scenarios_summary <- simkins_scenarios %>% group_by(scenario) %>% summarize(net_mg = sum(mean_area_mg), net_mg_lwr = sum(ci_lwr_area_mg), net_mg_upr = sum(ci_upr_area_mg))
+```
+
+Abstract
+```{r before after df}
+before_after_df_sk %>% 
+  filter(flux_unit == "CO2-eq") %>% 
+  group_by(dam, period) %>% 
+  summarize(mean_mg = sum(mean_area_mg), lwr_mg = sum(ci_lwr_area_mg), upr_mg = sum(ci_upr_area_mg))
+```
+
+Figure 2
+```{r fig 2}
+veazie_before.plt <- gen_theme(before_after_df_sk %>% filter(dam == "Veazie", period == "before", flux_unit == "CO2-eq") %>% 
+  ggplot(aes(flux_fct, mean_area_mg))+
+  geom_hline(yintercept = 0, linetype = "dotted", color = "red", linewidth = 1)+
+  geom_point(aes(), size = 2)+
+  geom_errorbar(aes(x = flux_fct, ymin = ci_lwr_area_mg, ymax = ci_upr_area_mg), linewidth = 1, width = 0.5)+
+  ylim(-2000, 25000)+
+  ggtitle("Veazie Before")+
+  ylab(expression(Mg~CO[2-eq]~yr^-1)))+
+  theme(plot.title = element_text(size=20, hjust = 0.5))
+
+veazie_after.plt <- gen_theme(before_after_df_sk %>% filter(dam == "Veazie", period == "build", flux_unit == "CO2-eq") %>% 
+  ggplot(aes(flux_fct, mean_area_mg))+
+  geom_hline(yintercept = 0, linetype = "dotted", color = "red", linewidth = 1)+
+  geom_point(aes(), size = 2)+
+  geom_errorbar(aes(x = flux_fct, ymin = ci_lwr_area_mg, ymax = ci_upr_area_mg), linewidth = 1, width = 0.5)+
+  ylim(-2000, 25000)+
+  ggtitle("Veazie After")+
+    scale_x_discrete(labels = c(expression(river~CO[2]), expression(river~CH[4]), "NEP", expression(soil~CH[4]), expression(tree~CH[4])))+
+  ylab(expression(Mg~CO[2-eq]~yr^-1)))+
+  theme(plot.title = element_text(size=20, hjust = 0.5))
+
+glines_before.plt <- gen_theme(before_after_df_sk %>% filter(dam == "Glines Canyon", period == "before", flux_unit == "CO2-eq") %>% 
+  ggplot(aes(flux_fct, mean_area_mg))+
+  geom_hline(yintercept = 0, linetype = "dotted", color = "red", linewidth = 1)+
+  geom_point(aes(), size = 2)+
+  geom_errorbar(aes(x = flux_fct, ymin = ci_lwr_area_mg, ymax = ci_upr_area_mg), linewidth = 1, width = 0.5)+
+  ylim(-35000, 2500)+
+  ggtitle("Glines Canyon Before")+
+  ylab(expression(Mg~CO[2-eq]~yr^-1)))+
+  theme(plot.title = element_text(size=20, hjust = 0.5))
+
+
+glines_after.plt <- gen_theme(before_after_df_sk %>% filter(dam == "Glines Canyon", period == "build", flux_unit == "CO2-eq") %>% 
+  ggplot(aes(flux_fct, mean_area_mg))+
+  geom_hline(yintercept = 0, linetype = "dotted", color = "red", linewidth = 1)+
+  geom_point(aes(), size = 2)+
+  geom_errorbar(aes(x = flux_fct, ymin = ci_lwr_area_mg, ymax = ci_upr_area_mg), linewidth = 1, width = 0.5)+
+  ylim(-35000, 2500)+
+  ggtitle("Glines Canyon After")+
+  ylab(expression(Mg~CO[2-eq]~yr^-1)))+
+  scale_x_discrete(labels = c(expression(river~CO[2]), expression(river~CH[4]), "NEP", expression(soil~CH[4]), expression(tree~CH[4])))+
+    theme(plot.title = element_text(size=20, hjust = 0.5))
+
+simkins_before.plt <- gen_theme(before_after_df_sk %>% filter(dam == "Simkins", period == "before", flux_unit == "CO2-eq") %>% 
+  ggplot(aes(flux_fct, mean_area_mg))+
+  geom_hline(yintercept = 0, linetype = "dotted", color = "red", linewidth = 1)+
+  geom_point(aes(), size = 2)+
+  geom_errorbar(aes(x = flux_fct, ymin = ci_lwr_area_mg, ymax = ci_upr_area_mg), linewidth = 1, width = 0.5)+
+  ylim(-450, 350)+
+  ggtitle("Simkins Before")+
+  ylab(expression(Mg~CO[2-eq]~yr^-1)))+
+  theme(plot.title = element_text(size=20, hjust = 0.5))
+
+
+simkins_after.plt <- gen_theme(before_after_df_sk %>% filter(dam == "Simkins", period == "build", flux_unit == "CO2-eq") %>% 
+  ggplot(aes(flux_fct, mean_area_mg))+
+  geom_hline(yintercept = 0, linetype = "dotted", color = "red", linewidth = 1)+
+  geom_point(aes(), size = 2)+
+  geom_errorbar(aes(x = flux_fct, ymin = ci_lwr_area_mg, ymax = ci_upr_area_mg), linewidth = 1, width = 0.5)+
+  ylim(-450, 350)+
+  ggtitle("Simkins After")+
+  ylab(expression(Mg~CO[2-eq]~yr^-1)))+
+  scale_x_discrete(labels = c(expression(river~CO[2]), expression(river~CH[4]), "NEP", expression(soil~CH[4]), expression(tree~CH[4])))+
+    theme(plot.title = element_text(size=20, hjust = 0.5))
+
+png(paste0("../2-output-data/before_after_flux_sk_", Sys.Date(), ".png"), width = 11, height = 9, units = "in", res = 300)
+plot_grid(veazie_before.plt, veazie_after.plt, glines_before.plt, glines_after.plt, simkins_before.plt, simkins_after.plt, ncol = 2, rel_widths = c(0.4, 0.6))
+dev.off()
+```
+
+Figure 3
+```{r}
+veazie_scenarios_fig <- gen_theme(ggplot(veazie_scenarios, aes(flux, mean_area_mg, color = scenario))+
+  geom_point(size = 2, position = position_dodge(width = 0.7))+
+  geom_errorbar(aes(ymin = ci_lwr_area_mg, ymax = ci_upr_area_mg), size = 1, position = position_dodge(width = 0.7), width = 0.5) + ylab(expression(Mg~CO[2-eq]))+ scale_color_manual(name = "scenario", values = c( "#155AAE",  "grey40", "#C34237"), labels = c("least", "moderate", "most"))+
+    scale_x_discrete(labels = c(expression(atop("drawdown", "ebullition")), expression(atop("eroded sediment", "emissions")), expression(atop("exposed",sediment~CH[4])), expression(atop("exposed",sediment~CO[2]))))) + theme(legend.title = element_text(size = 16))
+
+veazie_scenarios_summary_fig <- gen_theme(ggplot(veazie_scenarios_summary, aes(scenario, net_mg, color = scenario))+
+  geom_point(size = 2, position = position_dodge(width = 0.7))+
+    scale_x_discrete(labels = c("least", "moderate", "most"))+
+  geom_errorbar(aes(ymin = net_mg_lwr, ymax = net_mg_upr), size = 1, position = position_dodge(width = 0.7), width = 0.5) + ylab(expression(Mg~CO[2-eq]))+ scale_color_manual(name = "scenario", values = c( "#155AAE",  "grey40", "#C34237"), labels = c("least", "moderate", "most")))+ theme(legend.position="none")
+
+glines_scenarios_fig <- gen_theme(ggplot(glines_scenarios, aes(flux, mean_area_mg, color = scenario))+
+  geom_point(size = 2, position = position_dodge(width = 0.7))+
+  geom_errorbar(aes(ymin = ci_lwr_area_mg, ymax = ci_upr_area_mg), size = 1, position = position_dodge(width = 0.7), width = 0.5) + ylab(expression(Mg~CO[2-eq]))+ scale_color_manual(name = "scenario", values = c( "#155AAE",  "grey40", "#C34237"), labels = c("least", "moderate", "most"))+
+    scale_x_discrete(labels = c(expression(atop("drawdown", "ebullition")), expression(atop("eroded sediment", "emissions")), expression(atop("exposed",sediment~CH[4])), expression(atop("exposed",sediment~CO[2]))))) + theme(legend.title = element_text(size = 16))
+
+glines_scenarios_summary_fig <- gen_theme(ggplot(glines_scenarios_summary, aes(scenario, net_mg, color = scenario))+
+  geom_point(size = 2, position = position_dodge(width = 0.7))+
+    scale_x_discrete(labels = c("least", "moderate", "most"))+
+  geom_errorbar(aes(ymin = net_mg_lwr, ymax = net_mg_upr), size = 1, position = position_dodge(width = 0.7), width = 0.5) + ylab(expression(Mg~CO[2-eq]))+ scale_color_manual(name = "scenario", values = c( "#155AAE",  "grey40", "#C34237"), labels = c("least", "moderate", "most")))+ theme(legend.position="none")
+
+simkins_scenarios_fig <- gen_theme(ggplot(simkins_scenarios, aes(flux, mean_area_mg, color = scenario))+
+  geom_point(size = 2, position = position_dodge(width = 0.7))+
+  geom_errorbar(aes(ymin = ci_lwr_area_mg, ymax = ci_upr_area_mg), size = 1, position = position_dodge(width = 0.7), width = 0.5) + ylab(expression(Mg~CO[2-eq]))+ scale_color_manual(name = "scenario", values = c( "#155AAE",  "grey40", "#C34237"), labels = c("least", "moderate", "most"))+
+    scale_x_discrete(labels = c(expression(atop("drawdown", "ebullition")), expression(atop("eroded sediment", "emissions")), expression(atop("exposed",sediment~CH[4])), expression(atop("exposed",sediment~CO[2]))))) + theme(legend.title = element_text(size = 16))
+
+simkins_scenarios_summary_fig <- gen_theme(ggplot(simkins_scenarios_summary, aes(scenario, net_mg, color = scenario))+
+  geom_point(size = 2, position = position_dodge(width = 0.7))+
+    scale_x_discrete(labels = c("least", "moderate", "most"))+
+  geom_errorbar(aes(ymin = net_mg_lwr, ymax = net_mg_upr), size = 1, position = position_dodge(width = 0.7), width = 0.5) + ylab(expression(Mg~CO[2-eq]))+ scale_color_manual(name = "scenario", values = c( "#155AAE",  "grey40", "#C34237"), labels = c("least", "moderate", "most")))+ theme(legend.position="none")
+
+options(scipen =3)
+png(paste0("../2-output-data/burp_scenarios_sk_", Sys.Date(), ".png"), width = 14, height = 14, units = "in", res = 300)
+plot_grid(veazie_scenarios_fig, veazie_scenarios_summary_fig, glines_scenarios_fig, glines_scenarios_summary_fig, simkins_scenarios_fig, simkins_scenarios_summary_fig, rel_widths = c(0.7, 0.3), ncol = 2, labels = "AUTO", label_size = 20)
+dev.off()
+```
+
+Figure 4
+```{r fig 4}
+before_after_fig_sk <- gen_theme(before_after_df_sk %>% 
+  filter(flux_unit == "CO2-eq") %>% 
+  group_by(dam, period) %>% 
+  summarize(mean_mg = sum(mean_area_mg), lwr_mg = sum(ci_lwr_area_mg), upr_mg = sum(ci_upr_area_mg)) %>% 
+  ggplot(aes(period, mean_mg))+
+  geom_point(size = 2)+
+  geom_hline(yintercept = 0, linetype = "dotted", color = "red", linewidth = 1)+
+  geom_errorbar(aes(x = period, ymin = lwr_mg, ymax = upr_mg), linewidth = 1)+
+  ylab(expression(Mg~CO[2-eq]~yr^-1))+
+  facet_wrap(~dam))
+
+png(paste0("../2-output-data/before_after_sk_", Sys.Date(), ".png"), width = 8, height = 5, units = "in", res = 300)
+before_after_fig_sk + theme(strip.text = element_text(size = 16)) +facet_wrap(~dam, scales = "free_y")
+dev.off()
+```
+
+Figure 5
+```{r glines trajectory}
+# calculate the time to total possible carbon storage
+glines_total_volume <- 52994001 # total volume (m3) from the 1921 line in Figure 10 Bountry et al. 2011 
+
+glines_bulk_density <- 2.03e13/1.51e7 #g m-3
+
+glines_c_content <- (320 * 1e9)/2.03e13 # Gg C to g / g sediment, Stratton et al. 2019 Table 3
+
+glines_total_c <- (glines_total_volume * glines_bulk_density * glines_c_content) 
+
+glines_c_rate <- glines %>% filter(flux_unit == "C", flux == "reservoir burial") %>% pull(mean_area)
+
+# time to max C storage
+glines_max_c_yr <- round(glines_total_c/glines_c_rate, digits = 0) * -1
+
+# accumulated C before removal
+glines_total_c_actual <- glines %>% filter(flux == "reservoir burial", flux_unit == "C") %>% pull(mean_area)*87 
+
+# c storage lost in eroded C
+glines_eroded_mass <- 9.1 * 1e6 * 1e6 * glines_c_content # table 4 Randle et al. 2015
+
+# after removal storage
+glines_nep <- glines %>% filter(flux == "NEP", variation == 100, flux_unit == "CO2-eq") %>% pull(mean_area) 
+
+glines_soil_ch4 <- glines %>% filter(flux == "soil CH4 emissions", flux_unit == "CO2-eq") %>% pull(mean_area) 
+
+# burp
+glines_exp_ch4 <- glines %>% filter(flux == "exposed sediment CH4", variation == "pore_5", flux_unit == "CO2-eq") %>% pull(mean_area) 
+
+glines_exp_co2 <-  glines %>% filter(flux == "exposed sediment CO2", variation == "5", flux_unit == "CO2-eq") %>% pull(mean_area) 
+
+glines_drawdown <- glines %>% filter(flux == "drawdown ebullition", variation == "10", flux_unit == "CO2-eq") %>% pull(mean_area)
+
+glines_eroded <- glines %>% filter(flux == "eroded sediment emissions", flux_unit == "CO2-eq") %>% pull(mean_area)
+
+# after removal emissions
+glines_tree_ch4 <- glines %>% filter(flux == "tree CH4 emissions", variation == "three meters", flux_unit == "CO2-eq") %>% pull(mean_area)
+
+glines_river_co2 <- glines %>% filter(flux == "river CO2 emissions", flux_unit == "CO2-eq") %>% pull(mean_area)
+
+glines_river_ch4 <- glines %>% filter(flux == "river CH4 emissions", flux_unit == "CO2-eq") %>% pull(mean_area)
+
+
+# reservoir emissions
+glines_emissions <- glines %>% filter(flux == "reservoir emissions", variation == "with degassing", flux_unit == "CO2-eq") %>% pull(mean_area)
+
+glines_pathway_before <- data.frame(yr = seq(0, 87, by = 1)) %>% mutate(storage_rem = yr * glines_c_rate *44/12, 
+                                                                        storage_stay = yr * glines_c_rate *44/12, 
+                                                                        emissions_rem = yr * glines_emissions, 
+                                                                        emissions_stay = yr * glines_emissions)
+
+glines_pathway_after <- data.frame(yr = seq(87, 375, by = 1)) %>% mutate(storage_rem = ((glines_total_c_actual + glines_eroded_mass)* (44/12)) + ((glines_nep + glines_soil_ch4) * (yr-87)), 
+                                                                         storage_stay = if_else(yr < glines_max_c_yr, yr * glines_c_rate *44/12, -glines_total_c * (44/12)), 
+                                                                         emissions_rem = (glines_emissions * 87) + (glines_exp_ch4 + glines_exp_co2 + glines_drawdown + glines_eroded) + ((glines_tree_ch4 + glines_river_ch4 + glines_river_co2) * (yr - 87)), 
+                                                                         emissions_stay = yr * glines_emissions)
+
+glines_pathways.plt <- glines_pathway_before %>% bind_rows(glines_pathway_after) %>% 
+  mutate(storage_rem = storage_rem * 1e-9, 
+         storage_stay = storage_stay * 1e-9, 
+         emissions_rem = emissions_rem * 1e-9, 
+         emissions_stay = emissions_stay * 1e-9, 
+         total_rem = storage_rem + emissions_rem, 
+         total_stay = storage_stay + emissions_stay) %>% 
+  ggplot()+
+  #geom_hline(aes(yintercept = 0), color = "red", linetype = "dotted", linewidth = 1)+
+  geom_line(aes(yr, emissions_stay), linetype = "solid", color = "grey70", linewidth = 1)+
+  geom_line(aes(yr, storage_stay), linetype = "solid", color = "grey70", linewidth = 1)+
+  geom_line(aes(yr, total_stay), linetype = "dashed", color = "grey70", linewidth = 1)+
+  geom_line(aes(yr, storage_rem), linetype = "solid", color = "black", linewidth = 1)+
+  geom_line(aes(yr, total_rem), linetype = "dashed", color = "black", linewidth = 1)+
+  geom_line(aes(yr, emissions_rem), linetype = "solid", color = "black", linewidth = 1)+
+  theme_bw()+
+  ggtitle("Glines Canyon Dam")+
+  labs(x = "Dam age (yr)", y = expression(Carbon~balance~"(Gg"~CO[2]-eq~")"))+
+  theme(axis.text = element_text(size = 14, color = "black"), axis.title = element_text(size =16), plot.title = element_text(size=20, hjust = 0.5))
+```
+
+```{r veazie trajectory}
+# calculate the time to total carbon storage
+veazie_sed_fig5 <- read.csv("../2-output-data/veazie_sed_fig5.csv")
+
+# total volume: couldn't find storage capacity listed anywhere so had to approximate with dam height * reservoir area
+veazie_total_volume <- veazie_sed_fig5$area * 10
+
+veazie_total_c <- veazie_total_volume * veazie_sed_fig5$dbd * veazie_sed_fig5$oc 
+
+# years until max storage
+veazie_max_c_yr <- veazie_total_c/(veazie %>% filter(flux == "reservoir burial", flux_unit == "C") %>% pull(mean_area))*-1
+
+# actual C burial rate
+veazie_c_rate <- veazie %>% filter(flux_unit == "C", flux == "reservoir burial") %>% pull(mean_area)
+
+# accumulated C before removal
+veazie_total_c_actual <- veazie %>% filter(flux == "reservoir burial", flux_unit == "C") %>% pull(mean_area)*100 
+
+# c storage lost in eroded C
+# chose the middle of the uniform distribution fit for reservoir sediment volume
+veazie_eroded_mass <- 7500 * veazie_sed_fig5$dbd * veazie_sed_fig5$oc
+
+# after removal storage
+veazie_nep <- veazie %>% filter(flux == "NEP", variation == 100, flux_unit == "CO2-eq") %>% pull(mean_area) 
+
+veazie_soil_ch4 <- veazie %>% filter(flux == "soil CH4 emissions", flux_unit == "CO2-eq") %>% pull(mean_area) 
+
+# burp
+veazie_exp_ch4 <- veazie %>% filter(flux == "exposed sediment CH4", variation == "pore_5", flux_unit == "CO2-eq") %>% pull(mean_area) 
+
+veazie_exp_co2 <-  veazie %>% filter(flux == "exposed sediment CO2", variation == "5", flux_unit == "CO2-eq") %>% pull(mean_area) 
+
+veazie_drawdown <- veazie %>% filter(flux == "drawdown ebullition", variation == "10", flux_unit == "CO2-eq") %>% pull(mean_area)
+
+veazie_eroded <- veazie %>% filter(flux == "eroded sediment emissions", flux_unit == "CO2-eq") %>% pull(mean_area)
+
+# after removal emissions
+veazie_tree_ch4 <- veazie %>% filter(flux == "tree CH4 emissions", variation == "three meters angio", flux_unit == "CO2-eq") %>% pull(mean_area)
+
+veazie_river_co2 <- veazie %>% filter(flux == "river CO2 emissions", flux_unit == "CO2-eq") %>% pull(mean_area)
+
+veazie_river_ch4 <- veazie %>% filter(flux == "river CH4 emissions", flux_unit == "CO2-eq") %>% pull(mean_area)
+
+# reservoir emissions
+veazie_emissions <- veazie %>% filter(flux == "reservoir emissions", flux_unit == "CO2-eq") %>% pull(mean_area)
+
+veazie_pathway_before <- data.frame(yr = seq(0, 100, by = 1)) %>% mutate(storage_rem = yr * veazie_c_rate *44/12, 
+                                                                        storage_stay = yr * veazie_c_rate *44/12, 
+                                                                        emissions_rem = yr * veazie_emissions, 
+                                                                        emissions_stay = yr * veazie_emissions)
+
+veazie_pathway_after <- data.frame(yr = seq(100, 375, by = 1)) %>% mutate(storage_rem = ((veazie_total_c_actual + veazie_eroded_mass)* (44/12)) + ((veazie_nep + veazie_soil_ch4) * (yr-100)), 
+                                                                         storage_stay = if_else(yr < veazie_max_c_yr, yr * veazie_c_rate *44/12, -veazie_total_c * (44/12)), 
+                                                                         emissions_rem = (veazie_emissions * 100) + (veazie_exp_ch4 + veazie_exp_co2 + veazie_drawdown + veazie_eroded) + ((veazie_tree_ch4 + veazie_river_ch4 + veazie_river_co2) * (yr - 100)), 
+                                                                         emissions_stay = yr * veazie_emissions)
+
+veazie_pathways.plt <- veazie_pathway_before %>% bind_rows(veazie_pathway_after) %>% 
+  mutate(storage_rem = storage_rem * 1e-9, 
+         storage_stay = storage_stay * 1e-9, 
+         emissions_rem = emissions_rem * 1e-9, 
+         emissions_stay = emissions_stay * 1e-9, 
+         total_rem = storage_rem + emissions_rem, 
+         total_stay = storage_stay + emissions_stay) %>% 
+  ggplot()+
+  #geom_hline(aes(yintercept = 0), color = "red", linetype = "dotted", linewidth = 1)+
+  geom_line(aes(yr, emissions_stay), linetype = "solid", color = "grey70", linewidth = 1)+
+  geom_line(aes(yr, storage_stay), linetype = "solid", color = "grey70", linewidth = 1)+
+  geom_line(aes(yr, total_stay), linetype = "dashed", color = "grey70", linewidth = 1)+
+  geom_line(aes(yr, storage_rem), linetype = "solid", color = "black", linewidth = 1)+
+  geom_line(aes(yr, total_rem), linetype = "dashed", color = "black", linewidth = 1)+
+  geom_line(aes(yr, emissions_rem), linetype = "solid", color = "black", linewidth = 1)+
+  theme_bw()+
+  ggtitle("Veazie Dam")+
+  labs(x = "Dam age (yr)", y = expression(Carbon~balance~"(Gg"~CO[2]-eq~")"))+
+  theme(axis.text = element_text(size = 14, color = "black"), axis.title = element_text(size =16), plot.title = element_text(size=20, hjust = 0.5))
+```
+
+```{r simkins trajectory}
+# calculate the time to total carbon storage
+simkins_sed_fig5 <- read.csv("../2-output-data/simkins_sed_fig5.csv")
+
+# total volume: couldn't find storage capacity listed anywhere so had to approximate with dam height * reservoir area
+simkins_total_volume <- simkins_sed_fig5$area * 10
+
+simkins_total_c <- simkins_total_volume * simkins_sed_fig5$dbd * simkins_sed_fig5$oc 
+
+# years until max storage
+simkins_max_c_yr <- simkins_total_c/(simkins %>% filter(flux == "reservoir burial", flux_unit == "C") %>% pull(mean_area))*-1
+
+# actual C burial rate
+simkins_c_rate <- simkins %>% filter(flux_unit == "C", flux == "reservoir burial") %>% pull(mean_area)
+
+# accumulated C before removal
+simkins_total_c_actual <- simkins %>% filter(flux == "reservoir burial", flux_unit == "C") %>% pull(mean_area)*100 
+
+# c storage lost in eroded C
+# chose the middle of the uniform distribution fit for reservoir sediment volume
+simkins_eroded_mass <- 7500 * simkins_sed_fig5$dbd * simkins_sed_fig5$oc
+
+# after removal storage
+simkins_nep <- simkins %>% filter(flux == "NEP", variation == 100, flux_unit == "CO2-eq") %>% pull(mean_area) 
+
+simkins_soil_ch4 <- simkins %>% filter(flux == "soil CH4 emissions", flux_unit == "CO2-eq") %>% pull(mean_area) 
+
+# burp
+simkins_exp_ch4 <- simkins %>% filter(flux == "exposed sediment CH4", variation == "pore_5", flux_unit == "CO2-eq") %>% pull(mean_area) 
+
+simkins_exp_co2 <-  simkins %>% filter(flux == "exposed sediment CO2", variation == "5", flux_unit == "CO2-eq") %>% pull(mean_area) 
+
+simkins_drawdown <- simkins %>% filter(flux == "drawdown ebullition", variation == "10", flux_unit == "CO2-eq") %>% pull(mean_area)
+
+simkins_eroded <- simkins %>% filter(flux == "eroded sediment emissions", flux_unit == "CO2-eq") %>% pull(mean_area)
+
+# after removal emissions
+simkins_tree_ch4 <- simkins %>% filter(flux == "tree CH4 emissions", variation == "three meters angio", flux_unit == "CO2-eq") %>% pull(mean_area)
+
+simkins_river_co2 <- simkins %>% filter(flux == "river CO2 emissions", flux_unit == "CO2-eq") %>% pull(mean_area)
+
+simkins_river_ch4 <- simkins %>% filter(flux == "river CH4 emissions", flux_unit == "CO2-eq") %>% pull(mean_area)
+
+# reservoir emissions
+simkins_emissions <- simkins %>% filter(flux == "reservoir emissions", flux_unit == "CO2-eq") %>% pull(mean_area)
+
+simkins_pathway_before <- data.frame(yr = seq(0, 100, by = 1)) %>% mutate(storage_rem = yr * simkins_c_rate *44/12, 
+                                                                        storage_stay = yr * simkins_c_rate *44/12, 
+                                                                        emissions_rem = yr * simkins_emissions, 
+                                                                        emissions_stay = yr * simkins_emissions)
+
+simkins_pathway_after <- data.frame(yr = seq(100, 375, by = 1)) %>% mutate(storage_rem = ((simkins_total_c_actual + simkins_eroded_mass)* (44/12)) + ((simkins_nep + simkins_soil_ch4) * (yr-100)), 
+                                                                         storage_stay = if_else(yr < simkins_max_c_yr, yr * simkins_c_rate *44/12, -simkins_total_c * (44/12)), 
+                                                                         emissions_rem = (simkins_emissions * 100) + (simkins_exp_ch4 + simkins_exp_co2 + simkins_drawdown + simkins_eroded) + ((simkins_tree_ch4 + simkins_river_ch4 + simkins_river_co2) * (yr - 100)), 
+                                                                         emissions_stay = yr * simkins_emissions)
+
+simkins_pathways.plt <- simkins_pathway_before %>% bind_rows(simkins_pathway_after) %>% 
+  mutate(storage_rem = storage_rem * 1e-9, 
+         storage_stay = storage_stay * 1e-9, 
+         emissions_rem = emissions_rem * 1e-9, 
+         emissions_stay = emissions_stay * 1e-9, 
+         total_rem = storage_rem + emissions_rem, 
+         total_stay = storage_stay + emissions_stay) %>% 
+  ggplot()+
+  #geom_hline(aes(yintercept = 0), color = "red", linetype = "dotted", linewidth = 1)+
+  geom_line(aes(yr, emissions_stay), linetype = "solid", color = "grey70", linewidth = 1)+
+  geom_line(aes(yr, storage_stay), linetype = "solid", color = "grey70", linewidth = 1)+
+  geom_line(aes(yr, total_stay), linetype = "dashed", color = "grey70", linewidth = 1)+
+  geom_line(aes(yr, storage_rem), linetype = "solid", color = "black", linewidth = 1)+
+  geom_line(aes(yr, total_rem), linetype = "dashed", color = "black", linewidth = 1)+
+  geom_line(aes(yr, emissions_rem), linetype = "solid", color = "black", linewidth = 1)+
+  theme_bw()+
+  ggtitle("Simkins Dam")+
+  labs(x = "Dam age (yr)", y = expression(Carbon~balance~"(Gg"~CO[2]-eq~")"))+
+  theme(axis.text = element_text(size = 14, color = "black"), axis.title = element_text(size =16), plot.title = element_text(size=20, hjust = 0.5))
+```
+
+```{r fig 5}
+png(paste0("../2-output-data/trajectories_sk_", Sys.Date(), ".png"), width = 13, height = 5, units = "in", res = 300)
+plot_grid(veazie_pathways.plt, glines_pathways.plt, simkins_pathways.plt, nrow = 1)
+dev.off()
+```
+
+Imposing constraint on exposed sediment CO2
+```{r}
+# exact construction date not reported in papers but is listed as 1900 in DRIP so using that value somewhat arbitrarily 
+# 30 years of exposed sediment emissions appears to be no problem
+simkins %>% filter(flux == "reservoir burial", flux_unit == "C") %>% dplyr::select(flux, mean, ci_lwr, ci_upr) %>% mutate(tot_med = mean * (2010-1900))
+```
+
+
+Imposing constraint on exposed sediment CH4
+```{r}
+# take the highest reasonable   
+max_exp_ch4 <- function(exp_co2){
+  return(exp_co2 * (1/44.01)* 1.7 * 16.04 * 34) 
+}
+
+# Veazie
+veazie_high_med <- veazie %>% filter(flux == "exposed sediment CO2", variation == 10, flux_unit == "CO2-eq") %>% pull(mean) 
+
+max_exp_ch4(veazie_high_med) 
+
+veazie %>% filter(flux == "exposed sediment CH4", variation == "no_pore_30", flux_unit == "CO2-eq")
+
+# Glines
+glines_high_med <- glines %>% filter(flux == "exposed sediment CO2", variation == 30, flux_unit == "CO2-eq") %>% pull(mean) 
+
+max_exp_ch4(glines_high_med) 
+
+glines %>% filter(flux == "exposed sediment CH4", variation == "no_pore_30", flux_unit == "CO2-eq")
+
+# Simkins
+simkins_high_med <- simkins %>% filter(flux == "exposed sediment CO2", variation == 30, flux_unit == "CO2-eq") %>% pull(mean) 
+
+max_exp_ch4(simkins_high_med) 
+
+simkins %>% filter(flux == "exposed sediment CH4", variation == "no_pore_30", flux_unit == "CO2-eq")
+
+```

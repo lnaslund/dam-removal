@@ -1,0 +1,77 @@
+period,flux,variation,flux_unit,annual,area,mean,ci_lwr,ci_upr,area_m2,mean_area,ci_lwr_area,ci_upr_area,flux_fct
+before,reservoir emissions,NA,CO2-eq,yes,reservoir,82,71,93,1648901.875,135209953.7,117072033.1,153347874.4,reservoir emissions
+before,reservoir emissions,NA,C,yes,reservoir,2.558427463,2.215223779,2.901631147,1648901.875,4218595.841,3652686.643,4784505.039,reservoir emissions
+before,reservoir burial,NA,CO2-eq,yes,reservoir,-287.8717547,-850.3068272,-29.16904819,1648901.875,-474672276.1,-1402072522,-48096898.25,reservoir burial
+before,reservoir burial,NA,C,yes,reservoir,-78.55804985,-232.0423766,-7.960015196,1648901.875,-129534515.7,-382615109.8,-13125283.98,reservoir burial
+burp,exposed sediment CO2,0.083333333,CO2-eq,no,exposed sediment area,14.49284976,0.611242552,82.60873617,145588.0554,2109985.815,88989.61448,12026845.26,exposed sediment CO2
+burp,exposed sediment CO2,1,CO2-eq,no,exposed sediment area,173.9141972,7.334910619,991.304834,145588.0554,25319829.78,1067875.374,144322143.1,exposed sediment CO2
+burp,exposed sediment CO2,5,CO2-eq,no,exposed sediment area,869.5709858,36.67455309,4956.52417,145588.0554,126599148.9,5339376.869,721610715.6,exposed sediment CO2
+burp,exposed sediment CO2,10,CO2-eq,no,exposed sediment area,1739.141972,73.34910619,9913.04834,145588.0554,253198297.8,10678753.74,1443221431,exposed sediment CO2
+burp,exposed sediment CO2,30,CO2-eq,no,exposed sediment area,5217.425915,220.0473182,29739.14502,145588.0554,759594893.3,32036261.17,4329664294,exposed sediment CO2
+burp,exposed sediment CO2,100,CO2-eq,no,exposed sediment area,17390.39272,731.8528479,99129.62559,145588.0554,2531833459,106549033,14432089425,exposed sediment CO2
+burp,exposed sediment CO2,0.083333333,C,no,exposed sediment area,3.954990358,0.166803523,22.54330655,145588.0554,575799.3555,24284.60054,3282036.164,exposed sediment CO2
+burp,exposed sediment CO2,1,C,no,exposed sediment area,47.4598843,2.001642275,270.5196786,145588.0554,6909592.266,291415.2065,39384433.97,exposed sediment CO2
+burp,exposed sediment CO2,5,C,no,exposed sediment area,237.2994215,10.00821138,1352.598393,145588.0554,34547961.33,1457076.033,196922169.8,exposed sediment CO2
+burp,exposed sediment CO2,10,C,no,exposed sediment area,474.598843,20.01642275,2705.196786,145588.0554,69095922.66,2914152.065,393844339.7,exposed sediment CO2
+burp,exposed sediment CO2,30,C,no,exposed sediment area,1423.796529,60.04926817,8115.590359,145588.0554,207287768,8742456.183,1181533019,exposed sediment CO2
+burp,exposed sediment CO2,100,C,no,exposed sediment area,4745.708169,199.7171712,27051.73377,145588.0554,690918424,29076434.59,3938409316,exposed sediment CO2
+burp,exposed sediment CH4,no_pore_0.0833333333333333,CO2-eq,no,exposed sediment area,5.04361097,-14.59457601,22.02225868,145588.0554,734289.5134,-2124795.942,3206177.818,exposed sediment CH4
+burp,exposed sediment CH4,no_pore_1,CO2-eq,no,exposed sediment area,60.52333164,-175.1349122,264.2671042,145588.0554,8811474.161,-25497551.3,38474133.82,exposed sediment CH4
+burp,exposed sediment CH4,no_pore_5,CO2-eq,no,exposed sediment area,302.6166582,-875.6745608,1321.335521,145588.0554,44057370.81,-127487756.5,192370669.1,exposed sediment CH4
+burp,exposed sediment CH4,no_pore_10,CO2-eq,no,exposed sediment area,605.2333164,-1751.349122,2642.671042,145588.0554,88114741.61,-254975513,384741338.2,exposed sediment CH4
+burp,exposed sediment CH4,no_pore_30,CO2-eq,no,exposed sediment area,1815.699949,-5254.047365,7928.013127,145588.0554,264344224.8,-764926539,1154224015,exposed sediment CH4
+burp,exposed sediment CH4,no_pore_100,CO2-eq,no,exposed sediment area,6047.577108,-17509.42855,26422.86184,145588.0554,880454991.2,-2549163654,3846853074,exposed sediment CH4
+burp,exposed sediment CH4,no_pore_0.0833333333333333,C,no,exposed sediment area,0.11107116,-0.32140395,0.484977495,145588.0554,16170.63418,-46792.57602,70606.93046,exposed sediment CH4
+burp,exposed sediment CH4,no_pore_1,C,no,exposed sediment area,1.332853918,-3.856847395,5.819729943,145588.0554,194047.6102,-561510.9123,847283.1655,exposed sediment CH4
+burp,exposed sediment CH4,no_pore_5,C,no,exposed sediment area,6.664269592,-19.28423697,29.09864971,145588.0554,970238.0508,-2807554.561,4236415.828,exposed sediment CH4
+burp,exposed sediment CH4,no_pore_10,C,no,exposed sediment area,13.32853918,-38.56847395,58.19729943,145588.0554,1940476.102,-5615109.123,8472831.655,exposed sediment CH4
+burp,exposed sediment CH4,no_pore_30,C,no,exposed sediment area,39.98561755,-115.7054218,174.5918983,145588.0554,5821428.305,-16845327.37,25418494.97,exposed sediment CH4
+burp,exposed sediment CH4,no_pore_100,C,no,exposed sediment area,133.1806533,-385.5952708,581.8882403,145588.0554,19389512.33,-56138065.66,84715977.38,exposed sediment CH4
+burp,exposed sediment CH4,pore_0.0833333333333333,CO2-eq,no,exposed sediment area,372.9550008,353.3168138,389.9336485,145588.0554,54297793.33,51438707.88,56769681.64,exposed sediment CH4
+burp,exposed sediment CH4,pore_1,CO2-eq,no,exposed sediment area,428.4347215,192.7764777,632.1784941,145588.0554,62374977.98,28065952.52,92037637.64,exposed sediment CH4
+burp,exposed sediment CH4,pore_5,CO2-eq,no,exposed sediment area,670.528048,-507.763171,1689.246911,145588.0554,97620874.62,-73924252.68,245934172.9,exposed sediment CH4
+burp,exposed sediment CH4,pore_10,CO2-eq,no,exposed sediment area,973.1447062,-1383.437732,3010.582432,145588.0554,141678245.4,-201412009.2,438304842,exposed sediment CH4
+burp,exposed sediment CH4,pore_30,CO2-eq,no,exposed sediment area,2183.611339,-4886.135975,8295.924516,145588.0554,317907728.6,-711363035.2,1207787518,exposed sediment CH4
+burp,exposed sediment CH4,pore_100,CO2-eq,no,exposed sediment area,6415.488498,-17141.51716,26790.77323,145588.0554,934018495,-2495600150,3900416578,exposed sediment CH4
+burp,exposed sediment CH4,pore_0.0833333333333333,C,no,exposed sediment area,8.21327116,7.78079605,8.587177495,145588.0554,1195754.177,1132790.967,1250190.473,exposed sediment CH4
+burp,exposed sediment CH4,pore_1,C,no,exposed sediment area,9.435053918,4.245352605,13.92192994,145588.0554,1373631.153,618072.6305,2026866.708,exposed sediment CH4
+burp,exposed sediment CH4,pore_5,C,no,exposed sediment area,14.76646959,-11.18203697,37.20084971,145588.0554,2149821.594,-1627971.019,5415999.37,exposed sediment CH4
+burp,exposed sediment CH4,pore_10,C,no,exposed sediment area,21.43073918,-30.46627395,66.29949943,145588.0554,3120059.644,-4435525.58,9652415.198,exposed sediment CH4
+burp,exposed sediment CH4,pore_30,C,no,exposed sediment area,48.08781755,-107.6032218,182.6940983,145588.0554,7001011.847,-15665743.83,26598078.51,exposed sediment CH4
+burp,exposed sediment CH4,pore_100,C,no,exposed sediment area,141.2828533,-377.4930708,589.9904403,145588.0554,20569095.87,-54958482.12,85895560.92,exposed sediment CH4
+burp,drawdown ebullition,0,CO2-eq,no,reservoir,0,0,0,1648901.875,0,0,0,drawdown ebullition
+burp,drawdown ebullition,5,CO2-eq,no,reservoir,43.45,-11.55,98.45,1648901.875,71644786.46,-19044816.65,162334389.6,drawdown ebullition
+burp,drawdown ebullition,10,CO2-eq,no,reservoir,86.9,-23.1,196.9,1648901.875,143289572.9,-38089633.31,324668779.2,drawdown ebullition
+burp,drawdown ebullition,25,CO2-eq,no,reservoir,217.25,-57.75,492.25,1648901.875,358223932.3,-95224083.27,811671947.9,drawdown ebullition
+burp,drawdown ebullition,100,CO2-eq,no,reservoir,869,-231,1969,1648901.875,1432895729,-380896333.1,3246687792,drawdown ebullition
+burp,drawdown ebullition,0,C,no,reservoir,0,0,0,1648901.875,0,0,0,drawdown ebullition
+burp,drawdown ebullition,5,C,no,reservoir,0.956862439,-0.254355838,2.168080717,1648901.875,1577772.27,-419407.8187,3574952.36,drawdown ebullition
+burp,drawdown ebullition,10,C,no,reservoir,1.913724879,-0.508711677,4.336161435,1648901.875,3155544.541,-838815.6374,7149904.719,drawdown ebullition
+burp,drawdown ebullition,25,C,no,reservoir,4.784312197,-1.271779192,10.84040359,1648901.875,7888861.352,-2097039.094,17874761.8,drawdown ebullition
+burp,drawdown ebullition,100,C,no,reservoir,19.13724879,-5.087116767,43.36161435,1648901.875,31555445.41,-8388156.374,71499047.19,drawdown ebullition
+burp,eroded sediment emissions,NA,CO2-eq,no,reservoir,128.8854008,2.304858199,622.4189031,1648901.875,212519379,3800485.006,1026307696,eroded sediment emissions
+burp,eroded sediment emissions,NA,C,no,reservoir,35.17186238,0.628978572,169.8534657,1648901.875,57994949.82,1037123.947,280071698,eroded sediment emissions
+build,river CO2 emissions,NA,CO2-eq,yes,river,3484.49352,230.4679134,15214.82923,1503313.819,5238287262,346465599.1,22872663046,river CO2 emissions
+build,river CO2 emissions,NA,C,yes,river,950.8922329,62.89297067,4152.013158,1503313.819,1429489434,94547871.96,6241778759,river CO2 emissions
+build,river CH4 emissions,NA,CO2-eq,yes,river,137.6124987,55.38603179,1696.342711,1503313.819,206874771,83262586.99,2550135439,river CH4 emissions
+build,river CH4 emissions,NA,C,yes,river,3.030523158,1.219719528,37.35711448,1503313.819,4555827.344,1833621.222,56159466.45,river CH4 emissions
+build,NEP,25,CO2-eq,yes,exposed sediment area,-528.9400316,-1835.077899,777.1978361,145588.0554,-77007350.65,-267165422.9,113150721.6,NEP
+build,NEP,50,CO2-eq,yes,exposed sediment area,-709.4413046,-2220.694862,801.8122525,145588.0554,-103286180,-323306646.6,116734286.7,NEP
+build,NEP,100,CO2-eq,yes,exposed sediment area,-759.4631269,-2371.459241,852.5329873,145588.0554,-110568759.8,-345256139.4,124118619.8,NEP
+build,NEP,25,C,yes,exposed sediment area,-144.3437805,-500.7790405,212.0914795,145588.0554,-21014730.32,-72907446.7,30877986.07,NEP
+build,NEP,50,C,yes,exposed sediment area,-193.6012285,-606.0110268,218.8085697,145588.0554,-28186026.39,-88227966.96,31855914.18,NEP
+build,NEP,100,C,yes,exposed sediment area,-207.2518099,-647.1534989,232.6498791,145588.0554,-30173387.99,-94217819.46,33871043.49,NEP
+build,soil CH4 emissions,NA,CO2-eq,yes,exposed sediment area,-7.845871628,-44.42847615,28.81150347,145588.0554,-1142265.194,-6468255.448,4194610.764,soil CH4 emissions
+build,soil CH4 emissions,NA,C,yes,exposed sediment area,-0.172782966,-0.978410588,0.634491266,145588.0554,-25155.13601,-142444.895,92374.34956,soil CH4 emissions
+build,tree CH4 emissions,offset by canopy angio,CO2-eq,yes,exposed sediment area,0,0,0,145588.0554,0,0,0,tree CH4 emissions
+build,tree CH4 emissions,offset by canopy angio,C,yes,exposed sediment area,0,0,0,145588.0554,0,0,0,tree CH4 emissions
+build,tree CH4 emissions,whole trunk angio,CO2-eq,yes,exposed sediment area,174.2343308,-150.7555621,487.344212,145588.0554,25366437.41,-21948209.14,70951496.15,tree CH4 emissions
+build,tree CH4 emissions,whole trunk angio,C,yes,exposed sediment area,5.124539142,-4.433987122,14.33365329,145588.0554,746071.6886,-645535.5629,2086808.71,tree CH4 emissions
+build,tree CH4 emissions,three meters angio,CO2-eq,yes,exposed sediment area,32.65719906,-28.14658868,91.31991946,145588.0554,4754498.107,-4097807.113,13295089.5,tree CH4 emissions
+build,tree CH4 emissions,three meters angio,C,yes,exposed sediment area,0.960505855,-0.827840844,2.685879984,145588.0554,139838.1796,-120523.7386,391032.044,tree CH4 emissions
+build,tree CH4 emissions,offset by canopy gymno,CO2-eq,yes,exposed sediment area,0,0,0,145588.0554,0,0,0,tree CH4 emissions
+build,tree CH4 emissions,offset by canopy gymno,C,yes,exposed sediment area,0,0,0,145588.0554,0,0,0,tree CH4 emissions
+build,tree CH4 emissions,whole trunk gymno,CO2-eq,yes,exposed sediment area,0.053543371,-0.030459716,0.139994819,145588.0554,7795.275263,-4434.570828,20381.57353,tree CH4 emissions
+build,tree CH4 emissions,whole trunk gymno,C,yes,exposed sediment area,0.001574805,-0.000895874,0.004117495,145588.0554,229.2728019,-130.4285538,599.4580449,tree CH4 emissions
+build,tree CH4 emissions,three meters gymno,CO2-eq,yes,exposed sediment area,0.010879846,-0.00618425,0.028422039,145588.0554,1583.975554,-900.3528699,4137.909334,tree CH4 emissions
+build,tree CH4 emissions,three meters gymno,C,yes,exposed sediment area,0.000319995,-0.00018189,0.000835942,145588.0554,46.58751628,-26.48096676,121.7032157,tree CH4 emissions

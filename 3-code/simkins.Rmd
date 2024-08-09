@@ -205,6 +205,7 @@ res_emissions_summary <- data.frame(period = c("before"), flux = c("reservoir em
 
 res_emissions_summary
 ```
+res
 
 ## Reservoir carbon burial
 ```{r carbon burial, warnings = FALSE}
@@ -303,6 +304,11 @@ vec_length <- length(simkins_burial)
 res_burial_summary <- data.frame(period = c("before"), flux = c("reservoir burial"), variation = NA, flux_unit = c("CO2-eq", "C"), annual = "yes", area = "reservoir", mean = c(-(simkins_burial[round(vec_length * 0.5)] * (44.01/12.01)), -simkins_burial[round(vec_length * 0.5)]), ci_lwr = c(-(simkins_burial[round(vec_length * 0.975)] * (44.01/12.01)), -simkins_burial[round(vec_length * 0.975)]), ci_upr = c(-(simkins_burial[round(vec_length * 0.025)] * (44.01/12.01)), -simkins_burial[round(vec_length * 0.025)]))
 
 res_burial_summary
+
+# calculations for fig 5
+simkins_sed_fig5 <- data.frame(oc = simkins_c_cont, dbd = simkins_dbd, area = res_area)
+
+write.csv(simkins_sed_fig5, "../2-output-data/simkins_sed_fig5.csv", row.names = FALSE)
 ```
 
 # Burp
@@ -376,7 +382,7 @@ res_erode_summary <- data.frame(period = c("burp"), flux = c("eroded sediment em
 
 ## River surface CO2 emissions 
 ```{r river co2 emissions}
-# Discharge is in the >100 m3/s bin
+# Discharge is 7 m3/s which puts it in the 1.0-10 m3/s bin
 # Values are reported as g C m-2 d-
 
 # Function to calculate the sum of squared differences between observed and target quantiles
@@ -391,7 +397,7 @@ gamma_params_diff <- function(params, quantiles_target) {
 }
 
 # Target quantiles
-quantiles_target <- c(1.5, 2.16, 4.78)
+quantiles_target <- c(2.18, 3.57, 5.74)
 
 # Initial guess for shape and scale parameters
 initial_params <- c(shape = 1, scale = 1)
@@ -459,12 +465,12 @@ ch4_flux_sites_usa %>% filter(is.na(Diffusive_CH4_Flux_Mean)==FALSE) %>% group_b
 ch4_flux_sites_usa %>% filter(is.na(Eb_CH4_Flux_Mean)==FALSE) %>% group_by(q_bin) %>% summarize(count = n())
 
 
-ch4_flux_vec <- sort(sample(ch4_flux_sites_usa %>% filter(q_bin== ">100") %>% pull(Diffusive_CH4_Flux_Mean), 10000, replace = TRUE))
+ch4_flux_vec <- sort(sample(ch4_flux_sites_usa %>% filter(q_bin== "1-10") %>% pull(Diffusive_CH4_Flux_Mean), 10000, replace = TRUE))
 ch4_flux_vec_gCH4 <- ch4_flux_vec * 365 * 1e-3 * 16.04
 ch4_flux_vec_gCO2eq <- ch4_flux_vec_gCH4 * 34
 
 # CO2 flux
-co2_vec <- sort(sample(ch4_flux_sites_usa %>% filter(is.na(CO2_Flux_Mean)==FALSE)  %>% filter(q_bin== "10-100") %>% pull(CO2_Flux_Mean), 10000, replace = TRUE))* 365 * 1e-3 * 44.01
+co2_vec <- sort(sample(ch4_flux_sites_usa %>% filter(is.na(CO2_Flux_Mean)==FALSE)  %>% filter(q_bin== "1-10") %>% pull(CO2_Flux_Mean), 10000, replace = TRUE))* 365 * 1e-3 * 44.01
 co2_vec[250]
 co2_vec[5000]
 co2_vec[9750]
@@ -532,18 +538,18 @@ AICc(soil_mod, REML = TRUE)
 # need to get the predictors for sites
 # MAP, MAT, soilpH, BulkDens, SoilNit, Soil Sand
 
-veazie_soil <- read.csv("../1-input-data/7-gattica-data/veazie_soil.csv")
+simkins_soil <- read.csv("../1-input-data/7-gattica-data/simkins_soil.csv")
 
 # going to have to manually scale                                                         
-soil_data_new <- data.frame(MAP = (veazie_soil$veazie_map- mean(soil$MAP))/sd(soil$MAP),
-                            MAT = (veazie_soil$veazie_mat - mean(soil$MAT))/sd(soil$MAT), 
-                            soilpH = (veazie_soil$veazie_ph - mean(soil$soilpH))/sd(soil$soilpH), 
-                            SOC = (veazie_soil$veazie_oc - mean(soil$SOC))/sd(soil$SOC), 
-                            BulkDens = (veazie_soil$veazie_bd - mean(soil$BulkDens))/sd(soil$BulkDens), 
-                            SoilNit = (veazie_soil$veazie_tn - mean(soil$SoilNit))/sd(soil$SoilNit), 
-                            SoilSand = (veazie_soil$veazie_sand - mean(soil$SoilSand))/sd(soil$SoilSand), 
-                            MAT_sq = (veazie_soil$veazie_mat^2 - mean(soil$MAT_sq))/sd(soil$MAT_sq), 
-                            MAP_sq = (veazie_soil$veazie_map^2 - mean(soil$MAP_sq))/sd(soil$MAP_sq), 
+soil_data_new <- data.frame(MAP = (simkins_soil$simkins_map- mean(soil$MAP))/sd(soil$MAP),
+                            MAT = (simkins_soil$simkins_mat - mean(soil$MAT))/sd(soil$MAT), 
+                            soilpH = (simkins_soil$simkins_ph - mean(soil$soilpH))/sd(soil$soilpH), 
+                            SOC = (simkins_soil$simkins_oc - mean(soil$SOC))/sd(soil$SOC), 
+                            BulkDens = (simkins_soil$simkins_bd - mean(soil$BulkDens))/sd(soil$BulkDens), 
+                            SoilNit = (simkins_soil$simkins_tn - mean(soil$SoilNit))/sd(soil$SoilNit), 
+                            SoilSand = (simkins_soil$simkins_sand - mean(soil$SoilSand))/sd(soil$SoilSand), 
+                            MAT_sq = (simkins_soil$simkins_mat^2 - mean(soil$MAT_sq))/sd(soil$MAT_sq), 
+                            MAP_sq = (simkins_soil$simkins_map^2 - mean(soil$MAP_sq))/sd(soil$MAP_sq), 
                             Biome = "Temperate")
 
 
@@ -560,65 +566,53 @@ soil_ch4_out <- soil_ch4_out %>% mutate(soil_c = fit * 0.1 * (12.01/16.04),
 soil_ch4_out
 
 res_soil_ch4_summary <- data.frame(period = c("build"), flux = c("soil CH4 emissions"), variation = NA, flux_unit = c("CO2-eq", "C"), annual = "yes", area = "exposed sediment area", mean = c(soil_ch4_out$soil_co2_eq, soil_ch4_out$soil_c), ci_lwr = c(soil_ch4_out$soil_co2_eq_2.5, soil_ch4_out$soil_c_2.5), ci_upr = c(soil_ch4_out$soil_co2_eq_97.5, soil_ch4_out$soil_c_97.5))
+
+res_soil_ch4_summary
 ```
 
 ## Tree CH4 emissions 
 ```{r fvs inputs}
-veazie_dem <- elevatr::get_elev_raster(res, z=14, expand = 2000)
-veazie_masked <- terra::mask(veazie_dem, res)
+simkins_dem <- elevatr::get_elev_raster(res, z=14, expand = 2000)
+simkins_masked <- terra::mask(simkins_dem, res)
 
-elev <- mean(getValues(veazie_masked), na.rm = T) * 3.28084
+elev <- mean(getValues(simkins_masked), na.rm = T) * 3.28084
 elev
 
-veazie_slope <- terrain(veazie_dem, opt = "slope")
-veazie_slope_masked <- terra::mask(veazie_slope, res)
+simkins_slope <- terrain(simkins_dem, opt = "slope")
+simkins_slope_masked <- terra::mask(simkins_slope, res)
 
-plot(veazie_slope_masked)
+plot(simkins_slope_masked)
 
-range(getValues(veazie_slope_masked), na.rm = T)
-range(getValues(veazie_slope), na.rm = T)
+range(getValues(simkins_slope_masked), na.rm = T)
+range(getValues(simkins_slope), na.rm = T)
 
-slope <- mean(getValues(veazie_slope_masked), na.rm = T)
+slope <- mean(getValues(simkins_slope_masked), na.rm = T)
 slope
 
-veazie_aspect <- terrain(veazie_dem, opt = "aspect")
-veazie_aspect_masked <- terra::mask(veazie_aspect, res)
+simkins_aspect <- terrain(simkins_dem, opt = "aspect")
+simkins_aspect_masked <- terra::mask(simkins_aspect, res)
 
-aspect <- mean(getValues(veazie_aspect_masked), na.rm = T)
+aspect <- mean(getValues(simkins_aspect_masked), na.rm = T)
 aspect
 
 res %>% st_transform(crs = 4326) %>% st_centroid() %>% st_coordinates()
 ```
 
 ```{r tree ch4 angio, warnings = FALSE}
-trees_k09_rm <- read_excel("../1-input-data/2-fvs/veazie-output-redmaple_k09.xlsx")
-trees_k11_rm <- read_excel("../1-input-data/2-fvs/veazie-output-redmaple_k11.xlsx")
-trees_k09_hem <- read_excel("../1-input-data/2-fvs/veazie-output-hemlock_k09.xlsx")
-trees_k11_hem <- read_excel("../1-input-data/2-fvs/veazie-output-hemlock_k11.xlsx")
-
-# confirmed that TPA gives you the right number of trees
-# trees_k11_hem %>% group_by(Year) %>% summarize(trees = sum(TPA))
+trees_k09_be <- read_excel("../1-input-data/2-fvs/simkins-output-boxelder-k09.xlsx")
+trees_k11_be <- read_excel("../1-input-data/2-fvs/simkins-output-boxelder-k11.xlsx")
 
 # DBH in inches Ht in ft convert to m2
-sa_k09_rm <- trees_k09_rm %>% 
+sa_k09_be <- trees_k09_be %>% 
   mutate(surface_area = (DBH/12)*pi *EstHt *0.092903 * TPA, surface_area_3m = (DBH/12)*pi * 9.84 *0.092903 * TPA) %>% 
   group_by(StandID, Year) %>% summarize(total_surface_area = sum(surface_area), total_surface_area_3m = sum(surface_area_3m)) %>% 
   mutate(habitat = "wetland", tree_type = "angiosperm") %>% ungroup()
 
-sa_k11_rm <- trees_k11_rm %>% 
+sa_k11_be <- trees_k11_be %>% 
   mutate(surface_area = (DBH/12)*pi *EstHt *0.092903 * TPA, surface_area_3m = (DBH/12)*pi * 9.84 *0.092903 * TPA) %>% 
   group_by(StandID, Year) %>% summarize(total_surface_area = sum(surface_area), total_surface_area_3m = sum(surface_area_3m)) %>% 
   mutate(habitat = "wetland", tree_type = "angiosperm") %>% ungroup()
 
-sa_k09_hem <- trees_k09_hem %>% 
-  mutate(surface_area = (DBH/12)*pi *EstHt *0.092903 *TPA, surface_area_3m = (DBH/12)*pi * 9.84 *0.092903 * TPA) %>% 
-  group_by(StandID, Year) %>% summarize(total_surface_area = sum(surface_area), total_surface_area_3m = sum(surface_area_3m)) %>% 
-  mutate(habitat = "wetland", tree_type = "gymnosperm") %>% ungroup()
-
-sa_k11_hem <- trees_k11_hem %>% 
-  mutate(surface_area = (DBH/12)*pi *EstHt *0.092903 *TPA, surface_area_3m = (DBH/12)*pi * 9.84 *0.092903 * TPA) %>% 
-  group_by(StandID, Year) %>% summarize(total_surface_area = sum(surface_area), total_surface_area_3m = sum(surface_area_3m)) %>% 
-  mutate(habitat = "wetland", tree_type = "gymnosperm") %>% ungroup()
 
 # Pitz et al. 2018
 # ug CH4/m2/hr -> g/m2/yr
@@ -637,7 +631,7 @@ for(i in 1:10000){
   tree_sa <- sample(c(1, 2), size = 1, replace = TRUE)
 
   if(tree_sa == 1){
-    temporary <- sa_k09_rm %>%
+    temporary <- sa_k09_be %>%
       mutate(ch4_all = total_surface_area * ch4_rate,
              ch4_3m = total_surface_area_3m * ch4_rate) %>%
       mutate(ch4_all_rate = ch4_all/plot_area, ch4_3m_rate = ch4_3m/plot_area) %>%
@@ -648,7 +642,7 @@ for(i in 1:10000){
   }
 
   if(tree_sa == 2){
-      temporary <- sa_k11_rm %>%
+      temporary <- sa_k11_be %>%
       mutate(ch4_all = total_surface_area * ch4_rate,
              ch4_3m = total_surface_area_3m * ch4_rate) %>%
       mutate(ch4_all_rate = ch4_all/plot_area, ch4_3m_rate = ch4_3m/plot_area) %>%
@@ -662,55 +656,11 @@ for(i in 1:10000){
 }
 
 
-write.csv(angio_ch4_df, "../2-output-data/angio_ch4_emissions_3m.csv")
-```
-
-```{r tree ch4 gymno, warnings = FALSE}
-# Machacova study of Scots pine is the only gymnosperm other than the bald cypress knees use the wet stem estimate
-# use web plot digitizer to get IQR and then estimate SD using IQR/1.35. This is an underestimate of the SD because mean is higher than median
-
-gymno_wet_tree_ch4 <- 0.166 * 8760 * 1e-6
-gymno_wet_tree_ch4_sd <- ((0.225-0.042)/1.35)* 8760 * 1e-6
-
-gymno_ch4_df <- NULL
-
-for(i in 1:10000){
-  print(i)
-  ch4_rate <- rnorm(1, gymno_wet_tree_ch4, gymno_wet_tree_ch4_sd)
-  tree_sa <- sample(c(1, 2), size = 1, replace = TRUE)
-
-  if(tree_sa == 1){
-       temporary <- sa_k09_hem %>%
-      mutate(ch4_all = total_surface_area * ch4_rate,
-             ch4_3m = total_surface_area_3m * ch4_rate) %>%
-      mutate(ch4_all_rate = ch4_all/plot_area, ch4_3m_rate = ch4_3m/plot_area) %>%
-      summarize(mean_ch4_all = mean(ch4_all_rate),
-        mean_ch4_3m = mean(ch4_3m_rate),
-        ch4_all_rate_co2 = mean_ch4_all * 34,
-        ch4_3m_rate_co2 = mean_ch4_3m * 34)
-
-  }
-
-  if(tree_sa == 2){
-       temporary <- sa_k11_hem %>%
-      mutate(ch4_all = total_surface_area * ch4_rate,
-             ch4_3m = total_surface_area_3m * ch4_rate) %>%
-      mutate(ch4_all_rate = ch4_all/plot_area, ch4_3m_rate = ch4_3m/plot_area) %>%
-      summarize(mean_ch4_all = mean(ch4_all_rate),
-        mean_ch4_3m = mean(ch4_3m_rate),
-        ch4_all_rate_co2 = mean_ch4_all * 34,
-        ch4_3m_rate_co2 = mean_ch4_3m * 34)
-  }
-
-  gymno_ch4_df <- gymno_ch4_df %>% bind_rows(temporary)
-}
-
-
-write.csv(gymno_ch4_df, "../2-output-data/gymno_ch4_emissions_3m.csv")
+write.csv(angio_ch4_df, "../2-output-data/simkins_angio_ch4_emissions_3m.csv")
 ```
 
 ```{r angio summary}
-angio_ch4_df <- read.csv("../2-output-data/angio_ch4_emissions_3m.csv")
+angio_ch4_df <- read.csv("../2-output-data/simkins_angio_ch4_emissions_3m.csv")
 
 angio_ch4_all_mean <- (angio_ch4_df$mean_ch4_all %>% sort())[5000] * (12.01/16.04)
 angio_ch4_all_2.5 <- (angio_ch4_df$mean_ch4_all %>% sort())[250] * (12.01/16.04)
@@ -729,26 +679,6 @@ angio_ch4_3m_2.5_co2 <- (angio_ch4_df$ch4_3m_rate_co2 %>% sort())[250] * (12.01/
 angio_ch4_3m_97.5_co2 <- (angio_ch4_df$ch4_3m_rate_co2 %>% sort())[9750] * (12.01/16.04)
 ```
 
-```{r gymno summary}
-gymno_ch4_df <- read.csv("../2-output-data/gymno_ch4_emissions_3m.csv")
-
-gymno_ch4_all_mean <- (gymno_ch4_df$mean_ch4_all %>% sort())[5000] * (12.01/16.04)
-gymno_ch4_all_2.5 <- (gymno_ch4_df$mean_ch4_all %>% sort())[250] * (12.01/16.04)
-gymno_ch4_all_97.5 <- (gymno_ch4_df$mean_ch4_all %>% sort())[9750] * (12.01/16.04)
-
-gymno_ch4_3m_mean <- (gymno_ch4_df$mean_ch4_3m %>% sort())[5000] * (12.01/16.04)
-gymno_ch4_3m_2.5 <- (gymno_ch4_df$mean_ch4_3m %>% sort())[250] * (12.01/16.04)
-gymno_ch4_3m_97.5 <- (gymno_ch4_df$mean_ch4_3m %>% sort())[9750] * (12.01/16.04)
-
-gymno_ch4_all_mean_co2 <- (gymno_ch4_df$ch4_all_rate_co2 %>% sort())[5000] * (12.01/16.04)
-gymno_ch4_all_2.5_co2 <- (gymno_ch4_df$ch4_all_rate_co2 %>% sort())[250] * (12.01/16.04)
-gymno_ch4_all_97.5_co2 <- (gymno_ch4_df$ch4_all_rate_co2 %>% sort())[9750] * (12.01/16.04)
-
-gymno_ch4_3m_mean_co2 <- (gymno_ch4_df$ch4_3m_rate_co2 %>% sort())[5000] * (12.01/16.04)
-gymno_ch4_3m_2.5_co2 <- (gymno_ch4_df$ch4_3m_rate_co2 %>% sort())[250] * (12.01/16.04)
-gymno_ch4_3m_97.5_co2 <- (gymno_ch4_df$ch4_3m_rate_co2 %>% sort())[9750] * (12.01/16.04)
-```
-
 ```{r tree ch4 summary}
 res_tree_ch4_summary <- data.frame(period = c("build"),
                                    flux = c("tree CH4 emissions"),
@@ -757,14 +687,8 @@ res_tree_ch4_summary <- data.frame(period = c("build"),
                                                  "whole trunk angio", 
                                                  "whole trunk angio", 
                                                  "three meters angio", 
-                                                 "three meters angio", 
-                                                 "offset by canopy gymno", 
-                                                 "offset by canopy gymno", 
-                                                 "whole trunk gymno", 
-                                                 "whole trunk gymno", 
-                                                 "three meters gymno", 
-                                                 "three meters gymno"),
-                                   flux_unit = rep(c("CO2-eq", "C"), 6),
+                                                 "three meters angio"),
+                                   flux_unit = rep(c("CO2-eq", "C"), 3),
                                    annual = "yes",
                                    area = "exposed sediment area",
                                    mean = c(0, 
@@ -772,37 +696,19 @@ res_tree_ch4_summary <- data.frame(period = c("build"),
                                             angio_ch4_all_mean_co2, 
                                             angio_ch4_all_mean, 
                                             angio_ch4_3m_mean_co2, 
-                                            angio_ch4_3m_mean,
-                                            0, 
-                                            0, 
-                                            gymno_ch4_all_mean_co2, 
-                                            gymno_ch4_all_mean, 
-                                            gymno_ch4_3m_mean_co2, 
-                                            gymno_ch4_3m_mean),
+                                            angio_ch4_3m_mean),
                                    ci_lwr = c(0, 
                                             0, 
                                             angio_ch4_all_2.5_co2, 
                                             angio_ch4_all_2.5, 
                                             angio_ch4_3m_2.5_co2, 
-                                            angio_ch4_3m_2.5,
-                                            0, 
-                                            0, 
-                                            gymno_ch4_all_2.5_co2, 
-                                            gymno_ch4_all_2.5, 
-                                            gymno_ch4_3m_2.5_co2, 
-                                            gymno_ch4_3m_2.5),
+                                            angio_ch4_3m_2.5),
                                    ci_upr = c(0, 
                                             0, 
                                             angio_ch4_all_97.5_co2, 
                                             angio_ch4_all_97.5, 
                                             angio_ch4_3m_97.5_co2, 
-                                            angio_ch4_3m_97.5,
-                                            0, 
-                                            0, 
-                                            gymno_ch4_all_97.5_co2, 
-                                            gymno_ch4_all_97.5, 
-                                            gymno_ch4_3m_97.5_co2, 
-                                            gymno_ch4_3m_97.5))
+                                            angio_ch4_3m_97.5))
 
 res_tree_ch4_summary
 
@@ -821,5 +727,5 @@ area_df <- data.frame(area = c("reservoir", "exposed sediment area", "river"),
 summary_df <- bind_rows(res_emissions_summary, res_burial_summary, res_sed_co2_summary, res_sed_ch4_summary, res_drawdown_eb_summary, res_erode_summary, riv_co2_summary, riv_ch4_summary, res_nep_summary, res_soil_ch4_summary, res_tree_ch4_summary) %>% left_join(area_df, by = "area") %>% mutate(mean_area = mean * area_m2, ci_lwr_area = ci_lwr * area_m2, ci_upr_area = ci_upr * area_m2) %>% mutate(flux_fct = fct_relevel(flux, c("reservoir emissions", "reservoir burial", "exposed sediment CO2", "exposed sediment CH4", "drawdown ebullition", "eroded sediment emissions", "river CO2 emissions", "river CH4 emissions", "NEP", "soil CH4 emissions", "tree CH4 emissions")))
 
 
-write.csv(summary_df, "../2-output-data/veazie_summary_nep.csv", row.names = FALSE)
+write.csv(summary_df, "../2-output-data/simkins_summary_2024-07-25.csv", row.names = FALSE)
 ```
