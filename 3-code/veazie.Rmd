@@ -170,36 +170,44 @@ Can delineate catchments in US reservoirs using the StreamStats tool
 https://streamstats.usgs.gov/ss/ 
 
 ```{r surface emissions}
-# output from g-res: emissions in g CO2 eq by pathway
+# output from g-res: emissions in g CO2-eq/m2/yr by pathway
 res_co2_diff_eq <- 3
 res_ch4_diff_eq <- 79 * .89
 res_ch4_eb_eq <- 79 * 0.11
 res_ch4_degas_eq <- 0
 
-# output from g-res: net GHG footprint and 95% CI
+# output from g-res: net GHG footprint and 95% CI in g CO2-eq/m2/yr
 res_net_eq <- 64
 res_net_2.5_eq <- 55
 res_net_97.5_eq <- 75
 
 res_net_interval <- max(c(res_net_97.5_eq-res_net_eq, res_net_eq - res_net_2.5_eq))
 
-# calculate emissions and CI in g CO2 eq 
-res_eq <- res_co2_diff_eq+res_ch4_diff_eq+res_ch4_eb_eq
+# calculate emissions and CI in g CO2-eq/m2/yr
+res_eq <- res_co2_diff_eq + res_ch4_diff_eq + res_ch4_eb_eq + res_ch4_degas_eq
 
 res_eq_2.5 <- res_eq - res_net_interval
 res_eq_97.5 <-  res_eq + res_net_interval
 
-# calculate emissions and CI in g C 
-res_g <- (res_co2_diff_eq * (12.01/44.01)) + ((res_ch4_diff_eq+res_ch4_eb_eq +res_ch4_degas_eq) *(12.01/16.04) * (1/34))
+# calculate emissions and CI in g C/m2/yr
+res_g <- (res_co2_diff_eq * (12.01/44.01)) + ((res_ch4_diff_eq + res_ch4_eb_eq + res_ch4_degas_eq) *(12.01/16.04) * (1/34))
 
-# to calculate CI in g C, I am assuming gases contribute to the CI in proportion to the CO2-eq contribution 
+# to calculate CI in g C/m2/yr, I am assuming gases contribute to the CI in proportion to the CO2-eq contribution 
 res_g_interval <- (res_net_interval*(res_co2_diff_eq/res_eq)*(12.01/44.01)) + (res_net_interval*((res_ch4_diff_eq + res_ch4_eb_eq + res_ch4_degas_eq)/res_eq)*(1/34) * (12.01/16.04))
 
 res_g_2.5 <- res_g - res_g_interval
 res_g_97.5 <- res_g + res_g_interval
 
 # summary data frame
-res_emissions_summary <- data.frame(period = c("before"), flux = c("reservoir emissions"), variation = NA, flux_unit = c("CO2-eq", "C"), annual = "yes", area = "reservoir", mean = c(res_eq, res_g), ci_lwr = c(res_eq_2.5, res_g_2.5), ci_upr = c(res_eq_97.5, res_g_97.5))
+res_emissions_summary <- data.frame(period = c("before"), 
+                                    flux = c("reservoir emissions"), 
+                                    variation = NA, 
+                                    flux_unit = c("CO2-eq", "C"), 
+                                    annual = "yes", 
+                                    area = "reservoir", 
+                                    mean = c(res_eq, res_g), 
+                                    ci_lwr = c(res_eq_2.5, res_g_2.5), 
+                                    ci_upr = c(res_eq_97.5, res_g_97.5))
 ```
 
 ## Reservoir carbon burial
@@ -247,7 +255,7 @@ veazie_c_pred <- veazie_sed_pred %>%
 
 predict(c.mod, veazie_c_pred, interval = "prediction")
 
-veazie_c_cont <- predict(c.mod, veazie_c_pred, interval = "prediction")[1] * 0.01 # covert % to proportion
+veazie_c_cont <- predict(c.mod, veazie_c_pred, interval = "prediction")[1] * 0.01 # convert % to proportion
 veazie_c_cont_sd <- ((predict(c.mod, veazie_c_pred, interval = "prediction")[1] - predict(c.mod, veazie_c_pred, interval = "prediction")[2])/1.96)*0.01
 
 b = (veazie_c_cont_sd)^2/veazie_c_cont
@@ -300,7 +308,15 @@ for(i in 1:10000){
 veazie_burial <- sort(veazie_burial) # sort removes NAs, by assigning prediction interval to a normal distribution, generating some few negative values of sedimentation rate, sort here functionally truncates the distribution at 0.  
 vec_length <- length(veazie_burial)
 
-res_burial_summary <- data.frame(period = c("before"), flux = c("reservoir burial"), variation = NA, flux_unit = c("CO2-eq", "C"), annual = "yes", area = "reservoir", mean = c(-(veazie_burial[round(vec_length * 0.5)] * (44.01/12.01)), -veazie_burial[round(vec_length * 0.5)]), ci_lwr = c(-(veazie_burial[round(vec_length * 0.975)] * (44.01/12.01)), -veazie_burial[round(vec_length * 0.975)]), ci_upr = c(-(veazie_burial[round(vec_length * 0.025)] * (44.01/12.01)), -veazie_burial[round(vec_length * 0.025)]))
+res_burial_summary <- data.frame(period = c("before"), 
+                                 flux = c("reservoir burial"), 
+                                 variation = NA, 
+                                 flux_unit = c("CO2-eq", "C"), 
+                                 annual = "yes", 
+                                 area = "reservoir", 
+                                 mean = c(-(veazie_burial[round(vec_length * 0.5)] * (44.01/12.01)), -veazie_burial[round(vec_length * 0.5)]), 
+                                 ci_lwr = c(-(veazie_burial[round(vec_length * 0.975)] * (44.01/12.01)), -veazie_burial[round(vec_length * 0.975)]), 
+                                 ci_upr = c(-(veazie_burial[round(vec_length * 0.025)] * (44.01/12.01)), -veazie_burial[round(vec_length * 0.025)]))
 
 res_burial_summary
 
@@ -320,7 +336,15 @@ write.csv(veazie_sed_fig5, "../2-output-data/veazie_sed_fig5.csv", row.names = F
 ```{r exposed sed co2}
 res_exp_sed_co2 <- read.csv("../2-output-data/exp_sed_co2_sampled.csv")
 
-res_sed_co2_summary <- data.frame(period = c("burp"), flux = c("exposed sediment CO2"), variation = res_exp_sed_co2$y %>% as.character(), flux_unit = c(rep("CO2-eq", 6), rep("C", 6)), annual = "no", area = "exposed sediment area", mean = c(res_exp_sed_co2$mean_co2, res_exp_sed_co2$mean_c), ci_lwr = c(res_exp_sed_co2$lwr_co2, res_exp_sed_co2$lwr_c), ci_upr = c(res_exp_sed_co2$upr_co2, res_exp_sed_co2$upr_c))
+res_sed_co2_summary <- data.frame(period = c("burp"), 
+                                  flux = c("exposed sediment CO2"), 
+                                  variation = res_exp_sed_co2$y %>% as.character(), 
+                                  flux_unit = c(rep("CO2-eq", 6), rep("C", 6)), 
+                                  annual = "no", 
+                                  area = "exposed sediment area", 
+                                  mean = c(res_exp_sed_co2$mean_co2, res_exp_sed_co2$mean_c), 
+                                  ci_lwr = c(res_exp_sed_co2$lwr_co2, res_exp_sed_co2$lwr_c), 
+                                  ci_upr = c(res_exp_sed_co2$upr_co2, res_exp_sed_co2$upr_c))
 ```
 
 ## Exposed sediment CH4 emissions 
@@ -330,13 +354,23 @@ thresh_0.01 <- read.csv("../2-output-data/glines_exp_sed_ch4.csv")
 pore_co2_eq <- 8102.2 * 1e-3 * (16.04/12.01)* 34
 pore_c <- 8102.2 * 1e-3
 
-res_sed_ch4_summary <- data.frame(period = c("burp"), flux = c("exposed sediment CH4"), variation = c(rep(paste0("no_pore_", thresh_0.01$y), 2), rep(paste0("pore_", thresh_0.01$y), 2)), flux_unit = rep(c(rep("CO2-eq", 6), rep("C", 6)), 2), annual = "no", area = "exposed sediment area", mean = c(thresh_0.01$mean_co2,  thresh_0.01$mean_c, thresh_0.01$mean_co2 + pore_co2_eq, thresh_0.01$mean_c + pore_c), ci_lwr = c(thresh_0.01$lwr_co2,  thresh_0.01$lwr_c, thresh_0.01$lwr_co2 + pore_co2_eq, thresh_0.01$lwr_c + pore_c), ci_upr = c(thresh_0.01$upr_co2, thresh_0.01$upr_c, thresh_0.01$upr_co2 + pore_co2_eq, thresh_0.01$upr_c + pore_c))
+res_sed_ch4_summary <- data.frame(period = c("burp"), 
+                                  flux = c("exposed sediment CH4"), 
+                                  variation = c(rep(paste0("no_pore_", thresh_0.01$y), 2), rep(paste0("pore_", thresh_0.01$y), 2)), 
+                                  flux_unit = rep(c(rep("CO2-eq", 6), rep("C", 6)), 2), 
+                                  annual = "no", 
+                                  area = "exposed sediment area", 
+                                  mean = c(thresh_0.01$mean_co2,  thresh_0.01$mean_c, thresh_0.01$mean_co2 + pore_co2_eq, thresh_0.01$mean_c + pore_c), 
+                                  ci_lwr = c(thresh_0.01$lwr_co2,  thresh_0.01$lwr_c, thresh_0.01$lwr_co2 + pore_co2_eq, thresh_0.01$lwr_c + pore_c), 
+                                  ci_upr = c(thresh_0.01$upr_co2, thresh_0.01$upr_c, thresh_0.01$upr_co2 + pore_co2_eq, thresh_0.01$upr_c + pore_c))
 ```
 
 ## Drawdown ebullition 
 ```{r drawdown eb}
-res_ch4_eb_eq_2.5 <- res_ch4_eb_eq - max((res_net_eq - res_net_2.5_eq), (res_net_97.5_eq - res_net_eq))
-res_ch4_eb_eq_97.5 <- res_ch4_eb_eq + max((res_net_eq - res_net_2.5_eq), (res_net_97.5_eq - res_net_eq))
+# assume ebullition contribution to confidence interval is proportional to contribution to total CO2-eq emissions
+# res_ch4_eq_eb is in g CO2-eq/m2/yr
+res_ch4_eb_eq_2.5 <- res_ch4_eb_eq - (res_net_interval * (res_ch4_eb_eq/res_eq))
+res_ch4_eb_eq_97.5 <- res_ch4_eb_eq + (res_net_interval * (res_ch4_eb_eq/res_eq))
 
 drawdown_eb_prop <- c(0, 5, 10, 25, 100)
 
@@ -344,7 +378,15 @@ res_ch4_eb_g <- res_ch4_eb_eq * (1/34) * (12.01/16.04)
 res_ch4_eb_g_2.5 <- res_ch4_eb_eq_2.5 * (1/34) * (12.01/16.04)
 res_ch4_eb_g_97.5 <- res_ch4_eb_eq_97.5 * (1/34) * (12.01/16.04)
 
-res_drawdown_eb_summary <- data.frame(period = c("burp"), flux = c("drawdown ebullition"), variation = drawdown_eb_prop %>% as.character(), flux_unit = c(rep("CO2-eq",5), rep("C", 5)), annual = "no", area = "reservoir", mean = c(res_ch4_eb_eq * drawdown_eb_prop, res_ch4_eb_g * drawdown_eb_prop) , ci_lwr = c(res_ch4_eb_eq_2.5 * drawdown_eb_prop, res_ch4_eb_g_2.5 * drawdown_eb_prop) , ci_upr = c(res_ch4_eb_eq_97.5 * drawdown_eb_prop, res_ch4_eb_g_97.5 * drawdown_eb_prop))
+res_drawdown_eb_summary <- data.frame(period = c("burp"), 
+                                      flux = c("drawdown ebullition"), 
+                                      variation = drawdown_eb_prop %>% as.character(), 
+                                      flux_unit = c(rep("CO2-eq",5), rep("C", 5)), 
+                                      annual = "no", 
+                                      area = "reservoir", 
+                                      mean = c(res_ch4_eb_eq * drawdown_eb_prop, res_ch4_eb_g * drawdown_eb_prop) , 
+                                      ci_lwr = c(res_ch4_eb_eq_2.5 * drawdown_eb_prop, res_ch4_eb_g_2.5 * drawdown_eb_prop) , 
+                                      ci_upr = c(res_ch4_eb_eq_97.5 * drawdown_eb_prop, res_ch4_eb_g_97.5 * drawdown_eb_prop))
 ```
 
 ## Eroded sediment emissions 
@@ -382,9 +424,15 @@ for(i in 1:10000){
   eroded_vec <- c(eroded_vec, temp)
 }
 
-eroded_vec <- sort(eroded_vec)
-
-res_erode_summary <- data.frame(period = c("burp"), flux = c("eroded sediment emissions"), variation = NA, flux_unit = c("CO2-eq", "C"), annual = "no", area = "reservoir", mean = c(eroded_vec[5000] * (44.01/12.01), eroded_vec[5000]), ci_lwr = c(eroded_vec[250] * (44.01/12.01), eroded_vec[250]), ci_upr = c(eroded_vec[9750] * (44.01/12.01), eroded_vec[9750]))
+res_erode_summary <- data.frame(period = c("burp"), 
+                                flux = c("eroded sediment emissions"), 
+                                variation = NA, 
+                                flux_unit = c("CO2-eq", "C"), 
+                                annual = "no", 
+                                area = "reservoir", 
+                                mean = c(eroded_vec[5000] * (44.01/12.01), eroded_vec[5000]), 
+                                ci_lwr = c(eroded_vec[250] * (44.01/12.01), eroded_vec[250]), 
+                                ci_upr = c(eroded_vec[9750] * (44.01/12.01), eroded_vec[9750]))
 ```
 
 # Build
@@ -429,7 +477,15 @@ plot(x, y)
 
 riv_co2_vec <- sort(rgamma(10000, shape = shape_optimized, scale = scale_optimized)) *365
 
-riv_co2_summary <- data.frame(period = c("build"), flux = c("river CO2 emissions"), variation = NA, flux_unit = c("CO2-eq", "C"), annual = "yes", area = "river", mean = c(riv_co2_vec[5000] * (44.01/12.01), riv_co2_vec[5000]), ci_lwr = c(riv_co2_vec[250] * (44.01/12.01), riv_co2_vec[250]), ci_upr = c(riv_co2_vec[9750] * (44.01/12.01), riv_co2_vec[9750]))
+riv_co2_summary <- data.frame(period = c("build"), 
+                              flux = c("river CO2 emissions"), 
+                              variation = NA, 
+                              flux_unit = c("CO2-eq", "C"), 
+                              annual = "yes", 
+                              area = "river", 
+                              mean = c(riv_co2_vec[5000] * (44.01/12.01), riv_co2_vec[5000]), 
+                              ci_lwr = c(riv_co2_vec[250] * (44.01/12.01), riv_co2_vec[250]), 
+                              ci_upr = c(riv_co2_vec[9750] * (44.01/12.01), riv_co2_vec[9750]))
 
 riv_co2_summary
 ```
@@ -477,8 +533,11 @@ ch4_flux_sites_usa %>% filter(is.na(Eb_CH4_Flux_Mean)==FALSE) %>% group_by(q_bin
 
 
 ch4_flux_vec <- sort(sample(ch4_flux_sites_usa %>% filter(q_bin== ">100") %>% pull(Diffusive_CH4_Flux_Mean), 10000, replace = TRUE))
-ch4_flux_vec_gCH4 <- ch4_flux_vec * 365 * 1e-3 * 16.04
+ch4_flux_vec_gCH4 <- ch4_flux_vec * 365 * 1e-3 * 16.04 # conversion from mmol/m2/d to g CH4/m2/yr
 ch4_flux_vec_gCO2eq <- ch4_flux_vec_gCH4 * 34
+
+print("ch4_flux_vec_gCH4 length:")
+print(length(ch4_flux_vec_gCH4))
 
 # CO2 flux
 co2_vec <- sort(sample(ch4_flux_sites_usa %>% filter(is.na(CO2_Flux_Mean)==FALSE)  %>% filter(q_bin== ">100") %>% pull(CO2_Flux_Mean), 10000, replace = TRUE))* 365 * 1e-3 * 44.01
@@ -486,7 +545,15 @@ co2_vec[250]
 co2_vec[5000]
 co2_vec[9750]
 
-riv_ch4_summary <- data.frame(period = c("build"), flux = c("river CH4 emissions"), variation = NA, flux_unit = c("CO2-eq", "C"), annual = "yes", area = "river", mean = c(ch4_flux_vec_gCO2eq[5000], ch4_flux_vec_gCH4[5000] * (12.01 / 16.04)), ci_lwr = c(ch4_flux_vec_gCO2eq[250], ch4_flux_vec_gCH4[250] * (12.01 / 16.04)), ci_upr = c(ch4_flux_vec_gCO2eq[9750], ch4_flux_vec_gCH4[9750] * (12.01 / 16.04)))
+riv_ch4_summary <- data.frame(period = c("build"), 
+                              flux = c("river CH4 emissions"), 
+                              variation = NA, 
+                              flux_unit = c("CO2-eq", "C"), 
+                              annual = "yes", 
+                              area = "river", 
+                              mean = c(ch4_flux_vec_gCO2eq[5000], ch4_flux_vec_gCH4[5000] * (12.01 / 16.04)), 
+                              ci_lwr = c(ch4_flux_vec_gCO2eq[250], ch4_flux_vec_gCH4[250] * (12.01 / 16.04)), 
+                              ci_upr = c(ch4_flux_vec_gCO2eq[9750], ch4_flux_vec_gCH4[9750] * (12.01 / 16.04)))
 ```
 
 ## NEP 
@@ -529,7 +596,15 @@ nep_df_rates <- nep_df %>% mutate(across(mean_gC:upr_gCO2, ~ .x / years))
 
 nep_df_rates
 
-res_nep_summary <- data.frame(period = c("build"), flux = c("NEP"), variation = nep_df_rates$years %>% as.character(), flux_unit = c(rep("CO2-eq", 3), rep("C", 3)), annual = "yes", area = "exposed sediment area", mean = c(nep_df_rates$mean_gCO2, nep_df_rates$mean_gC), ci_lwr = c(nep_df_rates$lwr_gCO2, nep_df_rates$lwr_gC), ci_upr = c(nep_df_rates$upr_gCO2, nep_df_rates$upr_gC))
+res_nep_summary <- data.frame(period = c("build"), 
+                              flux = c("NEP"), 
+                              variation = nep_df_rates$years %>% as.character(), 
+                              flux_unit = c(rep("CO2-eq", 3), rep("C", 3)), 
+                              annual = "yes", 
+                              area = "exposed sediment area", 
+                              mean = c(nep_df_rates$mean_gCO2, nep_df_rates$mean_gC), 
+                              ci_lwr = c(nep_df_rates$lwr_gCO2, nep_df_rates$lwr_gC), 
+                              ci_upr = c(nep_df_rates$upr_gCO2, nep_df_rates$upr_gC))
 
 res_nep_summary
 ```
@@ -577,7 +652,15 @@ soil_ch4_out <- soil_ch4_out %>% mutate(soil_c = fit * 0.1 * (12.01/16.04),
   
 soil_ch4_out
 
-res_soil_ch4_summary <- data.frame(period = c("build"), flux = c("soil CH4 emissions"), variation = NA, flux_unit = c("CO2-eq", "C"), annual = "yes", area = "exposed sediment area", mean = c(soil_ch4_out$soil_co2_eq, soil_ch4_out$soil_c), ci_lwr = c(soil_ch4_out$soil_co2_eq_2.5, soil_ch4_out$soil_c_2.5), ci_upr = c(soil_ch4_out$soil_co2_eq_97.5, soil_ch4_out$soil_c_97.5))
+res_soil_ch4_summary <- data.frame(period = c("build"), 
+                                   flux = c("soil CH4 emissions"), 
+                                   variation = NA, 
+                                   flux_unit = c("CO2-eq", "C"), 
+                                   annual = "yes", 
+                                   area = "exposed sediment area", 
+                                   mean = c(soil_ch4_out$soil_co2_eq, soil_ch4_out$soil_c), 
+                                   ci_lwr = c(soil_ch4_out$soil_co2_eq_2.5, soil_ch4_out$soil_c_2.5), 
+                                   ci_upr = c(soil_ch4_out$soil_co2_eq_97.5, soil_ch4_out$soil_c_97.5))
 ```
 
 ## Tree CH4 emissions 
@@ -835,9 +918,24 @@ area_df <- data.frame(area = c("reservoir", "exposed sediment area", "river"),
 
 # negative values are for uptake or burial positive values are for emissions
 
-summary_df <- bind_rows(res_emissions_summary, res_burial_summary, res_sed_co2_summary, res_sed_ch4_summary, res_drawdown_eb_summary, res_erode_summary, riv_co2_summary, riv_ch4_summary, res_nep_summary, res_soil_ch4_summary, res_tree_ch4_summary) %>% left_join(area_df, by = "area") %>% mutate(mean_area = mean * area_m2, ci_lwr_area = ci_lwr * area_m2, ci_upr_area = ci_upr * area_m2) %>% mutate(flux_fct = fct_relevel(flux, c("reservoir emissions", "reservoir burial", "exposed sediment CO2", "exposed sediment CH4", "drawdown ebullition", "eroded sediment emissions", "river CO2 emissions", "river CH4 emissions", "NEP", "soil CH4 emissions", "tree CH4 emissions")))
+summary_df <- bind_rows(res_emissions_summary, 
+                        res_burial_summary, 
+                        res_sed_co2_summary, 
+                        res_sed_ch4_summary, 
+                        res_drawdown_eb_summary, 
+                        res_erode_summary, 
+                        riv_co2_summary, 
+                        riv_ch4_summary, 
+                        res_nep_summary, 
+                        res_soil_ch4_summary, 
+                        res_tree_ch4_summary) %>% 
+  left_join(area_df, by = "area") %>% 
+  mutate(mean_area = mean * area_m2, 
+         ci_lwr_area = ci_lwr * area_m2, 
+         ci_upr_area = ci_upr * area_m2) %>% 
+  mutate(flux_fct = fct_relevel(flux, c("reservoir emissions", "reservoir burial", "exposed sediment CO2", "exposed sediment CH4", "drawdown ebullition", "eroded sediment emissions", "river CO2 emissions", "river CH4 emissions", "NEP", "soil CH4 emissions", "tree CH4 emissions")))
 
 
-write.csv(summary_df, "../2-output-data/veazie_summary_20240725.csv", row.names = FALSE)
+write.csv(summary_df, "../2-output-data/veazie_summary_20241213.csv", row.names = FALSE)
 ```
 

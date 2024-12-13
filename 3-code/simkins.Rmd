@@ -332,8 +332,8 @@ res_sed_ch4_summary <- data.frame(period = c("burp"), flux = c("exposed sediment
 
 ## Drawdown ebullition 
 ```{r drawdown eb}
-res_ch4_eb_eq_2.5 <- res_ch4_eb_eq - max((res_net_eq - res_net_2.5_eq), (res_net_97.5_eq - res_net_eq))
-res_ch4_eb_eq_97.5 <- res_ch4_eb_eq + max((res_net_eq - res_net_2.5_eq), (res_net_97.5_eq - res_net_eq))
+res_ch4_eb_eq_2.5 <- res_ch4_eb_eq - (res_net_interval * (res_ch4_eb_eq/res_eq))
+res_ch4_eb_eq_97.5 <- res_ch4_eb_eq + (res_net_interval * (res_ch4_eb_eq/res_eq))
 
 drawdown_eb_prop <- c(0, 5, 10, 25, 100)
 

@@ -13,7 +13,10 @@ veazie <- read.csv("../2-output-data/veazie_summary_20240725.csv") %>% mutate(da
 glines <- read.csv("../2-output-data/glines_summary_20240725.csv") %>% mutate(dam = "Glines Canyon")
 simkins <- read.csv("../2-output-data/simkins_summary_2024-07-25.csv") %>% mutate(dam = "Simkins")
 
-all_res_sk <- all_res <- veazie %>% 
+# before and after mean = g/m2/yr and burp g/m2
+# before after mean_area = g/yr and burp g
+
+all_res_sk <- veazie %>% 
   bind_rows(glines) %>% 
   bind_rows(simkins) %>% 
   mutate(
@@ -24,7 +27,7 @@ all_res_sk <- all_res <- veazie %>%
 
 gen_theme <- function(g){
   return(g +  theme_bw()+
-  theme(axis.text.x = element_text(size = 16, color = "black"), axis.text.y = element_text(size = 16, color = "black"), axis.title.x = element_blank(), axis.title.y = element_text(size =20), legend.title = element_blank(), legend.text = element_text(size = 16)))
+  theme(axis.text.x = element_text(size = 6, color = "black"), axis.text.y = element_text(size = 6, color = "black"), axis.title.x = element_blank(), axis.title.y = element_text(size =8), legend.title = element_blank(), legend.text = element_text(size = 8)) +theme(plot.title = element_text(size=8.5, hjust = 0.5)))
 }
 
 before_after_df_sk <- all_res_sk %>% filter(
@@ -57,6 +60,11 @@ before_after_df_sk <- all_res_sk %>% filter(
     period_fct = case_when(period == "before" ~ "before",
                            period == "build" ~ "after") %>% fct_relevel("before", "after")
   ) 
+
+
+all_res_sk %>% filter(
+  period %in% c("before", "build")) %>% select(dam, period, flux, variation) %>% arrange(dam)
+
 ```
 
 ```{r calculate burp scenarios}
@@ -111,114 +119,159 @@ before_after_df_sk %>%
   summarize(mean_mg = sum(mean_area_mg), lwr_mg = sum(ci_lwr_area_mg), upr_mg = sum(ci_upr_area_mg))
 ```
 
+Results
+Reservoir emissions before removal
+```{r res emissions}
+# total emissions (Mg/yr)
+all_res_sk %>% 
+  filter(flux == "reservoir emissions", flux_unit == "CO2-eq") %>% 
+  dplyr::select(flux, variation, dam, mean_area_mg, ci_lwr_area_mg, ci_upr_area_mg) %>% 
+  mutate(mean_area_mg = signif(mean_area_mg, 3), ci_lwr_area_mg = signif(ci_lwr_area_mg, 3), ci_upr_area_mg = signif(ci_upr_area_mg, 3))
+
+# rate (g/m2/yr)
+all_res_sk %>% 
+  filter(flux == "reservoir emissions", flux_unit == "CO2-eq") %>% 
+  dplyr::select(flux, variation, dam, mean, ci_lwr, ci_upr) %>% 
+  mutate(mean = signif(mean, 3), ci_lwr = signif(ci_lwr, 3), ci_upr = signif(ci_upr, 3))
+```
+
+Reservoir burial before removal
+```{r res burial}
+# rate (g/m2/yr)
+all_res_sk %>% 
+  filter(flux == "reservoir burial", flux_unit == "CO2-eq") %>% 
+  dplyr::select(flux, variation, dam, mean, ci_lwr, ci_upr) %>% 
+  mutate(mean = signif(mean, 3), ci_lwr = signif(ci_lwr, 3), ci_upr = signif(ci_upr, 3))
+```
+
+Carbon balance before removal
+```{r}
+before_after_df_sk %>% 
+  filter(flux_unit == "CO2-eq") %>% 
+  group_by(dam, period) %>% 
+  summarize(mean_area_mg = sum(mean_area_mg), ci_lwr_area_mg = sum(ci_lwr_area_mg), ci_upr_area_mg = sum(ci_upr_area_mg)) %>% 
+  mutate(mean_area_mg = signif(mean_area_mg, 3), ci_lwr_area_mg = signif(ci_lwr_area_mg, 3), ci_upr_area_mg = signif(ci_upr_area_mg, 3)) %>% arrange(period)
+```
+
+
 Figure 2
 ```{r fig 2}
 veazie_before.plt <- gen_theme(before_after_df_sk %>% filter(dam == "Veazie", period == "before", flux_unit == "CO2-eq") %>% 
   ggplot(aes(flux_fct, mean_area_mg))+
-  geom_hline(yintercept = 0, linetype = "dotted", color = "red", linewidth = 1)+
-  geom_point(aes(), size = 2)+
-  geom_errorbar(aes(x = flux_fct, ymin = ci_lwr_area_mg, ymax = ci_upr_area_mg), linewidth = 1, width = 0.5)+
+    geom_hline(yintercept = 0, linetype = "dotted", color = "grey20", linewidth = 0.5)+
+  geom_point(aes(), size = 1)+
+  geom_errorbar(aes(x = flux_fct, ymin = ci_lwr_area_mg, ymax = ci_upr_area_mg), linewidth = 0.5, width = 0.5)+
   ylim(-2000, 25000)+
   ggtitle("Veazie Before")+
-  ylab(expression(Mg~CO[2-eq]~yr^-1)))+
-  theme(plot.title = element_text(size=20, hjust = 0.5))
+  ylab(expression(Mg~CO[2-eq]~yr^-1)))
+
+veazie_scenarios_fig <- gen_theme(ggplot(veazie_scenarios, aes(flux, mean_area_mg, color = scenario))+
+  geom_hline(yintercept = 0, linetype = "dotted", color = "grey20", linewidth = 0.5)+
+  geom_point(size = 1, position = position_dodge(width = 0.7))+
+  geom_errorbar(aes(ymin = ci_lwr_area_mg, ymax = ci_upr_area_mg), size = 0.5, position = position_dodge(width = 0.7), width = 0.5) + ylab(expression(Mg~CO[2-eq]))+ scale_color_manual(name = "scenario", values = c( "#155AAE",  "grey40", "#C34237"), labels = c("least", "moderate", "most"))+
+    scale_x_discrete(labels = c(expression(atop("drawdown", "ebullition")), expression(atop("eroded sediment", "emissions")), expression(atop("exposed",sediment~CH[4])), expression(atop("exposed",sediment~CO[2]))))) + theme(legend.title = element_text(size = 8))+
+  ggtitle("Veazie Burp")+
+    theme(legend.position = "none")
 
 veazie_after.plt <- gen_theme(before_after_df_sk %>% filter(dam == "Veazie", period == "build", flux_unit == "CO2-eq") %>% 
   ggplot(aes(flux_fct, mean_area_mg))+
-  geom_hline(yintercept = 0, linetype = "dotted", color = "red", linewidth = 1)+
-  geom_point(aes(), size = 2)+
-  geom_errorbar(aes(x = flux_fct, ymin = ci_lwr_area_mg, ymax = ci_upr_area_mg), linewidth = 1, width = 0.5)+
+  geom_hline(yintercept = 0, linetype = "dotted", color = "grey20", linewidth = 0.5)+
+  geom_point(aes(), size = 1)+
+  geom_errorbar(aes(x = flux_fct, ymin = ci_lwr_area_mg, ymax = ci_upr_area_mg), linewidth = 0.5, width = 0.5)+
   ylim(-2000, 25000)+
   ggtitle("Veazie After")+
     scale_x_discrete(labels = c(expression(river~CO[2]), expression(river~CH[4]), "NEP", expression(soil~CH[4]), expression(tree~CH[4])))+
-  ylab(expression(Mg~CO[2-eq]~yr^-1)))+
-  theme(plot.title = element_text(size=20, hjust = 0.5))
+  ylab(expression(Mg~CO[2-eq]~yr^-1)))
 
 glines_before.plt <- gen_theme(before_after_df_sk %>% filter(dam == "Glines Canyon", period == "before", flux_unit == "CO2-eq") %>% 
   ggplot(aes(flux_fct, mean_area_mg))+
-  geom_hline(yintercept = 0, linetype = "dotted", color = "red", linewidth = 1)+
-  geom_point(aes(), size = 2)+
-  geom_errorbar(aes(x = flux_fct, ymin = ci_lwr_area_mg, ymax = ci_upr_area_mg), linewidth = 1, width = 0.5)+
+  geom_hline(yintercept = 0, linetype = "dotted", color = "grey20", linewidth = 0.5)+
+    geom_point(aes(), size = 1)+
+  geom_errorbar(aes(x = flux_fct, ymin = ci_lwr_area_mg, ymax = ci_upr_area_mg), linewidth = 0.5, width = 0.5)+
   ylim(-35000, 2500)+
   ggtitle("Glines Canyon Before")+
-  ylab(expression(Mg~CO[2-eq]~yr^-1)))+
-  theme(plot.title = element_text(size=20, hjust = 0.5))
+  ylab(expression(Mg~CO[2-eq]~yr^-1)))
 
+glines_scenarios_fig <- gen_theme(ggplot(glines_scenarios, aes(flux, mean_area_mg, color = scenario))+
+  geom_hline(yintercept = 0, linetype = "dotted", color = "grey20", linewidth = 0.5)+
+  geom_point(size = 1, position = position_dodge(width = 0.7))+
+  geom_errorbar(aes(ymin = ci_lwr_area_mg, ymax = ci_upr_area_mg), size = 0.5, position = position_dodge(width = 0.7), width = 0.5) + ylab(expression(Mg~CO[2-eq]))+ scale_color_manual(name = "scenario", values = c( "#155AAE",  "grey40", "#C34237"), labels = c("least", "moderate", "most"))+
+    scale_x_discrete(labels = c(expression(atop("drawdown", "ebullition")), expression(atop("eroded sediment", "emissions")), expression(atop("exposed",sediment~CH[4])), expression(atop("exposed",sediment~CO[2]))))) + theme(legend.title = element_text(size = 8))+
+  ggtitle("Glines Canyon Burp")+
+    theme(legend.position = "none")
 
 glines_after.plt <- gen_theme(before_after_df_sk %>% filter(dam == "Glines Canyon", period == "build", flux_unit == "CO2-eq") %>% 
   ggplot(aes(flux_fct, mean_area_mg))+
-  geom_hline(yintercept = 0, linetype = "dotted", color = "red", linewidth = 1)+
-  geom_point(aes(), size = 2)+
-  geom_errorbar(aes(x = flux_fct, ymin = ci_lwr_area_mg, ymax = ci_upr_area_mg), linewidth = 1, width = 0.5)+
+  geom_hline(yintercept = 0, linetype = "dotted", color = "grey20", linewidth = 0.5)+
+  geom_point(aes(), size = 1)+
+  geom_errorbar(aes(x = flux_fct, ymin = ci_lwr_area_mg, ymax = ci_upr_area_mg), linewidth = 0.5, width = 0.5)+
   ylim(-35000, 2500)+
   ggtitle("Glines Canyon After")+
   ylab(expression(Mg~CO[2-eq]~yr^-1)))+
-  scale_x_discrete(labels = c(expression(river~CO[2]), expression(river~CH[4]), "NEP", expression(soil~CH[4]), expression(tree~CH[4])))+
-    theme(plot.title = element_text(size=20, hjust = 0.5))
+  scale_x_discrete(labels = c(expression(river~CO[2]), expression(river~CH[4]), "NEP", expression(soil~CH[4]), expression(tree~CH[4])))
 
 simkins_before.plt <- gen_theme(before_after_df_sk %>% filter(dam == "Simkins", period == "before", flux_unit == "CO2-eq") %>% 
   ggplot(aes(flux_fct, mean_area_mg))+
-  geom_hline(yintercept = 0, linetype = "dotted", color = "red", linewidth = 1)+
-  geom_point(aes(), size = 2)+
-  geom_errorbar(aes(x = flux_fct, ymin = ci_lwr_area_mg, ymax = ci_upr_area_mg), linewidth = 1, width = 0.5)+
+  geom_hline(yintercept = 0, linetype = "dotted", color = "grey20", linewidth = 0.5)+
+    geom_point(aes(), size = 1)+
+  geom_errorbar(aes(x = flux_fct, ymin = ci_lwr_area_mg, ymax = ci_upr_area_mg), linewidth = 0.5, width = 0.5)+
   ylim(-450, 350)+
   ggtitle("Simkins Before")+
-  ylab(expression(Mg~CO[2-eq]~yr^-1)))+
-  theme(plot.title = element_text(size=20, hjust = 0.5))
+  ylab(expression(Mg~CO[2-eq]~yr^-1)))
 
+simkins_scenarios_fig <- gen_theme(ggplot(simkins_scenarios, aes(flux, mean_area_mg, color = scenario))+
+  geom_hline(yintercept = 0, linetype = "dotted", color = "grey20", linewidth = 0.5)+
+  geom_point(size = 1, position = position_dodge(width = 0.7))+
+  geom_errorbar(aes(ymin = ci_lwr_area_mg, ymax = ci_upr_area_mg), size = 0.5, position = position_dodge(width = 0.7), width = 0.5) + ylab(expression(Mg~CO[2-eq]))+ scale_color_manual(name = "scenario", values = c( "#155AAE",  "grey40", "#C34237"), labels = c("least", "moderate", "most"))+
+    scale_x_discrete(labels = c(expression(atop("drawdown", "ebullition")), expression(atop("eroded sediment", "emissions")), expression(atop("exposed",sediment~CH[4])), expression(atop("exposed",sediment~CO[2]))))) + theme(legend.title = element_text(size = 8))+
+  ggtitle("Simkins Burp")+
+    theme(legend.position = "none")
 
 simkins_after.plt <- gen_theme(before_after_df_sk %>% filter(dam == "Simkins", period == "build", flux_unit == "CO2-eq") %>% 
   ggplot(aes(flux_fct, mean_area_mg))+
-  geom_hline(yintercept = 0, linetype = "dotted", color = "red", linewidth = 1)+
-  geom_point(aes(), size = 2)+
-  geom_errorbar(aes(x = flux_fct, ymin = ci_lwr_area_mg, ymax = ci_upr_area_mg), linewidth = 1, width = 0.5)+
+  geom_hline(yintercept = 0, linetype = "dotted", color = "grey20", linewidth = 0.5)+
+    geom_point(aes(), size = 1)+
+  geom_errorbar(aes(x = flux_fct, ymin = ci_lwr_area_mg, ymax = ci_upr_area_mg), linewidth = 0.5, width = 0.5)+
   ylim(-450, 350)+
   ggtitle("Simkins After")+
   ylab(expression(Mg~CO[2-eq]~yr^-1)))+
-  scale_x_discrete(labels = c(expression(river~CO[2]), expression(river~CH[4]), "NEP", expression(soil~CH[4]), expression(tree~CH[4])))+
-    theme(plot.title = element_text(size=20, hjust = 0.5))
+  scale_x_discrete(labels = c(expression(river~CO[2]), expression(river~CH[4]), "NEP", expression(soil~CH[4]), expression(tree~CH[4])))
+```
 
-png(paste0("../2-output-data/before_after_flux_sk_", Sys.Date(), ".png"), width = 11, height = 9, units = "in", res = 300)
-plot_grid(veazie_before.plt, veazie_after.plt, glines_before.plt, glines_after.plt, simkins_before.plt, simkins_after.plt, ncol = 2, rel_widths = c(0.4, 0.6))
+```{r}
+png(paste0("../2-output-data/fig2_sk_", Sys.Date(), ".png"), width = 7, height = 5, units = "in", res = 300)
+plot_grid(veazie_before.plt, veazie_scenarios_fig, veazie_after.plt, glines_before.plt, glines_scenarios_fig, glines_after.plt, simkins_before.plt, simkins_scenarios_fig, simkins_after.plt, ncol = 3, rel_widths = c(0.24, 0.41, 0.35))
 dev.off()
 ```
 
-Figure 3
-```{r}
-veazie_scenarios_fig <- gen_theme(ggplot(veazie_scenarios, aes(flux, mean_area_mg, color = scenario))+
-  geom_point(size = 2, position = position_dodge(width = 0.7))+
-  geom_errorbar(aes(ymin = ci_lwr_area_mg, ymax = ci_upr_area_mg), size = 1, position = position_dodge(width = 0.7), width = 0.5) + ylab(expression(Mg~CO[2-eq]))+ scale_color_manual(name = "scenario", values = c( "#155AAE",  "grey40", "#C34237"), labels = c("least", "moderate", "most"))+
-    scale_x_discrete(labels = c(expression(atop("drawdown", "ebullition")), expression(atop("eroded sediment", "emissions")), expression(atop("exposed",sediment~CH[4])), expression(atop("exposed",sediment~CO[2]))))) + theme(legend.title = element_text(size = 16))
 
-veazie_scenarios_summary_fig <- gen_theme(ggplot(veazie_scenarios_summary, aes(scenario, net_mg, color = scenario))+
-  geom_point(size = 2, position = position_dodge(width = 0.7))+
-    scale_x_discrete(labels = c("least", "moderate", "most"))+
-  geom_errorbar(aes(ymin = net_mg_lwr, ymax = net_mg_upr), size = 1, position = position_dodge(width = 0.7), width = 0.5) + ylab(expression(Mg~CO[2-eq]))+ scale_color_manual(name = "scenario", values = c( "#155AAE",  "grey40", "#C34237"), labels = c("least", "moderate", "most")))+ theme(legend.position="none")
+```{r separated before after}
+# png(paste0("../2-output-data/before_after_flux_sk_", Sys.Date(), ".png"), width = 11, height = 9, units = "in", res = 300)
+# plot_grid(veazie_before.plt, veazie_after.plt, glines_before.plt, glines_after.plt, simkins_before.plt, simkins_after.plt, ncol = 2, rel_widths = c(0.4, 0.6))
+# dev.off()
+```
 
-glines_scenarios_fig <- gen_theme(ggplot(glines_scenarios, aes(flux, mean_area_mg, color = scenario))+
-  geom_point(size = 2, position = position_dodge(width = 0.7))+
-  geom_errorbar(aes(ymin = ci_lwr_area_mg, ymax = ci_upr_area_mg), size = 1, position = position_dodge(width = 0.7), width = 0.5) + ylab(expression(Mg~CO[2-eq]))+ scale_color_manual(name = "scenario", values = c( "#155AAE",  "grey40", "#C34237"), labels = c("least", "moderate", "most"))+
-    scale_x_discrete(labels = c(expression(atop("drawdown", "ebullition")), expression(atop("eroded sediment", "emissions")), expression(atop("exposed",sediment~CH[4])), expression(atop("exposed",sediment~CO[2]))))) + theme(legend.title = element_text(size = 16))
 
-glines_scenarios_summary_fig <- gen_theme(ggplot(glines_scenarios_summary, aes(scenario, net_mg, color = scenario))+
-  geom_point(size = 2, position = position_dodge(width = 0.7))+
-    scale_x_discrete(labels = c("least", "moderate", "most"))+
-  geom_errorbar(aes(ymin = net_mg_lwr, ymax = net_mg_upr), size = 1, position = position_dodge(width = 0.7), width = 0.5) + ylab(expression(Mg~CO[2-eq]))+ scale_color_manual(name = "scenario", values = c( "#155AAE",  "grey40", "#C34237"), labels = c("least", "moderate", "most")))+ theme(legend.position="none")
+```{r separated burp}
+# simkins_scenarios_summary_fig <- gen_theme(ggplot(simkins_scenarios_summary, aes(scenario, net_mg, color = scenario))+
+#   geom_point(size = 2, position = position_dodge(width = 0.7))+
+#     scale_x_discrete(labels = c("least", "moderate", "most"))+
+#   geom_errorbar(aes(ymin = net_mg_lwr, ymax = net_mg_upr), size = 1, position = position_dodge(width = 0.7), width = 0.5) + ylab(expression(Mg~CO[2-eq]))+ scale_color_manual(name = "scenario", values = c( "#155AAE",  "grey40", "#C34237"), labels = c("least", "moderate", "most")))+ theme(legend.position="none")
+# 
+# glines_scenarios_summary_fig <- gen_theme(ggplot(glines_scenarios_summary, aes(scenario, net_mg, color = scenario))+
+#   geom_point(size = 2, position = position_dodge(width = 0.7))+
+#     scale_x_discrete(labels = c("least", "moderate", "most"))+
+#   geom_errorbar(aes(ymin = net_mg_lwr, ymax = net_mg_upr), size = 1, position = position_dodge(width = 0.7), width = 0.5) + ylab(expression(Mg~CO[2-eq]))+ scale_color_manual(name = "scenario", values = c( "#155AAE",  "grey40", "#C34237"), labels = c("least", "moderate", "most")))+ theme(legend.position="none")
+# 
+# veazie_scenarios_summary_fig <- gen_theme(ggplot(veazie_scenarios_summary, aes(scenario, net_mg, color = scenario))+
+#   geom_point(size = 2, position = position_dodge(width = 0.7))+
+#     scale_x_discrete(labels = c("least", "moderate", "most"))+
+#   geom_errorbar(aes(ymin = net_mg_lwr, ymax = net_mg_upr), size = 1, position = position_dodge(width = 0.7), width = 0.5) + ylab(expression(Mg~CO[2-eq]))+ scale_color_manual(name = "scenario", values = c( "#155AAE",  "grey40", "#C34237"), labels = c("least", "moderate", "most")))+ theme(legend.position="none")
 
-simkins_scenarios_fig <- gen_theme(ggplot(simkins_scenarios, aes(flux, mean_area_mg, color = scenario))+
-  geom_point(size = 2, position = position_dodge(width = 0.7))+
-  geom_errorbar(aes(ymin = ci_lwr_area_mg, ymax = ci_upr_area_mg), size = 1, position = position_dodge(width = 0.7), width = 0.5) + ylab(expression(Mg~CO[2-eq]))+ scale_color_manual(name = "scenario", values = c( "#155AAE",  "grey40", "#C34237"), labels = c("least", "moderate", "most"))+
-    scale_x_discrete(labels = c(expression(atop("drawdown", "ebullition")), expression(atop("eroded sediment", "emissions")), expression(atop("exposed",sediment~CH[4])), expression(atop("exposed",sediment~CO[2]))))) + theme(legend.title = element_text(size = 16))
-
-simkins_scenarios_summary_fig <- gen_theme(ggplot(simkins_scenarios_summary, aes(scenario, net_mg, color = scenario))+
-  geom_point(size = 2, position = position_dodge(width = 0.7))+
-    scale_x_discrete(labels = c("least", "moderate", "most"))+
-  geom_errorbar(aes(ymin = net_mg_lwr, ymax = net_mg_upr), size = 1, position = position_dodge(width = 0.7), width = 0.5) + ylab(expression(Mg~CO[2-eq]))+ scale_color_manual(name = "scenario", values = c( "#155AAE",  "grey40", "#C34237"), labels = c("least", "moderate", "most")))+ theme(legend.position="none")
-
-options(scipen =3)
-png(paste0("../2-output-data/burp_scenarios_sk_", Sys.Date(), ".png"), width = 14, height = 14, units = "in", res = 300)
-plot_grid(veazie_scenarios_fig, veazie_scenarios_summary_fig, glines_scenarios_fig, glines_scenarios_summary_fig, simkins_scenarios_fig, simkins_scenarios_summary_fig, rel_widths = c(0.7, 0.3), ncol = 2, labels = "AUTO", label_size = 20)
-dev.off()
+# options(scipen =3)
+# png(paste0("../2-output-data/burp_scenarios_sk_", Sys.Date(), ".png"), width = 14, height = 14, units = "in", res = 300)
+# plot_grid(veazie_scenarios_fig, veazie_scenarios_summary_fig, glines_scenarios_fig, glines_scenarios_summary_fig, simkins_scenarios_fig, simkins_scenarios_summary_fig, rel_widths = c(0.7, 0.3), ncol = 2, labels = "AUTO", label_size = 20)
+# dev.off()
 ```
 
 Figure 4
@@ -514,3 +567,25 @@ max_exp_ch4(simkins_high_med)
 simkins %>% filter(flux == "exposed sediment CH4", variation == "no_pore_30", flux_unit == "CO2-eq")
 
 ```
+
+```{r code graveyard}
+# bring this back if you end up discussing ratios of emissions and burial
+# simkins burial
+# simkins_burial <- before_after_df_sk %>% filter(flux_unit == "CO2-eq", flux == "burial", dam == "Simkins") %>% pull(mean_area_mg)
+# 
+# # Veazie burial
+# veazie_burial <- before_after_df_sk %>% filter(flux_unit == "CO2-eq", flux == "burial", dam == "Veazie") %>% pull(mean_area_mg)
+# 
+# # Glines burial
+# glines_burial <- before_after_df_sk %>% filter(flux_unit == "CO2-eq", flux == "burial", dam == "Glines Canyon") %>% pull(mean_area_mg)
+# 
+# # simkins emissions
+# simkins_emissions <- before_after_df_sk %>% filter(flux_unit == "CO2-eq", flux == "emissions", dam == "Simkins") %>% pull(mean_area_mg)
+# 
+# # veazie emissions
+# veazie_emissions <- before_after_df_sk %>% filter(flux_unit == "CO2-eq", flux == "emissions", dam == "Veazie") %>% pull(mean_area_mg)
+# 
+# # glines emissions
+# glines_emissions <- before_after_df_sk %>% filter(flux_unit == "CO2-eq", flux == "emissions", dam == "Glines Canyon") %>% pull(mean_area_mg)
+```
+
